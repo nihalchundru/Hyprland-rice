@@ -1,0 +1,7 @@
+2026/06/05-15:09:16.421 22686 Reusing MANIFEST /home/nihal/.config/BraveSoftware/Brave-Browser/Default/WebStorage/1/IndexedDB/indexeddb.leveldb/MANIFEST-000001
+2026/06/05-15:09:16.421 22686 Recovering log #3
+2026/06/05-15:09:16.424 22686 Reusing old log /home/nihal/.config/BraveSoftware/Brave-Browser/Default/WebStorage/1/IndexedDB/indexeddb.leveldb/000003.log 
+2026/06/05-15:09:17.309 22687 Level-0 table #5: started
+2026/06/05-15:09:17.313 22687 Level-0 table #5: 94145 bytes OK
+2026/06/05-15:09:17.314 22687 Delete type=0 #3
+2026/06/05-15:09:17.314 22687 Manual compaction at level-0 from '\x00\x02\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00\x03\x00\x00\x00' @ 0 : 0; will stop at (end)

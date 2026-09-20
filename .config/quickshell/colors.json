@@ -1,0 +1,15 @@
+{
+    "bg":      "#1D2021",
+    "bg2":     "#282828",
+    "surface": "#3C3836",
+    "surface2":"#504945",
+    "text":    "#EBDBB2",
+    "sub":     "#928374",
+    "accent":  "#D79921",
+    "accent2": "#FABD2F",
+    "green":   "#98971A",
+    "red":     "#CC241D",
+    "yellow":  "#FABD2F",
+    "teal":    "#689D6A",
+    "theme":   "gruvbox"
+}

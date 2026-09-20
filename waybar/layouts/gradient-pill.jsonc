@@ -1,0 +1,71 @@
+{
+    "layer": "top",
+    "position": "top",
+    "height": 30,
+    "margin-top": 8,
+    "margin-left": 390,
+    "margin-right": 390,
+    "spacing": 0,
+    "exclusive": true,
+    "reload_style_on_change": true,
+
+    "modules-left":   ["clock", "mpris"],
+    "modules-center": ["hyprland/workspaces"],
+    "modules-right":  ["network", "pulseaudio"],
+
+    "clock": {
+        "format": "{:%I:%M %p}",
+        "tooltip-format": "<tt><small>{calendar}</small></tt>",
+        "calendar": {
+            "mode": "month",
+            "on-scroll": 1,
+            "format": {
+                "today": "<span color='#CBA6F7'><b><u>{}</u></b></span>"
+            }
+        }
+    },
+
+    "mpris": {
+        "format": "󰎆 {title}",
+        "format-paused": "󰏤 {title}",
+        "format-stopped": "",
+        "max-length": 22,
+        "interval": 1,
+        "tooltip-format": "🎵 {title}\n👤 {artist}",
+        "player-icons": {
+            "default":  "󰎆",
+            "firefox":  "󰈹",
+            "spotify":  "󰎆",
+            "mpv":      "󰐹"
+        }
+    },
+
+    "hyprland/workspaces": {
+        "format": "{id}",
+        "on-click": "activate",
+        "sort-by-number": true,
+        "persistent-workspaces": { "*": [1,2,3,4,5] },
+        "tooltip": false
+    },
+
+    "network": {
+        "format-wifi":       "󰤨",
+        "format-ethernet":   "󰈀",
+        "format-disconnected":"󰤭",
+        "tooltip-format-wifi":      "{essid} ({signalStrength}%)\n⇣{bandwidthDownBytes} ⇡{bandwidthUpBytes}",
+        "tooltip-format-ethernet":  "{ipaddr}",
+        "tooltip-format-disconnected": "Disconnected",
+        "interval": 3,
+        "on-click": "nm-connection-editor"
+    },
+
+    "pulseaudio": {
+        "format":       "{icon}",
+        "format-muted": "󰝟",
+        "format-icons": { "default": ["󰕿","󰖀","󰕾"] },
+        "tooltip-format": "Volume: {volume}%",
+        "on-click": "pavucontrol",
+        "on-scroll-up": "bash ~/.config/hypr/scripts/volume.sh --inc",
+        "on-scroll-down": "bash ~/.config/hypr/scripts/volume.sh --dec"
+    }
+}

@@ -1,0 +1,126 @@
+/* =============================================================
+ * Aozora Ink — Waybar style override
+ * Applied automatically when aozora theme is active
+ * Soft glassmorphism, warm cream, teal accents, plum shadows
+ * ============================================================= */
+
+@define-color aoz-bg      rgba(38, 23, 34, 0.78);
+@define-color aoz-surface rgba(48, 101, 95, 0.55);
+@define-color aoz-text    #EDC9A4;
+@define-color aoz-sub     #A9A18F;
+@define-color aoz-accent  #D2B293;
+@define-color aoz-teal    #3A8476;
+@define-color aoz-border  rgba(210, 178, 147, 0.22);
+
+* {
+    font-family: "JetBrainsMono Nerd Font", monospace;
+    font-size: 12px;
+    border: none;
+    border-radius: 0;
+    min-height: 0;
+    transition: all 0.3s ease;
+}
+
+window#waybar {
+    background: @aoz-bg;
+    color: @aoz-text;
+    border-bottom: 1px solid @aoz-border;
+}
+
+/* Workspaces — teal active pill, muted inactive */
+#workspaces { padding: 0 8px; }
+
+#workspaces button {
+    color: alpha(@aoz-sub, 0.6);
+    background: transparent;
+    border-radius: 8px;
+    padding: 0 12px;
+    margin: 5px 2px;
+    font-weight: 600;
+}
+
+#workspaces button:hover {
+    color: @aoz-text;
+    background: @aoz-surface;
+    border-radius: 10px;
+}
+
+#workspaces button.active {
+    color: #261722;
+    background: @aoz-accent;
+    border-radius: 12px;
+    font-weight: 800;
+    padding: 0 16px;
+}
+
+#workspaces button.urgent {
+    background: #9C5A5A;
+    color: @aoz-text;
+}
+
+/* Clock — warm cream, slightly larger */
+#clock {
+    color: @aoz-accent;
+    font-weight: 700;
+    font-size: 13px;
+    padding: 0 16px;
+    letter-spacing: 0.5px;
+}
+
+/* Window title — muted, italic */
+#window {
+    color: alpha(@aoz-text, 0.55);
+    font-style: italic;
+    font-size: 11px;
+    padding: 0 10px;
+}
+
+/* Stats — muted sub color */
+#cpu, #memory, #disk    { color: @aoz-sub;   padding: 0 8px; }
+#network                { color: @aoz-teal;  padding: 0 8px; }
+#pulseaudio             { color: @aoz-accent; padding: 0 8px; }
+#battery                { color: #5C8C6A;    padding: 0 8px; }
+#battery.charging       { color: #C8A96E; }
+#battery.critical       { color: #9C5A5A; }
+
+/* Tray */
+#tray { padding: 0 8px; }
+
+/* Notification / swaync */
+#custom-swaync, #custom-notification {
+    color: alpha(@aoz-text, 0.5);
+    padding: 0 8px;
+}
+
+/* Power button */
+#custom-power {
+    color: alpha(#9C5A5A, 0.7);
+    font-size: 14px;
+    padding: 0 16px 0 8px;
+}
+#custom-power:hover { color: #9C5A5A; }
+
+/* mpris */
+#mpris {
+    color: alpha(@aoz-text, 0.5);
+    font-style: italic;
+    font-size: 11px;
+    padding: 0 12px;
+}
+
+/* Pill groups (for hyde-default / islands layouts) */
+.pill, .leaf {
+    background: @aoz-surface;
+    border: 1px solid @aoz-border;
+    border-radius: 20px;
+    margin: 4px 3px;
+    padding: 0 4px;
+}
+
+/* Tooltip */
+tooltip {
+    background: rgba(38, 23, 34, 0.97);
+    border: 1px solid @aoz-border;
+    border-radius: 12px;
+    color: @aoz-text;
+}

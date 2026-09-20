@@ -1,0 +1,95 @@
+/* HyDE ARM Swaync — theme: matugen */
+/* Transparent bg so Hyprland blur shows through */
+
+.control-center {
+    background:    rgba(10, 14, 17, 0) !important;
+    background-color: transparent !important;
+    border:        1px solid rgba(148, 205, 247, 0.4);
+    border-radius: 16px;
+    color:         #dfe3e8;
+    box-shadow:    none;
+    padding:       8px;
+}
+
+.notification-row .notification {
+    background-color: rgba(28, 32, 36, 0.6);
+    border:        1px solid rgba(148, 205, 247, 0.25);
+    border-radius: 12px;
+    padding:       12px;
+    margin:        4px 0;
+    color:         #dfe3e8;
+    box-shadow:    none;
+}
+
+.notification-row .notification .summary {
+    font-weight: bold;
+    color:       #dfe3e8;
+    font-size:   13px;
+}
+
+.notification-row .notification .body {
+    color:     #c1c7ce;
+    font-size: 12px;
+}
+
+.notification-row .notification .time {
+    color:     #c1c7ce;
+    font-size: 11px;
+}
+
+.notification-row .close-button {
+    background:    rgba(255, 180, 171, 0.5);
+    border-radius: 50%;
+    color:         #dfe3e8;
+    border:        none;
+    padding:       2px 6px;
+}
+
+button {
+    background:    rgba(148, 205, 247, 0.18);
+    border:        none;
+    border-radius: 10px;
+    color:         #dfe3e8;
+    padding:       6px 14px;
+    font-size:     12px;
+    transition:    all 0.2s ease;
+}
+
+button:hover {
+    background: rgba(148, 205, 247, 0.35);
+}
+
+.widget-title {
+    color:       #94cdf7;
+    font-weight: bold;
+    font-size:   14px;
+    padding:     6px 10px 4px;
+}
+
+.widget-dnd {
+    background:    rgba(28, 32, 36, 0.5);
+    border-radius: 12px;
+    margin:        4px;
+    padding:       8px;
+    color:         #dfe3e8;
+}
+
+.widget-mpris {
+    background:    rgba(28, 32, 36, 0.5);
+    border-radius: 12px;
+    margin:        4px;
+    padding:       8px;
+    color:         #dfe3e8;
+}
+
+progressbar trough {
+    background: rgba(38, 42, 46, 0.5);
+    border-radius: 6px;
+    min-height: 6px;
+}
+
+progressbar progress {
+    background: #94cdf7;
+    border-radius: 6px;
+    min-height: 6px;
+}

@@ -1,0 +1,80 @@
+@import "../theme.css";
+
+* {
+    font-family: "JetBrainsMono Nerd Font", monospace;
+    font-size: 12px;
+    border: none;
+    border-radius: 0;
+    min-height: 0;
+    transition: all 0.18s ease;
+}
+
+window#waybar {
+    background: alpha(@main-bg, 0.88);
+    border: 1px solid alpha(@wb-act-bg, 0.28);
+    border-radius: 14px;
+    color: @main-fg;
+}
+
+#custom-arch {
+    color: @wb-act-bg;
+    font-size: 15px;
+    padding: 0 10px 0 14px;
+    background: transparent;
+}
+
+#workspaces { padding: 0 6px; background: transparent; }
+
+#workspaces button {
+    color: alpha(@main-fg, 0.35);
+    background: transparent;
+    border-radius: 8px;
+    padding: 2px 10px;
+    margin: 4px 1px;
+    font-weight: 700;
+}
+
+#workspaces button:hover {
+    color: @wb-hvr-bg;
+    background: alpha(@wb-hvr-bg, 0.15);
+    border-radius: 8px;
+}
+
+#workspaces button.active {
+    color: @main-bg;
+    background: @wb-act-bg;
+    border-radius: 10px;
+    font-weight: 800;
+    padding: 2px 14px;
+}
+
+#workspaces button.urgent { background: #F38BA8; color: @main-bg; }
+
+#clock {
+    color: @wb-act-bg;
+    font-weight: 700;
+    padding: 0 12px;
+}
+
+#mpris {
+    color: alpha(@main-fg, 0.55);
+    font-style: italic;
+    font-size: 11px;
+    padding: 0 12px 0 4px;
+}
+
+#pulseaudio { color: @wb-act-bg; padding: 0 8px; }
+#network    { color: @main-fg;   padding: 0 8px; }
+#battery    { color: @main-fg;   padding: 0 8px; }
+#battery.charging { color: #A6E3A1; }
+#battery.critical { color: #F38BA8; }
+#cpu        { color: @main-fg;   padding: 0 8px; }
+#tray       { padding: 0 6px; }
+#custom-swaync { color: alpha(@main-fg, 0.55); padding: 0 14px 0 4px; }
+
+tooltip {
+    background: alpha(@main-bg, 0.97);
+    border: 1px solid alpha(@wb-act-bg, 0.4);
+    border-radius: 10px;
+    color: @main-fg;
+}

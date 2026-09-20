@@ -1,0 +1,27 @@
+{
+    "layer": "top",
+    "position": "top",
+    "height": 32,
+    "margin-top": 8,
+    "margin-left": 10,
+    "margin-right": 0,
+    "spacing": 0,
+    "exclusive": false,
+    "reload_style_on_change": true,
+    "modules-left":   ["custom/arch", "hyprland/workspaces"],
+    "modules-center": [],
+    "modules-right":  [],
+    "custom/arch": {
+        "format": "󰣇",
+        "tooltip": false,
+        "on-click": "bash ~/.config/hypr/scripts/launcher.sh",
+        "on-click-right": "bash ~/.config/hypr/scripts/powermenu.sh"
+    },
+    "hyprland/workspaces": {
+        "format": "{id}",
+        "on-click": "activate",
+        "sort-by-number": true,
+        "persistent-workspaces": { "*": [1,2,3,4,5] },
+        "tooltip": false
+    }
+}

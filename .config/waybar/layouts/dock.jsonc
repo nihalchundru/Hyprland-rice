@@ -1,0 +1,41 @@
+{
+    "layer": "top",
+    "position": "bottom",
+    "height": 50,
+    "margin-bottom": 8,
+    "margin-left": 400,
+    "margin-right": 400,
+    "spacing": 0,
+    "exclusive": true,
+    "reload_style_on_change": true,
+
+    "modules-left":   [],
+    "modules-center": ["custom/terminal", "custom/browser", "custom/files", "custom/btop", "custom/hyde-menu"],
+    "modules-right":  [],
+
+    "custom/terminal": {
+        "format": "",
+        "tooltip": "Terminal",
+        "on-click": "kitty"
+    },
+    "custom/browser": {
+        "format": "",
+        "tooltip": "Chromium",
+        "on-click": "chromium"
+    },
+    "custom/files": {
+        "format": "󰲂",
+        "tooltip": "Files",
+        "on-click": "nautilus"
+    },
+    "custom/btop": {
+        "format": "",
+        "tooltip": "System Monitor",
+        "on-click": "kitty -e btop"
+    },
+    "custom/hyde-menu": {
+        "format": "󱗼",
+        "tooltip": "Menu",
+        "on-click": "bash ~/.config/hypr/scripts/launcher.sh"
+    }
+}

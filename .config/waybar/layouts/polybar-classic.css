@@ -1,0 +1,154 @@
+@import "../theme.css";
+
+* {
+    font-family: "JetBrainsMono Nerd Font", monospace;
+    font-size: 12px;
+    border: none;
+    border-radius: 0;
+    min-height: 0;
+    margin: 0;
+    padding: 0;
+}
+
+window#waybar {
+    background: @main-bg;
+    color: @main-fg;
+    border-bottom: 2px solid @wb-act-bg;
+}
+
+/* ── Left ────────────────────────────────────────────────────────────────── */
+
+#custom-arch {
+    background: @wb-act-bg;
+    color: @main-bg;
+    padding: 0 14px;
+    font-size: 14px;
+    margin-right: 0;
+}
+
+/* Powerline arrow after arch button */
+#custom-arch + * {
+    margin-left: 0;
+}
+
+#workspaces {
+    background: @main-bg;
+    padding: 0 4px;
+    margin: 0;
+}
+
+#workspaces button {
+    background: transparent;
+    color: alpha(@main-fg, 0.4);
+    border-radius: 0;
+    padding: 0 8px;
+    margin: 0;
+    min-width: 0;
+    font-size: 12px;
+    font-family: "JetBrainsMono Nerd Font", monospace;
+    transition: all 0.15s ease;
+}
+
+#workspaces button.active {
+    background: @wb-act-bg;
+    color: @main-bg;
+    font-weight: bold;
+    padding: 0 12px;
+}
+
+#workspaces button:hover {
+    background: alpha(@wb-act-bg, 0.25);
+    color: @main-fg;
+}
+
+#workspaces button.urgent {
+    background: #F38BA8;
+    color: @main-bg;
+}
+
+/* Powerline right arrow after workspaces */
+#workspaces {
+    margin-right: 0;
+}
+
+#window {
+    background: alpha(@wb-act-bg, 0.15);
+    color: alpha(@main-fg, 0.7);
+    padding: 0 12px;
+    font-style: italic;
+    font-size: 11px;
+    /* Left powerline arrow */
+    margin-left: 0;
+}
+
+/* ── Right — alternating bg colors like classic polybar segments ─────────── */
+
+#mpris {
+    background: alpha(@wb-hvr-bg, 0.2);
+    color: @wb-hvr-bg;
+    padding: 0 12px;
+    font-style: italic;
+    font-size: 11px;
+}
+
+#cpu {
+    background: alpha(@wb-act-bg, 0.85);
+    color: @main-bg;
+    padding: 0 12px;
+    font-weight: bold;
+}
+
+#memory {
+    background: alpha(@wb-act-bg, 0.6);
+    color: @main-bg;
+    padding: 0 12px;
+}
+
+#network {
+    background: alpha(@wb-hvr-bg, 0.85);
+    color: @main-bg;
+    padding: 0 12px;
+    font-weight: bold;
+}
+
+#network.disconnected {
+    background: alpha(#F38BA8, 0.7);
+    color: @main-bg;
+}
+
+#pulseaudio {
+    background: alpha(@wb-hvr-bg, 0.6);
+    color: @main-bg;
+    padding: 0 12px;
+}
+
+#pulseaudio.muted {
+    background: alpha(#F38BA8, 0.5);
+    color: @main-bg;
+}
+
+#clock {
+    background: @wb-act-bg;
+    color: @main-bg;
+    padding: 0 14px;
+    font-weight: bold;
+    font-size: 12px;
+}
+
+#custom-power {
+    background: #F38BA8;
+    color: @main-bg;
+    padding: 0 12px;
+    font-size: 13px;
+}
+
+#custom-power:hover {
+    background: #E06C75;
+}
+
+tooltip {
+    background: @main-bg;
+    border: 1px solid alpha(@wb-act-bg, 0.4);
+    border-radius: 6px;
+    color: @main-fg;
+}

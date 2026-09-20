@@ -1,0 +1,11 @@
+:root {
+    --bg: #101417;
+    --surface: #1c2024;
+    --surface2: #262a2e;
+    --text: #dfe3e8;
+    --accent: #94cdf7;
+}
+
+#navigator-toolbox {
+    background: var(--bg) !important;
+}

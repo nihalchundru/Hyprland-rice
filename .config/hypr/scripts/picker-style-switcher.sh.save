@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+CHOICE=$(printf "compact  — list/applet style\nhyde     — HyDE horizontal row" | \
+    rofi -dmenu -p "Picker Style" \
+         -theme ~/.config/rofi/applet.rasi -no-custom)
+
+[ -z "$CHOICE" ] && exit 0
+
+case "$CHOICE" in
+    compact*) STYLE="compact" ;;
+    hyde*)    STYLE="hyde"  ;;
+    *)        exit 0 ;;
+esac
+
+echo "$STYLE" > ~/.config/rofi/picker-style
+notify-send "HyDE" "Picker Style → $STYLE" -t 2000 2>/dev/null || true

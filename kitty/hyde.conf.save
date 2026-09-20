@@ -1,0 +1,25 @@
+# HyDE ARM — hyde.conf (base settings)
+allow_remote_control yes
+listen_on unix:/tmp/kitty-%p
+font_family      GeistMono Nerd Font Mono
+bold_font        auto
+italic_font      auto
+bold_italic_font auto
+font_size        11.0
+enable_audio_bell no
+window_padding_width 30
+cursor_trail     1
+cursor_shape     block
+background_opacity 0.80
+#dynamic_bacground_opacity yes
+#hide_window_decorations yes
+confirm_os_window_close 0
+shell            fish
+shell_integration enabled
+
+tab_bar_edge     bottom
+tab_bar_style    powerline
+tab_powerline_style slanted
+
+# include theme colors
+include theme.conf

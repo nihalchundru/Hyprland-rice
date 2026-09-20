@@ -1,0 +1,107 @@
+{
+    "layer": "top",
+    "position": "top",
+    "height": 36,
+    "margin-top": 0,
+    "margin-left": 0,
+    "margin-right": 0,
+    "spacing": 0,
+    "exclusive": true,
+    "reload_style_on_change": true,
+
+    "modules-left":   ["clock", "hyprland/window"],
+    "modules-center": ["hyprland/workspaces"],
+    "modules-right":  ["mpris", "network", "cpu", "memory", "pulseaudio", "custom/swaync", "custom/power"],
+
+    "clock": {
+        "format": "  {:%H:%M}",
+        "format-alt": "  {:%a %d %b}",
+        "tooltip-format": "<tt><small>{calendar}</small></tt>",
+        "calendar": {
+            "mode": "month",
+            "on-scroll": 1,
+            "format": {
+                "today": "<span color='#CBA6F7'><b><u>{}</u></b></span>"
+            }
+        }
+    },
+
+    "hyprland/window": {
+        "format": "{}",
+        "max-length": 40,
+        "separate-outputs": true,
+        "rewrite": {
+            "(.*) — Mozilla Firefox": "󰈹 $1",
+            "(.*)kitty": " terminal",
+            "(.*)Thunar": "󰝰 files"
+        }
+    },
+
+    "hyprland/workspaces": {
+        "format": "{id}",
+        "on-click": "activate",
+        "sort-by-number": true,
+        "persistent-workspaces": { "*": [1,2,3,4,5] },
+        "tooltip": false
+    },
+
+    "mpris": {
+        "format": "{player_icon} {title}",
+        "format-paused": "⏸ {title}",
+        "format-stopped": "",
+        "player-icons": { "default": "▶", "firefox": "󰈹" },
+        "max-length": 20,
+        "interval": 1,
+        "tooltip": false
+    },
+
+    "cpu": {
+        "format": "󰻠 {usage}%",
+        "interval": 2,
+        "tooltip": false,
+        "on-click": "kitty -e btop"
+    },
+
+    "memory": {
+        "format": "󰍛 {percentage}%",
+        "interval": 5,
+        "tooltip-format": "{used:0.1f}G / {total:0.1f}G"
+    },
+
+    "network": {
+        "format-wifi": "󰤨 {essid}",
+        "format-ethernet": "󰈀 wired",
+        "format-disconnected": "󰤭",
+        "max-length": 14,
+        "tooltip": false,
+        "on-click": "nm-connection-editor"
+    },
+
+    "pulseaudio": {
+        "format": "{icon} {volume}%",
+        "format-muted": "󰝟",
+        "format-icons": { "default": ["󰕿","󰖀","󰕾"] },
+        "on-click": "pavucontrol",
+        "on-scroll-up": "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+",
+        "on-scroll-down": "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-",
+        "tooltip": false
+    },
+
+    "custom/swaync": {
+        "tooltip": false,
+        "format": "{icon}",
+        "format-icons": { "none": "󰂚", "notification": "󰂚", "dnd-none": "󰂛", "dnd-notification": "󰂛" },
+        "return-type": "json",
+        "exec-if": "which swaync-client",
+        "exec": "swaync-client -swb",
+        "on-click": "swaync-client -t -sw",
+        "on-click-right": "swaync-client -d -sw",
+        "escape": true
+    },
+
+    "custom/power": {
+        "format": "⏻",
+        "tooltip": false,
+        "on-click": "bash ~/.config/hypr/scripts/powermenu.sh"
+    }
+}

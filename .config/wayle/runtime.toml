@@ -1,0 +1,25 @@
+[bar]
+bg = "bg-base"
+
+[[bar.layout]]
+monitor = "*"
+show = true
+left = [
+    "media",
+    "systray",
+]
+center = ["clock"]
+right = [
+    "battery",
+    "bluetooth",
+    "network",
+    "microphone",
+    "volume",
+]
+
+[styling]
+theme-provider = "matugen"
+
+[wallpaper]
+engine-enabled = false
+cycling-directory = "/home/nihal/wallpapers/Anger.png"

@@ -1,0 +1,77 @@
+{
+    "telemetry.sqmId": "",
+    "telemetry.machineId": "b55bd101d6b8af22dcdc96f1436061781fc75264dd41c5ac79bd9fc815b0fdfe",
+    "telemetry.devDeviceId": "c58a9192-f194-4eee-8b86-564d7078de73",
+    "backupWorkspaces": {
+        "workspaces": [],
+        "folders": [
+            {
+                "folderUri": "file:///home/nihal/.config/quickshell/island"
+            }
+        ],
+        "emptyWindows": []
+    },
+    "windowControlHeight": 35,
+    "profileAssociations": {
+        "workspaces": {
+            "file:///home/nihal/.config/quickshell/island": "__default__profile__"
+        },
+        "emptyWindows": {}
+    },
+    "theme": "vs-dark",
+    "themeBackground": "#202124",
+    "windowSplash": {
+        "zoomLevel": 0,
+        "baseTheme": "vs-dark",
+        "colorInfo": {
+            "foreground": "#cccccc",
+            "background": "#202124",
+            "editorBackground": "#202124",
+            "titleBarBackground": "#1f2020",
+            "titleBarBorder": "#3c4043",
+            "activityBarBackground": "#1f2020",
+            "activityBarBorder": "#3c4043",
+            "sideBarBackground": "#202124",
+            "sideBarBorder": "#3c4043",
+            "statusBarBackground": "#202124",
+            "statusBarBorder": "#3c4043",
+            "statusBarNoFolderBackground": "#202124"
+        },
+        "layoutInfo": {
+            "sideBarSide": "left",
+            "editorPartMinWidth": 220,
+            "titleBarHeight": 35,
+            "activityBarWidth": 48,
+            "sideBarWidth": 212,
+            "auxiliaryBarWidth": 0,
+            "statusBarHeight": 0,
+            "windowBorder": false
+        }
+    },
+    "windowsState": {
+        "lastActiveWindow": {
+            "folder": "file:///home/nihal/.config/quickshell/island",
+            "backupPath": "/home/nihal/.config/VSCodium/Backups/85b88db8b77c4bb7a74783aca0d05e5d",
+            "uiState": {
+                "mode": 0,
+                "x": 0,
+                "y": 0,
+                "width": 1920,
+                "height": 1080
+            }
+        },
+        "openedWindows": []
+    },
+    "windowSplashWorkspaceOverride": {
+        "layoutInfo": {
+            "sideBarWidth": 212,
+            "auxiliaryBarWidth": 300,
+            "workspaces": {
+                "6f9196813805760cf79ae3c633f14502": {
+                    "sideBarVisible": true,
+                    "auxiliaryBarVisible": false
+                }
+            }
+        }
+    }
+}

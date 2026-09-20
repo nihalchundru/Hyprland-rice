@@ -1,0 +1,174 @@
+@import "../theme.css";
+
+@define-color foreground @main-fg;
+@define-color background @bar-bg;
+
+* {
+    border-radius: 0;
+    min-height:    0;
+    font-family:   "JetBrainsMono Nerd Font", monospace;
+    font-size:     12px;
+    transition:    all 0.2s ease;
+    color:         @foreground;
+    border:        none;
+}
+
+.modules-left  { margin-left:  10px; }
+.modules-right { margin-right: 0px;  }
+
+/* Center module — dropcap pill hanging down */
+.modules-center {
+    padding-left:     15px;
+    padding-right:    15px;
+    background-color: @background;
+    border-radius:    1px 1px 99px 99px;
+    margin-left:      0px;
+}
+
+window#waybar {
+    background-color:   @background;
+    border-bottom:      1px solid alpha(@wb-act-bg, 0.12);
+    padding: 0;
+}
+
+/* ── Workspaces — top-rounded pill dropcap ─────────────────────────────── */
+#workspaces {
+    padding:          0 20px;
+    padding-bottom:   1px;
+    margin:           3.5px;
+    margin-top:       2px;
+    margin-bottom:    0px;
+    border-radius:    16px 16px 1px 1px;
+    background-color: alpha(@main-bg, 0.55);
+    opacity:          0.95;
+}
+
+#workspaces button {
+    color:        @foreground;
+    padding:      0 6px;
+    margin:       0 1.5px;
+    margin-top:   2px;
+    min-width:    9px;
+    background:   transparent;
+    border-radius:0;
+    font-family:  "JetBrainsMono Nerd Font", monospace;
+    font-size:    12px;
+}
+
+#workspaces button.empty {
+    color:   @foreground;
+    opacity: 0.45;
+}
+
+#workspaces button.active {
+    transition:    all 50ms ease-out;
+    border-radius: 18px;
+    color:         @main-bg;
+    background:    alpha(@foreground, 0.88);
+    opacity:       1;
+    margin-top:    6px;
+    margin-bottom: 4px;
+    margin-left:   5px;
+    padding-right: 5px;
+    padding-left:  5px;
+}
+
+#workspaces button:hover,
+#workspaces button.empty:hover {
+    border-radius: 18px;
+    background:    transparent;
+    opacity:       1;
+    color:         @wb-act-bg;
+}
+
+#workspaces button.urgent {
+    border-radius: 18px;
+    background:    alpha(#F38BA8, 0.45);
+    opacity:       1;
+    margin-top:    6px;
+    margin-bottom: 4px;
+    padding-right: 5px;
+    padding-left:  5px;
+}
+
+/* ── Arch button ────────────────────────────────────────────────────────── */
+#custom-arch {
+    background:    alpha(@foreground, 0.08);
+    border-radius: 99px;
+    margin-top:    4px;
+    margin-bottom: 4px;
+    margin-left:   -3px;
+    margin-right:  5px;
+    padding-right: 7px;
+    padding-left:  7px;
+    color:         @wb-act-bg;
+}
+
+/* ── Active window ──────────────────────────────────────────────────────── */
+#custom-active-window {
+    padding:      3px 6px;
+    margin-top:   1px;
+    margin-left:  10px;
+    font-size:    11px;
+    color:        alpha(@foreground, 0.6);
+    font-style:   italic;
+}
+
+/* ── Right group pill ───────────────────────────────────────────────────── */
+#group-right1 {
+    background-color: alpha(@foreground, 0.08);
+    font-weight:      800;
+    padding:          0 5px;
+    margin:           3.5px 2px;
+    margin-right:     4px;
+    border-radius:    16px;
+}
+
+/* ── Clock pill (far right, half-pill) ─────────────────────────────────── */
+#clock {
+    font-size:        12px;
+    font-weight:      800;
+    background-color: alpha(@foreground, 0.08);
+    padding:          0 10px;
+    margin:           3.5px 1px;
+    margin-right:     0px;
+    border-radius:    16px 0px 0px 16px;
+    color:            @wb-act-bg;
+}
+
+/* ── Stats modules ──────────────────────────────────────────────────────── */
+#battery, #pulseaudio, #custom-notif, #custom-idle, #custom-update {
+    min-width: 12px;
+    margin:    0 7.5px;
+}
+
+#tray {
+    font-weight:   800;
+    border-radius: 16px;
+    padding:       0 5px;
+    margin:        3.5px 2px;
+    margin-right:  4px;
+}
+
+#pulseaudio { margin-right: 5px; }
+#bluetooth  { margin-right: 12px; }
+#network    { margin-right: 9px; }
+
+#battery.warning  { color: #F9E2AF; }
+#battery.critical { color: #F38BA8; }
+#battery.charging { color: #A6E3A1; }
+
+#custom-notif.active  { color: alpha(@foreground, 0.35); }
+#custom-idle.inactive { color: alpha(@foreground, 0.35); }
+
+/* ── MPRIS expander drawer ──────────────────────────────────────────────── */
+#mpris          { font-size: 11px; color: alpha(@foreground, 0.65); font-style: italic; }
+#custom-expand-mpris { font-size: 16px; margin-right: 1px; margin-left: 4px; color: alpha(@foreground, 0.5); }
+
+/* ── Tooltip ────────────────────────────────────────────────────────────── */
+tooltip {
+    background:    @main-bg;
+    border:        1px solid alpha(@foreground, 0.18);
+    border-radius: 11px 11px 4px 4px;
+}
+tooltip label { color: @foreground; }

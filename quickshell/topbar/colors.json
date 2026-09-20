@@ -1,0 +1,17 @@
+{
+    "bg":      "#101417",
+    "bg2":     "#41474d",
+    "surface": "#1c2024",
+    "surface2":"#262a2e",
+    "text":    "#dfe3e8",
+    "sub":     "#c1c7ce",
+    "accent":  "#94cdf7",
+    "accent2": "#b7c9d9",
+    "green":   "#cec0e8",
+    "red":     "#ffb4ab",
+    "yellow":  "#4b4163",
+    "teal":    "#b7c9d9",
+    "orange":  "#b7c9d9",
+    "purple":  "#94cdf7",
+    "theme":   "matugen"
+}

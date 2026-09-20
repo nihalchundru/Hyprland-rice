@@ -1,0 +1,46 @@
+{
+    "layer": "top",
+    "position": "top",
+    "margin-top": 8,
+    "margin-left": 200,
+    "margin-right": 200,
+    "height": 30,
+    "spacing": 0,
+    "exclusive": true,
+    "reload_style_on_change": true,
+
+    "modules-left":   [],
+    "modules-center": ["hyprland/workspaces", "clock", "pulseaudio", "network", "custom/hyde-menu"],
+    "modules-right":  [],
+
+    "hyprland/workspaces": {
+        "format": "{id}",
+        "on-click": "activate",
+        "sort-by-number": true,
+        "persistent-workspaces": { "*": [1,2,3,4,5] },
+        "tooltip": false
+    },
+    "clock": {
+        "format": "󰥔 {:%H:%M}",
+        "tooltip": false
+    },
+    "pulseaudio": {
+        "format": "{icon}",
+        "format-muted": "󰝟",
+        "format-icons": { "default": ["󰕿","󰖀","󰕾"] },
+        "on-click": "pavucontrol",
+        "tooltip": false
+    },
+    "network": {
+        "format-wifi": "󰤨",
+        "format-ethernet": "󰈀",
+        "format-disconnected": "󰤭",
+        "tooltip": false
+    },
+    "custom/hyde-menu": {
+        "format": "󱗼",
+        "tooltip": false,
+        "on-click": "bash ~/.config/hypr/scripts/launcher.sh",
+        "on-click-right": "bash ~/.config/hypr/scripts/powermenu.sh"
+    }
+}

@@ -1,0 +1,104 @@
+@import "../theme.css";
+
+* {
+    border: none;
+    border-radius: 0px;
+
+    font-family: "Adwaita Sans", "JetBrainsMono Nerd Font", sans-serif;
+    font-weight: bold;
+
+    min-height: 0;
+    padding: 0;
+    margin: 0;
+    transition: all 0.3s ease-in-out;
+}
+
+window#waybar {
+    background: transparent;
+}
+
+tooltip {
+    background: @main-bg;
+    border: 1px solid alpha(@wb-act-bg, 0.3);
+    border-radius: 12px;
+}
+
+tooltip label {
+    color: @main-fg;
+    padding: 6px;
+}
+
+#workspaces {
+    background-color: @main-bg;
+    padding: 5px 3px;
+    margin: 0 0 0 12px;
+    border-radius: 18px;
+    border: 1px solid alpha(@wb-act-bg, 0.18);
+    color: @main-fg;
+}
+
+#workspaces button {
+    padding: 0px 6px;
+    margin: 0px 3px;
+    border-radius: 50px;
+    color: alpha(@wb-act-bg, 0.5);
+    background-color: alpha(@wb-act-bg, 0.12);
+}
+
+#workspaces button.active {
+    background-color: @wb-act-bg;
+    color: @main-bg;
+    min-width: 50px;
+    font-size: 13px;
+}
+
+#workspaces button:hover {
+    background-color: @wb-hvr-bg;
+    color: @main-bg;
+    border-radius: 16px;
+    min-width: 50px;
+}
+
+#workspaces button.urgent {
+    background-color: #F38BA8;
+    color: @main-bg;
+    border-radius: 16px;
+    min-width: 50px;
+}
+
+#tray {
+    background-color: @main-bg;
+    padding: 4px 16px;
+    border-radius: 45px;
+    border: 1px solid alpha(@wb-act-bg, 0.18);
+}
+
+#pulseaudio,
+#network,
+#clock,
+#custom-notification {
+    background-color: @main-bg;
+    padding: 0 15px 0 15px;
+    margin: 0 0 0 12px;
+    border-radius: 45px;
+    border: 1px solid alpha(@wb-act-bg, 0.18);
+}
+
+#clock {
+    color: @wb-act-bg;
+}
+
+#custom-notification {
+    color: @main-fg;
+    margin: 0 12px 0 12px;
+}
+
+#pulseaudio {
+    color: #F9E2AF;
+}
+
+#network {
+    color: @wb-hvr-bg;
+}
+
+

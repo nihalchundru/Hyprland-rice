@@ -1,0 +1,54 @@
+{
+    "layer": "top",
+    "position": "top",
+    "height": 32,
+    "margin-top": 8,
+    "margin-left": 0,
+    "margin-right": 10,
+    "spacing": 0,
+    "exclusive": false,
+    "reload_style_on_change": true,
+    "modules-left":   [],
+    "modules-center": [],
+    "modules-right":  ["pulseaudio", "network", "battery", "cpu", "tray", "custom/swaync"],
+    "pulseaudio": {
+        "format": "{icon} {volume}%",
+        "format-muted": "󰝟",
+        "format-icons": { "default": ["󰕿","󰖀","󰕾"] },
+        "on-click": "pavucontrol",
+        "on-scroll-up": "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+",
+        "on-scroll-down": "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-",
+        "tooltip": false
+    },
+    "network": {
+        "format-wifi": "󰤨 {essid}",
+        "format-ethernet": "󰈀",
+        "format-disconnected": "󰤭",
+        "max-length": 12,
+        "tooltip": false,
+        "on-click": "nm-connection-editor"
+    },
+    "battery": {
+        "format": "{icon} {capacity}%",
+        "format-charging": "󰂄 {capacity}%",
+        "format-icons": ["󰂎","󰁺","󰁾","󰂁","󰁹"],
+        "tooltip": false
+    },
+    "cpu": {
+        "format": "󰻠 {usage}%",
+        "interval": 2,
+        "tooltip": false,
+        "on-click": "kitty -e btop"
+    },
+    "tray": { "spacing": 6, "icon-size": 14 },
+    "custom/swaync": {
+        "tooltip": false,
+        "format": "{icon}",
+        "format-icons": { "none": "󰂚", "notification": "󰂚", "dnd-none": "󰂛", "dnd-notification": "󰂛" },
+        "return-type": "json",
+        "exec-if": "which swaync-client",
+        "exec": "swaync-client -swb",
+        "on-click": "swaync-client -t -sw",
+        "escape": true
+    }
+}

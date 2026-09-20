@@ -1,0 +1,137 @@
+@import "../theme.css";
+
+/* ── Reset ──────────────────────────────────────────────────────────────── */
+* {
+    font-family: "JetBrainsMono Nerd Font", monospace;
+    font-size:   12px;
+    border:      none;
+    border-radius: 0;
+    min-height:  0;
+    padding:     0;
+    margin:      0;
+}
+
+/* ── Outer bar — the floating pill ─────────────────────────────────────── */
+window#waybar {
+    background: alpha(@bar-bg, 0.88);
+    border:     1px solid alpha(@wb-act-bg, 0.25);
+    border-radius: 99px;
+    color: @main-fg;
+}
+
+/* ── Tooltip ────────────────────────────────────────────────────────────── */
+tooltip {
+    background:    alpha(@main-bg, 0.97);
+    border:        1px solid alpha(@wb-act-bg, 0.4);
+    border-radius: 12px;
+    color:         @main-fg;
+}
+
+/* ── Clock ──────────────────────────────────────────────────────────────── */
+#clock {
+    color:       @wb-act-bg;
+    font-weight: 700;
+    font-size:   13px;
+    padding:     0 16px;
+    letter-spacing: 0.5px;
+}
+
+/* ── MPRIS — hidden when nothing playing, slides in when active ─────────── */
+#mpris {
+    color:       alpha(@main-fg, 0.7);
+    font-style:  italic;
+    font-size:   11px;
+    padding:     0 10px 0 0;
+
+    /* Smooth expand when media appears */
+    transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    min-width:   0;
+    
+}
+
+/* When mpris has content waybar auto-shows it — no extra CSS needed */
+
+/* ── Workspaces container ───────────────────────────────────────────────── */
+#workspaces {
+    padding: 0 6px;
+}
+
+/* ── Inactive workspace buttons ─────────────────────────────────────────── */
+#workspaces button {
+    color:         alpha(@main-fg, 0.4);
+    background:    transparent;
+    border-radius: 99px;
+    padding:       4px 10px;
+    margin:        4px 2px;
+    font-weight:   600;
+    font-size:     12px;
+    min-width:     30px;
+
+    /* Smooth size transition when active pill expands/contracts */
+    transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* ── Hover ──────────────────────────────────────────────────────────────── */
+#workspaces button:hover {
+    background: linear-gradient(
+        135deg,
+        @wb-act-bg 0%,
+        alpha(@wb-hvr-bg, 0.55) 50%
+    );
+    color:         @main-fg;
+    border-radius: 99px;
+}
+
+/* ── ACTIVE workspace — diagonal gradient pill ──────────────────────────── */
+#workspaces button.active {
+    /* Diagonal gradient from accent → accent2 (top-left to bottom-right) */
+    background: linear-gradient(
+        135deg,
+        @wb-act-bg 0%,
+        alpha(@wb-hvr-bg, 0.55) 100%
+    );
+    color:         @main-fg;
+    border-radius: 99px;
+    font-weight:   800;
+    font-size:     13px;
+
+    /* Wider pill for selected workspace */
+    min-width:     36px;
+    padding:       4px 16px;
+    margin:        4px 4px;
+
+    /* Smooth grow animation */
+    transition: all 0.9s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* ── Urgent ─────────────────────────────────────────────────────────────── */
+#workspaces button.urgent {
+    background:    linear-gradient(135deg, #94cdf7 0%, #b7c9d9 100%);
+    color:         #101417;
+    border-radius: 99px;
+    min-width:     36px;
+    padding:       4px 16px;
+    margin:        4px 4px;
+}
+
+/* ── Network + Audio icons ──────────────────────────────────────────────── */
+#network {
+    color:   alpha(@main-fg, 0.65);
+    font-size: 14px;
+    padding: 0 8px;
+    transition: color 0.2s ease;
+}
+
+#network:hover { color: @wb-act-bg; }
+
+#network.disconnected { color: alpha(#F38BA8, 0.6); }
+
+#pulseaudio {
+    color:   alpha(@main-fg, 0.65);
+    font-size: 14px;
+    padding: 0 16px 0 6px;
+    transition: color 0.2s ease;
+}
+
+#pulseaudio:hover  { color: @wb-act-bg; }
+#pulseaudio.muted  { color: alpha(#F38BA8, 0.6); }

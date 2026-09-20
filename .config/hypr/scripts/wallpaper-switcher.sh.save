@@ -1,0 +1,64 @@
+z#!/usr/bin/env bash
+
+BAR=$(cat ~/.config/hypr/bar/active-bar 2>/dev/null || echo waybar)
+if [ "$BAR" = "quickshell" ]; then
+    qs ipc -c ~/.config/quickshell/topbar call topbar toggleWallpaper
+    exit 0
+fi
+
+STYLE=$(cat ~/.config/rofi/picker-style 2>/dev/null || echo compact)
+
+case "$STYLE" in
+    hyde)
+        bash ~/.config/hypr/scripts/hyde-wall-select.sh
+        ;;
+    *)
+        THEME=$(cat ~/.config/hypr/themes/current-name 2>/dev/null || echo catppuccin)
+        WALL_DIR="$HOME/.config/hypr/wallpapers/$THEME"
+        THUMB_DIR="/tmp/hyde-thumbs/$THEME"
+        mkdir -p "$THUMB_DIR"
+
+        mapfile -t WALLS < <(find "$WALL_DIR" \
+            -type f \( -iname "*.png" -o -iname "*.jpg" \) | sort)
+
+        [ ${#WALLS[@]} -eq 0 ] && notify-send "HyDE" "No wallpapers in $WALL_DIR" && exit 1
+
+        for wall in "${WALLS[@]}"; do
+            name=$(basename "$wall")
+            thumb="$THUMB_DIR/$name"
+            [ -f "$thumb" ] || convert "$wall" \
+                -thumbnail 320x320^ -gravity center -extent 320x320 \
+                "$thumb" 2>/dev/null || cp "$wall" "$thumb"
+        done
+
+        INPUT=""
+        for wall in "${WALLS[@]}"; do
+            name=$(basename "$wall")
+            label="${name%.*}"
+            thumb="$THUMB_DIR/$name"
+            INPUT+="${label}\x00icon\x1f${thumb}\n"
+        done
+
+        SELECTED=$(printf "$INPUT" | rofi \
+            -dmenu -p "Wallpaper" \
+            -theme ~/.config/rofi/wallpaper.rasi \
+            -show-icons -icon-size 160 -no-custom)
+
+        [ -z "$SELECTED" ] && exit 0
+
+        for wall in "${WALLS[@]}"; do
+            name=$(basename "$wall")
+            label="${name%.*}"
+            if [ "$label" = "$SELECTED" ]; then
+                bash ~/.config/hypr/scripts/set-wallpaper.sh "$wall"
+                cat > ~/.config/rofi/current_wallpaper.rasi << EOF
+* { current-image: url("${wall}", width); }
+EOF
+                cp "$wall" ~/.config/rofi/images/a.png 2>/dev/null || true
+                cp "$wall" ~/.config/rofi/images/d.png 2>/dev/null || true
+                cp "$wall" ~/.config/rofi/images/f.png 2>/dev/null || true
+                break
+            fi
+        done
+        ;;
+esac

@@ -1,0 +1,7 @@
+* {
+    main-bg:   {bg};
+    main-fg:   {fg};
+    select-bg: {accent};
+    select-fg: {bg};
+    main-br:   {accent};
+}

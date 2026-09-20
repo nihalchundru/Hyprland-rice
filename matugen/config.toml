@@ -1,0 +1,30 @@
+[config]
+
+[templates.qs-colors]
+input_path  = "~/.config/matugen/templates/qs-colors.json"
+output_path = "~/.config/quickshell/topbar/colors.json"
+
+[templates.waybar-theme]
+input_path  = "~/.config/matugen/templates/waybar-theme.css"
+output_path = "~/.config/waybar/theme.css"
+
+[templates.rofi-theme]
+input_path  = "~/.config/matugen/templates/rofi-theme.rasi"
+output_path = "~/.config/rofi/theme.rasi"
+
+[templates.rofi-colors]
+input_path  = "~/.config/matugen/templates/rofi-colors.rasi"
+output_path = "~/.config/rofi/colors.rasi"
+
+[templates.kitty-colors]
+input_path  = "~/.config/matugen/templates/kitty-colors.conf"
+output_path = "~/.cache/matugen/kitty-colors.conf"
+
+[templates.hyde-override]
+input_path  = "~/.config/matugen/templates/hyde-override.sh"
+output_path = "~/.config/hypr/themes/matugen-override.sh"
+
+[templates.hamr_colors]
+input_path = '~/.config/matugen/templates/hamr-colors.json'
+output_path = '~/.config/hamr/colors.json'
+

@@ -1,0 +1,28 @@
+* { all: unset; font-family: "JetBrainsMono Nerd Font"; }
+
+.sidebar {
+    background-color: #101417;
+    border: 2px solid #94cdf7;
+    border-radius: 16px;
+    padding: 16px;
+    color: #dfe3e8;
+}
+.sidebar-header { font-size: 14px; font-weight: bold; color: #94cdf7; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid #262a2e; }
+.clock-time { font-size: 42px; font-weight: bold; color: #94cdf7; }
+.clock-date { font-size: 13px; color: #c1c7ce; margin-bottom: 16px; }
+.section { background-color: #101417; border-radius: 12px; padding: 12px; margin-bottom: 8px; }
+.section-title { font-size: 11px; font-weight: bold; color: #c1c7ce; margin-bottom: 8px; }
+.stat-label { font-size: 11px; color: #c1c7ce; margin-bottom: 2px; }
+.stat-bar { background-color: #101417; border-radius: 6px; min-height: 6px; margin-bottom: 6px; }
+.stat-fill-cpu  { background-color: #101417;    border-radius: 6px; min-height: 6px; }
+.stat-fill-ram  { background-color: #101417;  border-radius: 6px; min-height: 6px; }
+.stat-fill-disk { background-color: #101417; border-radius: 6px; min-height: 6px; }
+.stat-value { font-size: 10px; color: #c1c7ce; }
+.media-title { font-size: 12px; font-weight: bold; color: #dfe3e8; }
+.media-artist { font-size: 11px; color: #c1c7ce; margin-bottom: 8px; }
+.media-btn { background-color: #101417; border-radius: 8px; padding: 4px 12px; color: #dfe3e8; font-size: 14px; margin: 0 2px; }
+.volume-slider slider { background-color: #101417; border-radius: 6px; min-height: 6px; min-width: 6px; }
+.volume-slider trough { background-color: #101417; border-radius: 6px; min-height: 6px; }
+.theme-btn { background-color: #101417; border-radius: 8px; padding: 4px 10px; color: #dfe3e8; font-size: 10px; margin: 2px; }
+.theme-btn-active { background-color: #101417; color: #101417; border-radius: 8px; padding: 4px 10px; font-size: 10px; margin: 2px; }
+.action-btn { background-color: #101417; border-radius: 10px; padding: 8px 10px; color: #dfe3e8; font-size: 16px; margin: 2px; }

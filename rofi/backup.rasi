@@ -1,6 +1,0 @@
- entry {
-    background-color:  transparent;
-    text-color:        @select-fg;
-    placeholder:       "Filter wallpapers...";
-    placeholder-color: alpha(@select-fg, 0.5);
-}

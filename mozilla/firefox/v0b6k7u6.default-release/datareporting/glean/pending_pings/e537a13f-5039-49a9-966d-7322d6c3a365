@@ -1,3 +1,0 @@
-/submit/firefox-desktop/usage-reporting/1/e537a13f-5039-49a9-966d-7322d6c3a365
-{"metrics":{"uuid":{"usage.profile_group_id":"bdb2ac64-f138-4429-b3c6-8183cde43caa","usage.profile_id":"ef2464c6-2f94-47a9-a49e-324974769c7c"},"counter":{"browser.engagement.uri_count":1,"browser.engagement.active_ticks":1},"string":{"usage.app_build":"20260610102800","usage.distribution_id":"archlinux","usage.os_version":"7.0.11-2-aarch64-ARCH","usage.app_channel":"release","usage.app_display_version":"151.0.4","usage.os":"Linux"},"boolean":{"usage.is_default_browser":false},"datetime":{"usage.first_run_date":"2026-06-11-07:00"}}}
-{"headers":{},"body_has_info_sections":false,"ping_name":"usage-reporting","uploader_capabilities":[]}

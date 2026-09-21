@@ -128,6 +128,4 @@ Built on **Arch Linux ARM (aarch64) (ALARM)**. All components are ARM-native. Us
 
 ---
 
-## License
 
-MIT

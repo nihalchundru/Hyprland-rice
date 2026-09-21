@@ -124,7 +124,7 @@ iris matugen python3
 
 ## Platform
 
-Built on **Arch Linux ARM (aarch64) (ALARM)**. All components are ARM-native. Uses `awww` instead of `swww` since Arch Linux ARM pulls `awww` by default.
+Built on **Arch Linux ARM (aarch64) (ALARM)**. All components are ARM-native. 
 
 ---
 

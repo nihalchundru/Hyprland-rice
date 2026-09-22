@@ -1,0 +1,179 @@
+{
+  "general": {
+    "language": "en",
+    "avatarPath": "",
+    "muteSfx": false,
+    "weatherInterval": 15,
+    "weatherUnit": "metric",
+    "location": {
+      "ip": "76.244.42.198",
+      "latitude": 37.54827,
+      "longitude": -121.98857,
+      "city": "Fremont",
+      "region": "California",
+      "region_code": "CA",
+      "country_name": "United States",
+      "country_code": "US",
+      "postal": "94536",
+      "timezone": "America/Los_Angeles",
+      "utc_offset": "-0700",
+      "currency": "USD",
+      "languages": "en-US,es-US,haw,fr",
+      "asn": "AS7018",
+      "org": "AT&T Enterprises, LLC",
+      "source": "ipapi.co",
+      "updated_at": 1790039363
+    }
+  },
+  "syspanel": {
+    "clipExpandProgress": 0,
+    "clipExpanded": false,
+    "clipState": 1
+  },
+  "bar": {
+    "position": "top",
+    "width": 100,
+    "opacity": 100,
+    "style": "fill",
+    "time": {
+      "format": "HH:mm:ss"
+    },
+    "autohide": false,
+    "autohideTimeout": 1000,
+    "modules": {
+      "left": [
+        "left",
+        "workspaces",
+        "media"
+      ],
+      "center": [
+        [
+          "timedate",
+          "info",
+          "weather"
+        ]
+      ],
+      "right": [
+        "tray",
+        [
+          "kb",
+          "wifi",
+          "bt",
+          "vol",
+          "bat"
+        ]
+      ]
+    },
+    "timeStyle": "material",
+    "workspaceCount": 5
+  },
+  "theme": {
+    "fontFamily": "Adwaita Mono",
+    "borderRadius": 10,
+    "activePreset": "Matugen",
+    "matugen": true,
+    "colors": {
+      "base": "#1b1e2b",
+      "blue": "#89ddff",
+      "crust": "#0e1017",
+      "green": "#5af78e",
+      "mantle": "#151722",
+      "maroon": "#d0679d",
+      "mauve": "#fcc5e4",
+      "overlay0": "#50587c",
+      "overlay1": "#67719f",
+      "overlay2": "#7f8bc3",
+      "peach": "#f07178",
+      "pink": "#fcc5e4",
+      "red": "#d0679d",
+      "sapphire": "#add7ff",
+      "subtext0": "#767c9d",
+      "subtext1": "#949bbf",
+      "surface0": "#25293a",
+      "surface1": "#30354b",
+      "surface2": "#3c435e",
+      "teal": "#5fb3a1",
+      "text": "#a6accd",
+      "yellow": "#fffac2"
+    }
+  },
+  "idle": {
+    "enabled": true,
+    "actions": {
+      "dim": {
+        "id": "dim",
+        "timeout": 150,
+        "enabled": true,
+        "respectInhibitors": true,
+        "mprisInhibit": false,
+        "command": "",
+        "resumeCommand": "",
+        "isCustom": false
+      },
+      "dpms": {
+        "id": "dpms",
+        "timeout": 450,
+        "enabled": true,
+        "respectInhibitors": true,
+        "mprisInhibit": false,
+        "command": "",
+        "resumeCommand": "",
+        "isCustom": false
+      },
+      "lock": {
+        "id": "lock",
+        "timeout": 300,
+        "enabled": true,
+        "respectInhibitors": true,
+        "mprisInhibit": false,
+        "command": "",
+        "resumeCommand": "",
+        "isCustom": false
+      },
+      "suspend": {
+        "id": "suspend",
+        "timeout": 600,
+        "enabled": true,
+        "respectInhibitors": true,
+        "mprisInhibit": false,
+        "command": "",
+        "resumeCommand": "",
+        "isCustom": false
+      }
+    }
+  },
+  "notifications": {
+    "dnd": true,
+    "position": "top right",
+    "sound": true,
+    "soundFile": "/home/nihal/.config/quickshell/serpantinum/assets/sounds/notifications/Botanica.wav"
+  },
+  "display": {
+    "monitors": {
+      "eDP-1": {
+        "enabled": false,
+        "scale": 1
+      }
+    }
+  },
+  "dock": {
+    "enabled": true,
+    "position": "bottom",
+    "onTop": true,
+    "elementSize": 44,
+    "floating": true,
+    "opacity": 100,
+    "exclusive": false,
+    "autohide": false,
+    "smartAutohide": true,
+    "autohideTimeout": 1000,
+    "editing": false,
+    "apps": [],
+    "overrideBoundsCorrection": false,
+    "enableScrolling": false,
+    "visibleElements": 7,
+    "hoverScale": 120,
+    "cascadeScale": false
+  }
+}
+

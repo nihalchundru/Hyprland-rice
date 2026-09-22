@@ -1,0 +1,178 @@
+{
+    "catppuccin": {
+        "swatches": [
+            "#1E1E2E",
+            "#CBA6F7",
+            "#89B4FA",
+            "#A6E3A1",
+            "#F38BA8",
+            "#F9E2AF",
+            "#94E2D5"
+        ]
+    },
+    "tokyonight": {
+        "swatches": [
+            "#1A1B26",
+            "#7AA2F7",
+            "#BB9AF7",
+            "#9ECE6A",
+            "#F7768E",
+            "#E0AF68",
+            "#7DCFFF"
+        ]
+    },
+    "gruvbox": {
+        "swatches": [
+            "#1D2021",
+            "#D79921",
+            "#FABD2F",
+            "#98971A",
+            "#CC241D",
+            "#FABD2F",
+            "#689D6A"
+        ]
+    },
+    "nord": {
+        "swatches": [
+            "#2E3440",
+            "#88C0D0",
+            "#81A1C1",
+            "#A3BE8C",
+            "#BF616A",
+            "#EBCB8B",
+            "#8FBCBB"
+        ]
+    },
+    "rosepine": {
+        "swatches": [
+            "#191724",
+            "#C4A7E7",
+            "#9CCFD8",
+            "#31748F",
+            "#EB6F92",
+            "#F6C177",
+            "#9CCFD8"
+        ]
+    },
+    "everforest": {
+        "swatches": [
+            "#2D353B",
+            "#A7C080",
+            "#83C092",
+            "#A7C080",
+            "#E67E80",
+            "#DBBC7F",
+            "#7FBBB3"
+        ]
+    },
+    "onedark": {
+        "swatches": [
+            "#282C34",
+            "#61AFEF",
+            "#C678DD",
+            "#98C379",
+            "#E06C75",
+            "#E5C07B",
+            "#56B6C2"
+        ]
+    },
+    "everblush": {
+        "swatches": [
+            "#141B1E",
+            "#67B0E8",
+            "#C47FD5",
+            "#8CCF7E",
+            "#E57474",
+            "#E5C76B",
+            "#6CBFBF"
+        ]
+    },
+    "aozora": {
+        "swatches": [
+            "#261722",
+            "#D2B293",
+            "#3A8476",
+            "#30655F",
+            "#EDC9A4",
+            "#C8A96E",
+            "#5C8C6A"
+        ]
+    },
+    "latte": {
+        "swatches": [
+            "#EFF1F5",
+            "#8839EF",
+            "#1E66F5",
+            "#40A02B",
+            "#D20F39",
+            "#DF8E1D",
+            "#209FB5"
+        ]
+    },
+    "astrabloom": {
+        "swatches": [
+            "#1A0F1F",
+            "#FF9E9D",
+            "#D381A1",
+            "#FCE2CC",
+            "#4A2840",
+            "#F5F0F6",
+            "#B8E0C8"
+        ]
+    },
+    "crimson": {
+        "swatches": [
+            "#1A1116",
+            "#E64A45",
+            "#B84E60",
+            "#F7A479",
+            "#3D242B",
+            "#F9EBEA",
+            "#A8C8A0"
+        ]
+    },
+    "solarized": {
+        "swatches": [
+            "#002B36",
+            "#268BD2",
+            "#2AA198",
+            "#859900",
+            "#DC322F",
+            "#B58900",
+            "#D33682"
+        ]
+    },
+    "gruvbox-material": {
+        "swatches": [
+            "#282828",
+            "#A9B665",
+            "#E78A4E",
+            "#D8A657",
+            "#EA6962",
+            "#D4BE98",
+            "#89B482"
+        ]
+    },
+    "iris": {
+        "swatches": [
+            "#1E1E2E",
+            "#CBA6F7",
+            "#89B4FA",
+            "#A6E3A1",
+            "#F38BA8",
+            "#F9E2AF",
+            "#94E2D5"
+        ]
+    },
+    "matugen": {
+        "swatches": [
+            "#1C1B1F",
+            "#D0BCFF",
+            "#CCC2DC",
+            "#B5EAD7",
+            "#F2B8B5",
+            "#E6E1E5",
+            "#F9DEDC"
+        ]
+    }
+}

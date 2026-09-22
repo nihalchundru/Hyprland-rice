@@ -131,5 +131,11 @@ Built on **Arch Linux ARM (aarch64) (ALARM)**. All components are ARM-native.
 ## Credits
 
 https://github.com/sahibjotsaggu/San-Francisco-Pro-Fonts: For SF Pro fonts
+
 https://github.com/Tsunami43/nothingshell: For alternate shell, make sure to go check out the repo!
+
 https://github.com/doannc2212/quickshell-config: For insipiration of quickshell applets, theme picker, and wallpaper switcher
+
+https://github.com/ilyamiro/serpantinum: For Alternate shell, please go check out his repo it a very nice rice
+
+https://github.com/LUCKYS1NGHH/ChillPill-Shell: For Pill Shell

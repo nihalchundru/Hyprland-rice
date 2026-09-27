@@ -9,12 +9,17 @@ if [[ "$STYLE" == "quickshell" && ( "$BAR" == "hyprpanel" || "$BAR" == "waybar" 
 fi
 
 if [ "$BAR" = "notch" ]; then
-    qs ipc -c ~/.config/quickshell/notch call notch toggleWallpaper
+    qs ipc -c ~/.config/quickshell/notch call wallpaper toggle
     exit 0
 fi
 
 if [ "$BAR" = "pill" ]; then
     qs ipc -c ~/.config/quickshell/topbar call topbar toggleWallpaper
+    exit 0
+fi
+
+if [ "$BAR" = "material" ]; then
+    qs ipc -c ~/.config/quickshell/material call material toggleWallpaper
     exit 0
 fi
 

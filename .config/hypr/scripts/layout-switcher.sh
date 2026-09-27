@@ -38,7 +38,7 @@ else
             notify-send "HyDE" "HyprPanel manages its own layout" -t 2000 2>/dev/null || true
             exit 0
             ;;
-        quickshell|notch|pill|island)
+        quickshell|notch|pill|island|material)
             BAR=$(printf "notch\npill\nisland" | \
                 rofi -dmenu -p "Quickshell Layout" \
                      -theme ~/.config/rofi/applet.rasi -no-custom)
@@ -54,7 +54,7 @@ notify-send "HyDE" "Layout → $LAYOUT" -t 2000 2>/dev/null || true
 
 case "$BAR" in
     pill|notch|island)
-        bash "$HOME/.config/hypr/scripts/qs-launch.sh" "$BAR"
+        bash "$HOME/.config/hypr/scripts/qs-bar-layout-switch.sh" "$BAR"
 #        echo> ~/.config/hypr/bar/active-bar 
         ;;
     *)

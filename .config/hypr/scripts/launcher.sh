@@ -9,7 +9,7 @@ fi
 
 # Quickshell bar always uses its own launcher
 if [[ "$BAR" == "notch" && ( "$STYLE" == "hyde" || "$STYLE" == "compact" || "$STYLE" = "quickshell" ) ]]; then
-    qs ipc -c ~/.config/quickshell/notch call notch toggleLauncher
+    qs ipc -c ~/.config/quickshell/notch call launcher toggle
     exit 0
 fi
 

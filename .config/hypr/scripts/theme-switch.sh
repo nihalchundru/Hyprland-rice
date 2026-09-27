@@ -19,7 +19,12 @@ else
 
 
     if [ "$BAR" = "notch" ]; then
-        qs ipc -c ~/.config/quickshell/notch call notch toggleTheme
+        qs ipc -c ~/.config/quickshell/notch call theme toggle
+        exit 0
+    fi
+
+    if [ "$BAR" = "material" ]; then
+        qs ipc -c ~/.config/quickshell/material call material toggleWallpaper
         exit 0
     fi
 

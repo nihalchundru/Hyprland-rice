@@ -1,3 +1,4 @@
+
 import QtQuick
 import QtQuick.Layouts
 import QtQuick.Controls
@@ -9,7 +10,7 @@ import Quickshell.Services.Mpris
 import Quickshell.Services.Notifications
 
 // ============================================================================
-// ControlCenter.qml — qs-control-center
+// ControlCenter.qml — Separate floating control-center pill
 // ============================================================================
 
 PanelWindow {
@@ -38,7 +39,7 @@ PanelWindow {
 
         onLoaded: {
             try {
-                var parsed = JSON.parse(text())
+                var parsed = JSON.parse(text)
                 panelRoot.colors = parsed
             } catch (e) {
                 console.log(
@@ -67,33 +68,14 @@ PanelWindow {
             : "#888888"
     }
 
-    // ========================================================================
-    // SEMANTIC COLORS
-    // ========================================================================
-
-    readonly property color colorBg:
-        c("bg")
-
-    readonly property color colorSurface:
-        c("surface")
-
-    readonly property color colorAccent:
-        c("accent")
-
-    readonly property color colorText:
-        c("text")
-
-    readonly property color colorSub:
-        c("sub")
-
-    readonly property color colorAccentText:
-        c("bg")
-
-    readonly property color colorInactive:
-        c("surface")
-
-    readonly property color colorBorder:
-        c("sub")
+    readonly property color colorBg: c("bg")
+    readonly property color colorSurface: c("surface")
+    readonly property color colorAccent: c("accent")
+    readonly property color colorText: c("text")
+    readonly property color colorSub: c("sub")
+    readonly property color colorAccentText: c("bg")
+    readonly property color colorInactive: c("surface")
+    readonly property color colorBorder: c("sub")
 
     // ========================================================================
     // STATE
@@ -113,16 +95,26 @@ PanelWindow {
             ? WlrKeyboardFocus.Exclusive
             : WlrKeyboardFocus.None
 
+    // FLOATING WINDOW
     anchors {
         top: true
-        left: true
-        right: true
     }
+
+    margins.top: 10
+
+    implicitWidth: 420
+    implicitHeight:
+        panelRoot.open
+            ? (
+                panelRoot.view === "main"
+                    ? 660
+                    : 300
+              )
+            : 0
 
     color: "transparent"
     exclusiveZone: -1
-    height: 700
-    visible: open
+    visible: panelRoot.open
 
     // ========================================================================
     // WI-FI
@@ -257,10 +249,7 @@ PanelWindow {
         }
     }
 
-    function connectToWifi(
-        ssid,
-        password
-    ) {
+    function connectToWifi(ssid, password) {
         var idx =
             panelRoot.wifiNetworks.findIndex(
                 function(n) {
@@ -309,15 +298,13 @@ PanelWindow {
         id: wifiConnectProc
 
         stdout: StdioCollector {
-            onStreamFinished: {
+            onStreamFinished:
                 panelRoot.refreshWifiList()
-            }
         }
 
         stderr: StdioCollector {
-            onStreamFinished: {
+            onStreamFinished:
                 panelRoot.refreshWifiList()
-            }
         }
     }
 
@@ -485,15 +472,13 @@ PanelWindow {
         id: btConnectProc
 
         stdout: StdioCollector {
-            onStreamFinished: {
+            onStreamFinished:
                 panelRoot.refreshBluetoothList()
-            }
         }
 
         stderr: StdioCollector {
-            onStreamFinished: {
+            onStreamFinished:
                 panelRoot.refreshBluetoothList()
-            }
         }
     }
 
@@ -745,6 +730,12 @@ PanelWindow {
         id: notifServer
 
         onNotification: (notification) => {
+            if (!notification)
+                return
+
+            notification.tracked =
+                true
+
             var entry = {
                 id: notification.id,
                 appName:
@@ -754,7 +745,8 @@ PanelWindow {
                     notification.summary || "",
                 body:
                     notification.body || "",
-                ref: notification
+                ref:
+                    notification
             }
 
             panelRoot.notificationList =
@@ -803,7 +795,7 @@ PanelWindow {
     }
 
     // ========================================================================
-    // CARD
+    // MAIN FLOATING PILL
     // ========================================================================
 
     Rectangle {
@@ -812,11 +804,11 @@ PanelWindow {
         anchors.horizontalCenter:
             parent.horizontalCenter
 
-        anchors.top:
-            parent.top
+        //anchors.top:
+          //  parent.top
 
-        anchors.topMargin:
-            0
+        //anchors.topMargin:
+        //    0
 
         width:
             420
@@ -831,10 +823,21 @@ PanelWindow {
                 : 0
 
         radius:
-            30
+            34
 
         color:
             "#000000"
+
+        border.width:
+            1
+
+        border.color:
+            Qt.rgba(
+                panelRoot.colorText.r,
+                panelRoot.colorText.g,
+                panelRoot.colorText.b,
+                0.08
+            )
 
         clip:
             true
@@ -842,35 +845,19 @@ PanelWindow {
         antialiasing:
             true
 
-        Rectangle {
-            anchors.top:
-                parent.top
-
-            anchors.left:
-                parent.left
-
-            anchors.right:
-                parent.right
-
-            height:
-                30
-
-            color:
-                "#000000"
-
-            z:
-                0
-        }
-
         Behavior on height {
             NumberAnimation {
                 duration:
-                    200
+                    240
 
                 easing.type:
                     Easing.OutCubic
             }
         }
+
+        // ====================================================================
+        // CLOSE BUTTON
+        // ====================================================================
 
         Text {
             anchors.top:
@@ -879,8 +866,11 @@ PanelWindow {
             anchors.right:
                 parent.right
 
-            anchors.margins:
-                16
+            anchors.topMargin:
+                18
+
+            anchors.rightMargin:
+                20
 
             z:
                 20
@@ -1608,8 +1598,7 @@ PanelWindow {
 
                                     text:
                                         modelData.appName.length > 0
-                                            ? modelData
-                                                .appName[0]
+                                            ? modelData.appName[0]
                                                 .toUpperCase()
                                             : "?"
 
@@ -2225,7 +2214,6 @@ PanelWindow {
 
     // ========================================================================
     // WI-FI PASSWORD POPUP
-    // This is NOT Polkit. It remains here so secured Wi-Fi still works.
     // ========================================================================
 
     Rectangle {
@@ -2247,10 +2235,10 @@ PanelWindow {
             32
 
         color:
-            panelRoot.c("bg")
+            panelRoot.colorBg
 
         z:
-            10
+            100
 
         function closeAndClear() {
             wifiPopup.visible =
@@ -2274,10 +2262,6 @@ PanelWindow {
 
             spacing:
                 16
-
-            // ================================================================
-            // HEADER
-            // ================================================================
 
             RowLayout {
                 Layout.fillWidth:
@@ -2335,10 +2319,6 @@ PanelWindow {
                 }
             }
 
-            // ================================================================
-            // INFORMATION
-            // ================================================================
-
             Rectangle {
                 Layout.fillWidth:
                     true
@@ -2390,10 +2370,6 @@ PanelWindow {
                 }
             }
 
-            // ================================================================
-            // PASSWORD
-            // ================================================================
-
             ColumnLayout {
                 Layout.fillWidth:
                     true
@@ -2435,13 +2411,6 @@ PanelWindow {
 
                     border.width:
                         1.5
-
-                    Behavior on border.color {
-                        ColorAnimation {
-                            duration:
-                                120
-                        }
-                    }
 
                     RowLayout {
                         anchors.fill:
@@ -2508,17 +2477,12 @@ PanelWindow {
                             verticalAlignment:
                                 TextInput.AlignVCenter
 
-                            onAccepted: {
-                                wifiConnect()
-                            }
+                            onAccepted:
+                                wifiPopup.wifiConnect()
                         }
                     }
                 }
             }
-
-            // ================================================================
-            // BUTTONS
-            // ================================================================
 
             RowLayout {
                 Layout.fillWidth:
@@ -2578,7 +2542,7 @@ PanelWindow {
                     signal clicked()
 
                     onClicked:
-                        wifiConnect()
+                        wifiPopup.wifiConnect()
 
                     Text {
                         id: wifiBtnText
@@ -2781,3 +2745,6 @@ PanelWindow {
         }
     }
 }
+
+
+//This one is **standalone**: it floats at the top-center with its own rounded shape and does not modify the notch/pill itself.

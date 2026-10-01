@@ -2,95 +2,144 @@ import QtQuick
 import Quickshell
 import Quickshell.Io
 
+// ============================================================================
+// shell.qml
+// ============================================================================
+
 ShellRoot {
-    id: root
+id: root
 
-    IpcHandler {
-        target: "topbar"
-        function toggleLauncher()  { appLauncher.toggle() }
-        function toggleTheme()     { themeSwitcher.toggle() }
-        function toggleWallpaper() { wallpaperSwitcher.toggle() }
-        function toggleControl()   { controlPanel.toggle() }
-    }
 
-    property var colors: ({
-        bg: "#1E1E2E", bg2: "#181825", surface: "#313244", surface2: "#45475A",
-        text: "#CDD6F4", sub: "#6C7086", accent: "#CBA6F7", accent2: "#89B4FA",
-        green: "#A6E3A1", red: "#F38BA8", yellow: "#F9E2AF", teal: "#94E2D5",
-        theme: "catppuccin"
-    })
-    property var palettes: ({})
+// ================================================================
+// Control center IPC signal
+// ================================================================
 
-    Process {
-        id: colorReader
-        command: ["cat", `${Quickshell.env("HOME")}/.config/quickshell/topbar/colors.json`]
-        stdout: StdioCollector {
-            onStreamFinished: {
-                try { root.colors = JSON.parse(this.text) }
-                catch(e) {}
+signal toggleControlCenter()
+
+// ================================================================
+// Notification service
+// ================================================================
+
+NotificationService {
+    id: notificationService
+}
+
+// ================================================================
+// Per-screen pieces
+// ================================================================
+
+Variants {
+    model: Quickshell.screens
+
+    Item {
+        required property var modelData
+
+        // ============================================================
+        // TOPBAR
+        // ============================================================
+
+        Notch {
+            id: topbar
+            screen: modelData
+            notifications: notificationService
+        }
+
+        MediaPanel {
+            id: mediaPanel
+            screen: modelData
+            colors: topbar.colors
+            player: topbar.activePlayer
+        }
+
+        WeatherPanel {
+            id: weatherPanel
+            screen: modelData
+            colors: topbar.colors
+            location: topbar.location
+        }
+
+        ControlCenter {
+            id: controlCenter
+            screen: modelData
+            colors: topbar.colors
+        }
+
+        // ============================================================
+        // Topbar → panels
+        // ============================================================
+
+        Connections {
+            target: topbar
+
+            function onMediaExpandRequested() {
+                mediaPanel.open = true
+            }
+
+            function onWeatherExpandRequested() {
+                weatherPanel.open = true
+            }
+
+            function onControlCenterRequested() {
+                controlCenter.open = true
+            }
+        }
+
+        // ============================================================
+        // IPC → Control Center
+        // ============================================================
+
+        Connections {
+            target: root
+
+            function onToggleControlCenter() {
+                controlCenter.open = !controlCenter.open
             }
         }
     }
-    Process {
-        id: paletteReader
-        command: ["cat", `${Quickshell.env("HOME")}/.config/quickshell/topbar/palettes.json`]
-        stdout: StdioCollector {
-            onStreamFinished: {
-                try { root.palettes = JSON.parse(this.text) }
-                catch(e) {}
-            }
-        }
-        running: true
+}
+
+// ================================================================
+// Global components
+// ================================================================
+
+ThemeSwitcher {
+    id: themeSwitcher
+}
+
+WallpaperSwitcher {
+    id: wallpaperSwitcher
+}
+
+Launcher {
+    id: launcher
+}
+
+PolkitAuth {
+    id: polkitAuth
+}
+// ================================================================
+// TOPBAR IPC
+// ================================================================
+
+IpcHandler {
+    target: "topbar"
+
+    function toggleControl() {
+        root.toggleControlCenter()
     }
 
-    Timer {
-        interval: 2000
-        running: true
-        repeat: true
-        triggeredOnStart: true
-        onTriggered: colorReader.running = true
+    function toggleWallpaper() {
+        wallpaperSwitcher.toggle()
     }
 
-    property string clockTime: "00:00"
-    property string clockDate: ""
-
-    Process {
-        id: procClock
-        command: ["date", "+%I:%M %p"]
-        stdout: StdioCollector { onStreamFinished: root.clockTime = this.text.trim() }
-    }
-    Process {
-        id: procDate
-        command: ["date", "+%a %b %d"]
-        stdout: StdioCollector { onStreamFinished: root.clockDate = this.text.trim() }
-    }
-    Timer { interval: 1000;  running: true; repeat: true; triggeredOnStart: true; onTriggered: procClock.running = true }
-    Timer { interval: 30000; running: true; repeat: true; triggeredOnStart: true; onTriggered: procDate.running = true }
-
-    Bar {
-        colors: root.colors
-        clockTime: root.clockTime
-        clockDate: root.clockDate
+    function toggleTheme() {
+        themeSwitcher.toggle()
     }
 
-    ThemeSwitcher {
-        id: themeSwitcher
-        colors: root.colors
-        palettes: root.palettes
+    function toggleLauncher() {
+        launcher.toggle()
     }
+}
 
-    WallpaperSwitcher {
-        id: wallpaperSwitcher
-        colors: root.colors
-    }
 
-    ControlPanel {
-        id: controlPanel
-        colors: root.colors
-    }
-
-    AppLauncher {
-        id: appLauncher
-        colors: root.colors
-    }
 }

@@ -128,6 +128,12 @@ Built on **Arch Linux ARM (aarch64) (ALARM)**. All components are ARM-native.
 
 ---
 
+## Important Note
+
+AI was used in the making of this rice
+
+---
+
 ## Credits
 
 https://github.com/sahibjotsaggu/San-Francisco-Pro-Fonts: For SF Pro fonts

@@ -1,0 +1,37 @@
+singleton Theme 1.0 Theme.qml
+singleton Pill 1.0 Pill.qml
+singleton Net 1.0 Net.qml
+singleton Media 1.0 Media.qml
+singleton Audio 1.0 Audio.qml
+singleton Brightness 1.0 Brightness.qml
+singleton Toggles 1.0 Toggles.qml
+singleton Notifs 1.0 Notifs.qml
+singleton Themes 1.0 Themes.qml
+singleton Wallpapers 1.0 Wallpapers.qml
+Notch 1.0 Notch.qml
+IdleContent 1.0 IdleContent.qml
+HoverContent 1.0 HoverContent.qml
+WorkspaceDots 1.0 WorkspaceDots.qml
+SignalBars 1.0 SignalBars.qml
+BatteryIcon 1.0 BatteryIcon.qml
+Icon 1.0 Icon.qml
+PillSlider 1.0 PillSlider.qml
+SliderRow 1.0 SliderRow.qml
+PillSwitch 1.0 PillSwitch.qml
+PillButton 1.0 PillButton.qml
+CircleButton 1.0 CircleButton.qml
+Tile 1.0 Tile.qml
+PageHeader 1.0 PageHeader.qml
+DeviceRow 1.0 DeviceRow.qml
+CalendarPage 1.0 CalendarPage.qml
+ControlPage 1.0 ControlPage.qml
+SoundPage 1.0 SoundPage.qml
+WifiPage 1.0 WifiPage.qml
+BluetoothPage 1.0 BluetoothPage.qml
+DisplayPage 1.0 DisplayPage.qml
+SearchField 1.0 SearchField.qml
+RoundImage 1.0 RoundImage.qml
+LauncherPage 1.0 LauncherPage.qml
+ThemesPage 1.0 ThemesPage.qml
+WallpapersPage 1.0 WallpapersPage.qml
+PowerPage 1.0 PowerPage.qml

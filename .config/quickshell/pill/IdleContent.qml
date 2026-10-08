@@ -7,7 +7,7 @@ Item {
 
     WorkspaceDots {
         anchors.left: parent.left
-        anchors.leftMargin: 16
+        anchors.leftMargin: Theme.pad
         anchors.verticalCenter: parent.verticalCenter
         size: 10
     }
@@ -24,7 +24,7 @@ Item {
     Row {
         id: cluster
         anchors.right: parent.right
-        anchors.rightMargin: 16
+        anchors.rightMargin: Theme.pad
         anchors.verticalCenter: parent.verticalCenter
         spacing: 10
 

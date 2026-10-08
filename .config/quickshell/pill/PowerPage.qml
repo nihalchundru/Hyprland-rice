@@ -50,7 +50,7 @@ Item {
                     anchors.fill: parent
                     radius: 24
                     color: tile.sel ? Theme.mix(Theme.body, Theme.accent, 0.42) : Theme.tile
-                    Behavior on color { ColorAnimation { duration: 140 } }
+                    Behavior on color { ColorAnimation { duration: Theme.fadeMs } }
                 }
 
                 Icon {

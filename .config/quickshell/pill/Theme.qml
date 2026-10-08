@@ -44,14 +44,24 @@ Singleton {
     readonly property color dim: mix(body, text, 0.62)     // secondary text
     readonly property color faint: mix(body, text, 0.30)   // inactive dots, dimmest text
     readonly property color onAccent: mix(body, accent, 0.12)
+    readonly property color knob: mix(accent, Qt.color("#ffffff"), 0.65)   // slider handles
 
     // ── sizing / motion ───────────────────────────────────────────────
-    readonly property int idleW: 300
-    readonly property int idleH: 40
-    readonly property int margin: 8
+    // bar & island (Settings -> Bar & Island)
+    readonly property bool notch: !!Settings.get("notchMode")
+    readonly property int idleW: Settings.get("collapsedWidth")
+    readonly property int idleH: Settings.get("barHeight")
+    readonly property int margin: notch ? 0 : Settings.get("gap")      // notch hangs from the edge
+    readonly property int pad: Settings.get("innerPadding")
     readonly property int windowH: 820
-    readonly property int animMs: 380
-    readonly property int hoverInMs: 110
+    // motion (Settings -> Motion)
+    readonly property bool reduce: !!Settings.get("reduceMotion")
+    readonly property int animMs: reduce ? 0 : Settings.get("motionMove")
+    readonly property int fadeMs: reduce ? 0 : Settings.get("motionFade")
+    readonly property int hoverInMs: Settings.get("hoverResponse")
+    readonly property real bounce: reduce ? 0 : Settings.get("bounce") / 100
+    readonly property int easing: bounce > 0 ? Easing.OutBack : Easing.OutQuint
+    readonly property real overshoot: bounce * 2.5
     readonly property int hoverOutMs: 350
     readonly property string fontFamily: "Inter"
 

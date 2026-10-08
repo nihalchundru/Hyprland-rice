@@ -20,7 +20,7 @@ Item {
         color: bodyMa.containsMouse ? Theme.tileHi : Theme.tile
         border.width: 1
         border.color: Theme.tileHi
-        Behavior on color { ColorAnimation { duration: 120 } }
+        Behavior on color { ColorAnimation { duration: Theme.fadeMs } }
     }
 
     MouseArea {
@@ -39,7 +39,7 @@ Item {
         height: 48
         radius: 24
         color: root.active ? Theme.accent : Theme.tileHi
-        Behavior on color { ColorAnimation { duration: 150 } }
+        Behavior on color { ColorAnimation { duration: Theme.fadeMs } }
 
         Icon {
             anchors.centerIn: parent

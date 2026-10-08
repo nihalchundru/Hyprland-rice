@@ -20,7 +20,7 @@ Item {
              : ma.containsMouse ? Theme.tileHi : Theme.tile
         border.width: root.active ? 0 : 1
         border.color: Theme.tileHi
-        Behavior on color { ColorAnimation { duration: 120 } }
+        Behavior on color { ColorAnimation { duration: Theme.fadeMs } }
     }
 
     Icon {

@@ -3,10 +3,24 @@ import Quickshell
 import Quickshell.Widgets
 
 // App launcher: type to filter, Up/Down to move, Enter to launch.
+// Width, row height and rows-before-scrolling come from Settings -> Launcher;
+// the pill shrinks to fit when there are fewer results.
 Item {
     id: root
-    width: 760
-    height: 560
+
+    readonly property int rowH: Settings.get("launcherRowH")
+    // rows are also capped so the launcher always fits inside the pill's window
+    readonly property int fitRows: Math.max(1, Math.floor((Theme.windowH - Theme.margin - 24 - 94) / (rowH + 4)))
+    readonly property int maxRows: Math.min(Settings.get("launcherRows"), fitRows)
+    readonly property int shownRows: Math.min(apps.length, maxRows)
+    readonly property int listH: shownRows > 0 ? shownRows * (rowH + 4) - 4 : 0
+
+    width: Settings.get("launcherWidth")
+    implicitHeight: 78 + (shownRows > 0 ? listH : 56) + 16
+    height: implicitHeight
+
+    onHeightChanged: Pill.setHeight("launcher", height)
+    Component.onCompleted: Pill.setHeight("launcher", height)
 
     function filterApps(q) {
         const all = DesktopEntries.applications.values.filter(e => !e.noDisplay);
@@ -94,7 +108,7 @@ Item {
         x: 16
         y: 78
         width: root.width - 32
-        height: root.height - 78 - 16
+        height: root.listH
         clip: true
         spacing: 4
         boundsBehavior: Flickable.StopAtBounds
@@ -120,7 +134,7 @@ Item {
         // Built-in highlight: Qt always draws it underneath the rows, and it
         // glides to the current row. The accent bar stretches while it travels.
         highlightFollowsCurrentItem: true
-        highlightMoveDuration: 200
+        highlightMoveDuration: Theme.animMs > 0 ? 200 : 0
         highlightMoveVelocity: -1
         highlightResizeDuration: 0
 
@@ -141,7 +155,7 @@ Item {
                 height: hl.moving ? 42 : 28
                 radius: 1.5
                 color: Theme.accent
-                Behavior on height { NumberAnimation { duration: 160; easing.type: Easing.OutCubic } }
+                Behavior on height { NumberAnimation { duration: Theme.fadeMs * 0.9; easing.type: Easing.OutCubic } }
             }
         }
 
@@ -152,22 +166,22 @@ Item {
             readonly property bool sel: ListView.isCurrentItem
 
             width: list.width
-            height: 62
+            height: root.rowH
 
             Rectangle {
                 id: iconBg
                 x: 16
                 anchors.verticalCenter: parent.verticalCenter
-                width: 46
-                height: 46
-                radius: 14
+                width: root.rowH - 16
+                height: width
+                radius: width * 0.3
                 color: Theme.inset
                 scale: row.sel ? 1.08 : 1.0
-                Behavior on scale { NumberAnimation { duration: 180; easing.type: Easing.OutBack } }
+                Behavior on scale { NumberAnimation { duration: Theme.fadeMs; easing.type: Easing.OutBack } }
 
                 IconImage {
                     anchors.centerIn: parent
-                    implicitSize: 32
+                    implicitSize: Math.round(iconBg.width * 0.7)
                     source: Quickshell.iconPath(row.modelData.icon, true)
                             || Quickshell.iconPath("application-x-executable")
                 }
@@ -192,7 +206,7 @@ Item {
                 }
                 Text {
                     width: parent.width
-                    visible: text !== ""
+                    visible: text !== "" && root.rowH >= 48
                     text: row.modelData.comment || row.modelData.genericName || ""
                     elide: Text.ElideRight
                     color: Theme.dim
@@ -238,7 +252,7 @@ Item {
     Text {
         visible: root.apps.length === 0
         anchors.horizontalCenter: parent.horizontalCenter
-        y: 130
+        y: 96
         text: "No results"
         color: Theme.dim
         font.family: Theme.fontFamily

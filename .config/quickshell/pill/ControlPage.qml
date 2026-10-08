@@ -4,7 +4,10 @@ import Quickshell.Bluetooth
 Item {
     id: root
     width: 560
-    height: 580
+    height: 360 + Settings.get("notifHistoryH")
+
+    onHeightChanged: Pill.setHeight("control", height)
+    Component.onCompleted: Pill.setHeight("control", height)
 
     readonly property int pad: 16
     readonly property var adapter: Bluetooth.defaultAdapter
@@ -171,7 +174,7 @@ Item {
         // ── notifications ───────────────────────────────────────────
         Rectangle {
             width: parent.width
-            height: 220
+            height: Settings.get("notifHistoryH")
             radius: 24
             color: Theme.tile
             border.width: 1

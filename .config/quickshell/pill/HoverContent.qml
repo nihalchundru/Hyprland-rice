@@ -4,7 +4,7 @@ import QtQuick.Effects
 Item {
     id: root
     width: Pill.geo.hover.w
-    height: Pill.geo.hover.h
+    height: Media.hasPlayer ? 124 : 76     // natural content height; the Notch centres it
 
     property real phase: 0
 
@@ -25,7 +25,7 @@ Item {
     // ── left: workspace name + dots ──────────────────────────────────
     Column {
         id: leftCol
-        x: 22
+        x: Theme.pad + 6
         y: Math.max(14, (root.height - height) / 2)
         spacing: 9
 
@@ -81,7 +81,7 @@ Item {
         Row {
             id: cluster
             anchors.right: parent.right
-            anchors.rightMargin: 22
+            anchors.rightMargin: Theme.pad + 6
             anchors.verticalCenter: parent.verticalCenter
             spacing: 10
 

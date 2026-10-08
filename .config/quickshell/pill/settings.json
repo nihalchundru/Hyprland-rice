@@ -1,0 +1,16 @@
+{
+  "bounce": 35,
+  "motionMove": 460,
+  "reduceMotion": false,
+  "launcherWidth": 740,
+  "launcherRows": 7,
+  "notifTimeout": 8750,
+  "notchMode": false,
+  "barHeight": 37,
+  "stageLift": 0,
+  "hoverResponse": 30,
+  "notifShowBody": false,
+  "motionFade": 40,
+  "cornerRadius": 17,
+  "gap": 9
+}

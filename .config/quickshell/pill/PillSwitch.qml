@@ -13,7 +13,7 @@ Item {
         anchors.fill: parent
         radius: height / 2
         color: root.checked ? Theme.accent : Theme.tileHi
-        Behavior on color { ColorAnimation { duration: 150 } }
+        Behavior on color { ColorAnimation { duration: Theme.fadeMs } }
     }
 
     Rectangle {
@@ -24,7 +24,7 @@ Item {
         x: root.checked ? parent.width - width - 4 : 4
         color: root.checked ? Theme.onAccent : Theme.dim
         Behavior on x { NumberAnimation { duration: 160; easing.type: Easing.OutCubic } }
-        Behavior on color { ColorAnimation { duration: 150 } }
+        Behavior on color { ColorAnimation { duration: Theme.fadeMs } }
     }
 
     MouseArea {

@@ -19,7 +19,7 @@ Item {
         anchors.fill: parent
         radius: 18
         color: (ma.containsMouse && root.clickable) ? Theme.tileHi : Theme.tile
-        Behavior on color { ColorAnimation { duration: 120 } }
+        Behavior on color { ColorAnimation { duration: Theme.fadeMs } }
     }
 
     MouseArea {

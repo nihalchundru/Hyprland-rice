@@ -24,7 +24,7 @@ Row {
                 height: 5 + parent.index * 3
                 radius: 1.5
                 color: parent.index < root.level ? Theme.accent : Theme.faint
-                Behavior on color { ColorAnimation { duration: 200 } }
+                Behavior on color { ColorAnimation { duration: Theme.fadeMs } }
             }
         }
     }

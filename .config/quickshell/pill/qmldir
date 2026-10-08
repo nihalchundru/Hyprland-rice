@@ -8,6 +8,9 @@ singleton Toggles 1.0 Toggles.qml
 singleton Notifs 1.0 Notifs.qml
 singleton Themes 1.0 Themes.qml
 singleton Wallpapers 1.0 Wallpapers.qml
+singleton AuthState 1.0 AuthState.qml
+singleton Settings 1.0 Settings.qml
+singleton Schema 1.0 Schema.qml
 Notch 1.0 Notch.qml
 IdleContent 1.0 IdleContent.qml
 HoverContent 1.0 HoverContent.qml
@@ -35,3 +38,10 @@ LauncherPage 1.0 LauncherPage.qml
 ThemesPage 1.0 ThemesPage.qml
 WallpapersPage 1.0 WallpapersPage.qml
 PowerPage 1.0 PowerPage.qml
+NotifyPage 1.0 NotifyPage.qml
+AuthPage 1.0 AuthPage.qml
+SettingsWindow 1.0 SettingsWindow.qml
+SettingsPage 1.0 SettingsPage.qml
+SToggleRow 1.0 SToggleRow.qml
+SSliderRow 1.0 SSliderRow.qml
+SidebarItem 1.0 SidebarItem.qml

@@ -6,7 +6,7 @@ local mainMod = "ALT"
 
 local TERMINAL = "kitty"
 local EXPLORER = "thunar"
-local BROWSER = "zen-browser"
+local BROWSER = "chromium"
 
 -- ── Window management ─────────────────────────────────────────────────────
 
@@ -205,8 +205,8 @@ hl.bind(mainMod .. " + SHIFT + A",
 hl.bind(mainMod .. " + SHIFT + G",
     hl.dsp.exec_cmd("bash ~/.config/hypr/scripts/matugen-mode-switcher.sh"))
 
-hl.bind(mainMod .. " + SHIFT + K",
-    hl.dsp.exec_cmd("bash ~/.config/hypr/scripts/lockscreen-switcher.sh"))
+hl.bind(mainMod .. " + SHIFT + W",
+    hl.dsp.exec_cmd("qs -c ~/.config/quickshell/widgets ipc call widgets toggleEdit"))
 
 hl.bind("SUPER + D",
     hl.dsp.exec_cmd("bash ~/.config/hypr/scripts/rofi-shell-switch.sh"))

@@ -91,7 +91,6 @@ iris matugen python3
 │   ├── overview/             # Desktop overview
 │   └── settings/             # Settings app
 ├── kitty/                    # Terminal
-├── waybar/                   # Waybar layouts (legacy)
 └── rofi/                     # Rofi themes (legacy)
 ```
 

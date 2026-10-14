@@ -48,7 +48,7 @@ Item {
             Rectangle {
                 width: 40
                 height: 40
-                radius: 20
+                radius: Theme.r(20)
                 color: Theme.accent
                 Icon {
                     anchors.centerIn: parent
@@ -63,7 +63,7 @@ Item {
                 text: "Authentication required"
                 color: Theme.text
                 font.family: Theme.fontFamily
-                font.pixelSize: 18
+                font.pixelSize: Theme.px(18)
                 font.weight: Font.Medium
             }
         }
@@ -72,7 +72,7 @@ Item {
         Rectangle {
             width: parent.width
             height: msgCol.implicitHeight + 24
-            radius: 18
+            radius: Theme.r(18)
             color: Theme.tile
             border.width: 1
             border.color: Theme.tileHi
@@ -90,7 +90,7 @@ Item {
                     wrapMode: Text.WordWrap
                     color: Theme.text
                     font.family: Theme.fontFamily
-                    font.pixelSize: 14
+                    font.pixelSize: Theme.px(14)
                     font.weight: Font.DemiBold
                 }
                 Text {
@@ -100,7 +100,7 @@ Item {
                     elide: Text.ElideRight
                     color: Theme.dim
                     font.family: Theme.fontFamily
-                    font.pixelSize: 12
+                    font.pixelSize: Theme.px(12)
                 }
             }
         }
@@ -109,14 +109,14 @@ Item {
             text: root.prompt
             color: Theme.dim
             font.family: Theme.fontFamily
-            font.pixelSize: 12
+            font.pixelSize: Theme.px(12)
         }
 
         // password field
         Rectangle {
             width: parent.width
             height: 52
-            radius: 26
+            radius: Theme.r(26)
             color: Theme.inset
             border.width: 1.5
             border.color: root.failed ? Theme.red : (field.activeFocus ? Theme.accent : Theme.tileHi)
@@ -128,7 +128,7 @@ Item {
                 anchors.verticalCenter: parent.verticalCenter
                 width: 36
                 height: 36
-                radius: 18
+                radius: Theme.r(18)
                 color: Theme.tileHi
                 Icon {
                     anchors.centerIn: parent
@@ -151,7 +151,7 @@ Item {
                 selectionColor: Theme.accent
                 selectedTextColor: Theme.onAccent
                 font.family: Theme.fontFamily
-                font.pixelSize: 16
+                font.pixelSize: Theme.px(16)
 
                 onAccepted: root.submit()
                 Keys.onEscapePressed: Pill.back()
@@ -172,7 +172,7 @@ Item {
             text: "Authentication failed. Try again."
             color: Theme.red
             font.family: Theme.fontFamily
-            font.pixelSize: 12
+            font.pixelSize: Theme.px(12)
         }
 
         // buttons
@@ -185,7 +185,7 @@ Item {
                 anchors.right: parent.right
                 width: 132
                 height: 42
-                radius: 21
+                radius: Theme.r(21)
                 color: authMa.containsMouse ? Qt.lighter(Theme.accent, 1.1) : Theme.accent
                 Behavior on color { ColorAnimation { duration: Theme.fadeMs } }
 
@@ -194,7 +194,7 @@ Item {
                     text: "Authenticate"
                     color: Theme.onAccent
                     font.family: Theme.fontFamily
-                    font.pixelSize: 14
+                    font.pixelSize: Theme.px(14)
                     font.weight: Font.DemiBold
                 }
                 MouseArea {
@@ -211,7 +211,7 @@ Item {
                 anchors.rightMargin: 10
                 width: 96
                 height: 42
-                radius: 21
+                radius: Theme.r(21)
                 color: cancelMa.containsMouse ? Theme.tileHi : Theme.tile
 
                 Text {
@@ -219,7 +219,7 @@ Item {
                     text: "Cancel"
                     color: Theme.text
                     font.family: Theme.fontFamily
-                    font.pixelSize: 14
+                    font.pixelSize: Theme.px(14)
                     font.weight: Font.Medium
                 }
                 MouseArea {

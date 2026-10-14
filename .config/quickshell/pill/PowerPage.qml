@@ -48,7 +48,7 @@ Item {
 
                 Rectangle {
                     anchors.fill: parent
-                    radius: 24
+                    radius: Theme.r(24)
                     color: tile.sel ? Theme.mix(Theme.body, Theme.accent, 0.42) : Theme.tile
                     Behavior on color { ColorAnimation { duration: Theme.fadeMs } }
                 }
@@ -68,7 +68,7 @@ Item {
                     text: tile.modelData.label
                     color: tile.sel ? Theme.text : Theme.dim
                     font.family: Theme.fontFamily
-                    font.pixelSize: 13
+                    font.pixelSize: Theme.px(13)
                     font.weight: Font.Medium
                 }
 

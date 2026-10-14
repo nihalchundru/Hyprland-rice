@@ -11,6 +11,12 @@ singleton Wallpapers 1.0 Wallpapers.qml
 singleton AuthState 1.0 AuthState.qml
 singleton Settings 1.0 Settings.qml
 singleton Schema 1.0 Schema.qml
+singleton NightLight 1.0 NightLight.qml
+singleton Osd 1.0 Osd.qml
+singleton ClockFmt 1.0 ClockFmt.qml
+singleton SysInfo 1.0 SysInfo.qml
+singleton Lyrics 1.0 Lyrics.qml
+singleton Dock 1.0 Dock.qml
 Notch 1.0 Notch.qml
 IdleContent 1.0 IdleContent.qml
 HoverContent 1.0 HoverContent.qml
@@ -45,3 +51,18 @@ SettingsPage 1.0 SettingsPage.qml
 SToggleRow 1.0 SToggleRow.qml
 SSliderRow 1.0 SSliderRow.qml
 SidebarItem 1.0 SidebarItem.qml
+ControlTile 1.0 ControlTile.qml
+SliderCard 1.0 SliderCard.qml
+NotifCard 1.0 NotifCard.qml
+NowPlayingCard 1.0 NowPlayingCard.qml
+ControlItem 1.0 ControlItem.qml
+ControlEditor 1.0 ControlEditor.qml
+OsdPage 1.0 OsdPage.qml
+SChoiceRow 1.0 SChoiceRow.qml
+SNavRow 1.0 SNavRow.qml
+SSwatchRow 1.0 SSwatchRow.qml
+STextRow 1.0 STextRow.qml
+SInfoRow 1.0 SInfoRow.qml
+SActionRow 1.0 SActionRow.qml
+DockItem 1.0 DockItem.qml
+DockWindow 1.0 DockWindow.qml

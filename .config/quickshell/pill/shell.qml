@@ -6,7 +6,8 @@ import Quickshell.Io
 
 ShellRoot {
     Component.onCompleted: console.log("pill: notifications tracked =", Notifs.count,
-                                       "| polkit agent registered =", AuthState.registered)
+                                       "| polkit agent registered =", AuthState.registered,
+                                       "| osd =", Osd.kind)
 
     // One layer-shell window. Only the pill's rectangle takes input (mask),
     // everything else passes clicks through to your desktop.
@@ -74,6 +75,12 @@ ShellRoot {
         }
     }
 
+    // one dock per monitor (only shown where Settings -> Dock allows)
+    Variants {
+        model: Quickshell.screens
+        DockWindow {}
+    }
+
     // the settings app is only created while it is open
     LazyLoader {
         id: settingsLoader
@@ -94,6 +101,17 @@ ShellRoot {
         function page(id: string): void {
             Settings.requestedPage = id;
             settingsLoader.active = true;
+        }
+    }
+
+    // qs -c pill ipc call osd volume | brightness   (call after changing it with your keybinds)
+    IpcHandler {
+        target: "osd"
+
+        function volume(): void { Osd.show("volume"); }
+        function brightness(): void {
+            Brightness.refresh();
+            Osd.show("brightness");
         }
     }
 

@@ -30,6 +30,6 @@ Item {
         text: Math.round(root.value * 100) + "%"
         color: Theme.dim
         font.family: Theme.fontFamily
-        font.pixelSize: 12
+        font.pixelSize: Theme.px(12)
     }
 }

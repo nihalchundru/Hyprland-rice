@@ -75,7 +75,7 @@ Item {
                 text: "No Bluetooth adapter found"
                 color: Theme.dim
                 font.family: Theme.fontFamily
-                font.pixelSize: 14
+                font.pixelSize: Theme.px(14)
                 topPadding: 8
                 bottomPadding: 8
             }
@@ -86,7 +86,7 @@ Item {
                 text: "Saved"
                 color: Theme.dim
                 font.family: Theme.fontFamily
-                font.pixelSize: 12
+                font.pixelSize: Theme.px(12)
             }
             Repeater {
                 model: root.adapter ? root.saved : []
@@ -125,7 +125,7 @@ Item {
                     text: "Nearby"
                     color: Theme.dim
                     font.family: Theme.fontFamily
-                    font.pixelSize: 12
+                    font.pixelSize: Theme.px(12)
                 }
 
                 Row {
@@ -138,14 +138,14 @@ Item {
                         anchors.verticalCenter: parent.verticalCenter
                         width: 6
                         height: 6
-                        radius: 3
+                        radius: Theme.r(3)
                         color: Theme.accent
                     }
                     Text {
                         text: "Scanning"
                         color: Theme.dim
                         font.family: Theme.fontFamily
-                        font.pixelSize: 12
+                        font.pixelSize: Theme.px(12)
                     }
                 }
             }
@@ -182,7 +182,7 @@ Item {
                 wrapMode: Text.WordWrap
                 color: Theme.dim
                 font.family: Theme.fontFamily
-                font.pixelSize: 13
+                font.pixelSize: Theme.px(13)
                 topPadding: 4
             }
 
@@ -191,7 +191,7 @@ Item {
                 text: "Bluetooth is off"
                 color: Theme.dim
                 font.family: Theme.fontFamily
-                font.pixelSize: 13
+                font.pixelSize: Theme.px(13)
                 topPadding: 4
             }
         }

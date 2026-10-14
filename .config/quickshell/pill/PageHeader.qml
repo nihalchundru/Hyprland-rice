@@ -16,7 +16,7 @@ Item {
         anchors.verticalCenter: parent.verticalCenter
         width: 34
         height: 34
-        radius: 17
+        radius: Theme.r(17)
         color: ma.containsMouse ? Theme.tileHi : Theme.tile
 
         Icon {
@@ -41,7 +41,7 @@ Item {
         text: root.title
         color: Theme.text
         font.family: Theme.fontFamily
-        font.pixelSize: 18
+        font.pixelSize: Theme.px(18)
         font.weight: Font.Medium
     }
 

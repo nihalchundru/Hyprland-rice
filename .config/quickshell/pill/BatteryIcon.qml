@@ -23,16 +23,16 @@ Item {
         id: shellRect
         width: 30
         height: 14
-        radius: 5
+        radius: Theme.r(5)
         color: Theme.tileHi
 
         Rectangle {
             x: 0
             width: Math.max(10, parent.width * root.level)
             height: parent.height
-            radius: 5
+            radius: Theme.r(5)
             color: root.fill
-            Behavior on width { NumberAnimation { duration: 300; easing.type: Easing.OutCubic } }
+            Behavior on width { NumberAnimation { duration: Theme.ms(300); easing.type: Easing.OutCubic } }
         }
     }
 
@@ -41,7 +41,7 @@ Item {
         anchors.verticalCenter: parent.verticalCenter
         width: 3
         height: 6
-        radius: 1.5
+        radius: Theme.r(1.5)
         color: root.fill
     }
 }

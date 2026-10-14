@@ -12,7 +12,7 @@ Item {
 
     Rectangle {
         anchors.fill: parent
-        radius: 18
+        radius: Theme.r(18)
         color: root.selected ? Theme.tile : (ma.containsMouse ? Theme.inset : "transparent")
         Behavior on color { ColorAnimation { duration: Theme.fadeMs } }
     }
@@ -23,7 +23,7 @@ Item {
         anchors.verticalCenter: parent.verticalCenter
         width: 32
         height: 32
-        radius: 16
+        radius: Theme.r(16)
         color: Theme.accent
 
         Icon {
@@ -41,7 +41,7 @@ Item {
         text: root.label
         color: Theme.text
         font.family: Theme.fontFamily
-        font.pixelSize: 15
+        font.pixelSize: Theme.px(15)
         font.weight: root.selected ? Font.Medium : Font.Normal
     }
 

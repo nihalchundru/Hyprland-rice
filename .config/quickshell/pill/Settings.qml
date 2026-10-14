@@ -28,7 +28,6 @@ Singleton {
         notifUrgentTimeout: 6000,
         notifWidth: 500,
         notifShowBody: true,
-        notifHistoryH: 220,
         // bar & island
         notchMode: false,
         barHeight: 40,
@@ -38,12 +37,51 @@ Singleton {
         innerPadding: 16,
         cornerRadius: 20,
         cornerRadiusExp: 30,
-        stageLift: 0
+        stageLift: 0,
+        // control center (layout is null until you first edit it)
+        controlCols: 7,
+        controlLayout: null,
+        // volume / brightness OSD
+        osdTime: 1500,
+        osdThickness: 6,
+        // clock & date (12/24h is stored in your rice's clock-format file instead)
+        showSeconds: false,
+        dateFormat: "short",
+        showDate: true,
+        weekStart: 0,
+        // appearance
+        accentChoice: "default",
+        accentCustom: "",
+        colorBurst: false,
+        fontSize: 15,
+        fontBody: "Inter",
+        fontDisplay: "Inter",
+        cornerRoundness: 100,
+        surfaceDepth: 50,
+        // media card
+        mediaSongW: 152,
+        mediaArt: 38,
+        mediaArtist: true,
+        mediaAlbum: false,
+        mediaTransport: true,
+        mediaLyrics: false,
+        mediaScroll: true,
+        // dock (off until you turn it on in Settings -> Dock)
+        dockEnabled: false,
+        dockPosition: "bottom",
+        dockIconSize: 36,
+        dockNotch: false,
+        dockGap: 5,
+        dockMonitor: "",
+        dockPinned: [],
+        dockHide: "never",
+        dockReserve: true
     })
 
     property var store: ({})
     property double lastWrite: 0
     property string requestedPage: ""     // set by `ipc call settings page <id>`
+    property int closeTick: 0             // bump to ask the settings window to close
 
     function get(key) {
         const v = store[key];
@@ -55,6 +93,12 @@ Singleton {
         const o = Object.assign({}, store);
         o[key] = value;
         store = o;
+        saveTimer.restart();
+    }
+
+    // everything back to defaults (the file is rewritten as an empty object)
+    function resetAll() {
+        store = ({});
         saveTimer.restart();
     }
 

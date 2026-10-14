@@ -37,7 +37,7 @@ Item {
         anchors.verticalCenter: parent.verticalCenter
         width: 48
         height: 48
-        radius: 24
+        radius: Theme.r(24)
         color: root.active ? Theme.accent : Theme.tileHi
         Behavior on color { ColorAnimation { duration: Theme.fadeMs } }
 
@@ -69,7 +69,7 @@ Item {
             elide: Text.ElideRight
             color: Theme.text
             font.family: Theme.fontFamily
-            font.pixelSize: 15
+            font.pixelSize: Theme.px(15)
             font.weight: Font.DemiBold
         }
         Text {
@@ -78,7 +78,7 @@ Item {
             elide: Text.ElideRight
             color: Theme.dim
             font.family: Theme.fontFamily
-            font.pixelSize: 12
+            font.pixelSize: Theme.px(12)
         }
     }
 }

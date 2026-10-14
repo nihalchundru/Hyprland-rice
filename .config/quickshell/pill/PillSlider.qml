@@ -30,7 +30,7 @@ Item {
 
         Behavior on width {
             enabled: !ma.pressed
-            NumberAnimation { duration: 120; easing.type: Easing.OutCubic }
+            NumberAnimation { duration: Theme.ms(120); easing.type: Easing.OutCubic }
         }
 
         Icon {

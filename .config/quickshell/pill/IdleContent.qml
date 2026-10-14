@@ -14,10 +14,10 @@ Item {
 
     Text {
         anchors.centerIn: parent
-        text: Qt.formatDateTime(Pill.now, "HH:mm")
+        text: ClockFmt.time(Pill.now)
         color: Theme.text
-        font.family: Theme.fontFamily
-        font.pixelSize: 15
+        font.family: Theme.fontDisplay
+        font.pixelSize: Theme.px(15)
         font.weight: Font.Medium
     }
 

@@ -144,7 +144,7 @@ Item {
 
             Rectangle {
                 anchors.fill: parent
-                radius: 18
+                radius: Theme.r(18)
                 color: Theme.tile
             }
 
@@ -153,7 +153,7 @@ Item {
                 anchors.verticalCenter: parent.verticalCenter
                 width: 3
                 height: hl.moving ? 42 : 28
-                radius: 1.5
+                radius: Theme.r(1.5)
                 color: Theme.accent
                 Behavior on height { NumberAnimation { duration: Theme.fadeMs * 0.9; easing.type: Easing.OutCubic } }
             }
@@ -201,7 +201,7 @@ Item {
                     elide: Text.ElideRight
                     color: Theme.text
                     font.family: Theme.fontFamily
-                    font.pixelSize: 15
+                    font.pixelSize: Theme.px(15)
                     font.weight: Font.DemiBold
                 }
                 Text {
@@ -211,7 +211,7 @@ Item {
                     elide: Text.ElideRight
                     color: Theme.dim
                     font.family: Theme.fontFamily
-                    font.pixelSize: 12
+                    font.pixelSize: Theme.px(12)
                 }
             }
         }
@@ -256,6 +256,6 @@ Item {
         text: "No results"
         color: Theme.dim
         font.family: Theme.fontFamily
-        font.pixelSize: 14
+        font.pixelSize: Theme.px(14)
     }
 }

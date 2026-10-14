@@ -4,7 +4,7 @@ import QtQuick.Effects
 Item {
     id: root
     width: Pill.geo.hover.w
-    height: Media.hasPlayer ? 124 : 76     // natural content height; the Notch centres it
+    height: Media.hasPlayer ? Media.hoverH : 76     // natural content height; the Notch centres it
 
     property real phase: 0
 
@@ -19,7 +19,7 @@ Item {
         to: Math.PI * 2
         duration: 1600
         loops: Animation.Infinite
-        running: root.visible && Media.playing
+        running: root.visible && Media.playing && !Theme.reduce
     }
 
     // ── left: workspace name + dots ──────────────────────────────────
@@ -35,14 +35,14 @@ Item {
                 anchors.verticalCenter: parent.verticalCenter
                 width: 6
                 height: 6
-                radius: 3
+                radius: Theme.r(3)
                 color: Theme.accent
             }
             Text {
                 text: Pill.workspaceLabel
                 color: Theme.text
                 font.family: Theme.fontFamily
-                font.pixelSize: 14
+                font.pixelSize: Theme.px(14)
                 font.weight: Font.Medium
             }
         }
@@ -63,18 +63,19 @@ Item {
 
             Text {
                 anchors.verticalCenter: parent.verticalCenter
-                text: Qt.formatDateTime(Pill.now, "HH:mm")
+                text: ClockFmt.time(Pill.now)
                 color: Theme.text
-                font.family: Theme.fontFamily
-                font.pixelSize: 24
+                font.family: Theme.fontDisplay
+                font.pixelSize: Theme.px(24)
                 font.weight: Font.Medium
             }
             Text {
                 anchors.verticalCenter: parent.verticalCenter
-                text: Qt.formatDateTime(Pill.now, "ddd, MMM d")
+                visible: !!Settings.get("showDate")
+                text: ClockFmt.date(Pill.now)
                 color: Theme.dim
                 font.family: Theme.fontFamily
-                font.pixelSize: 15
+                font.pixelSize: Theme.px(15)
             }
         }
 
@@ -104,9 +105,9 @@ Item {
         visible: Media.hasPlayer
         anchors.horizontalCenter: parent.horizontalCenter
         y: topRow.y + topRow.height + 10
-        width: 300
-        height: 54
-        radius: 18
+        width: Media.cardW
+        height: Media.cardH
+        radius: Theme.r(18)
         color: Theme.tile
 
         // album art, rounded with a mask
@@ -114,12 +115,12 @@ Item {
             id: art
             x: 9
             anchors.verticalCenter: parent.verticalCenter
-            width: 38
-            height: 38
+            width: Media.artSize
+            height: Media.artSize
 
             Rectangle {
                 anchors.fill: parent
-                radius: 11
+                radius: Theme.r(Media.artSize * 0.29)
                 color: Theme.tileHi
             }
 
@@ -146,7 +147,7 @@ Item {
                 visible: false
                 Rectangle {
                     anchors.fill: parent
-                    radius: 11
+                    radius: Theme.r(Media.artSize * 0.29)
                 }
             }
         }
@@ -154,8 +155,7 @@ Item {
         Column {
             anchors.left: art.right
             anchors.leftMargin: 11
-            anchors.right: viz.left
-            anchors.rightMargin: 10
+            width: Media.songW
             anchors.verticalCenter: parent.verticalCenter
             spacing: 1
 
@@ -165,22 +165,61 @@ Item {
                 elide: Text.ElideRight
                 color: Theme.text
                 font.family: Theme.fontFamily
-                font.pixelSize: 14
+                font.pixelSize: Theme.px(14)
                 font.weight: Font.DemiBold
             }
             Text {
                 width: parent.width
+                visible: Media.showArtist && text !== ""
                 text: Media.artist
                 elide: Text.ElideRight
                 color: Theme.dim
                 font.family: Theme.fontFamily
-                font.pixelSize: 12
+                font.pixelSize: Theme.px(12)
+            }
+            Text {
+                width: parent.width
+                visible: Media.showAlbum && text !== ""
+                text: Media.album
+                elide: Text.ElideRight
+                color: Theme.dim
+                font.family: Theme.fontFamily
+                font.pixelSize: Theme.px(12)
+            }
+            Text {
+                width: parent.width
+                visible: Media.showLyrics && text !== ""
+                text: Lyrics.current
+                elide: Text.ElideRight
+                color: Theme.accent
+                font.family: Theme.fontFamily
+                font.pixelSize: Theme.px(12)
             }
         }
 
-        // dotted "visualizer" (decorative wave while playing)
+        // transport buttons (or, with those off, the decorative wave)
+        Row {
+            id: transport
+            visible: Media.showTransport
+            anchors.right: parent.right
+            anchors.rightMargin: 14
+            anchors.verticalCenter: parent.verticalCenter
+            spacing: 6
+
+            CircleButton { size: 30; iconSize: 13; icon: "skip-back"; onClicked: Media.previous() }
+            CircleButton {
+                size: 30
+                iconSize: 13
+                icon: Media.playing ? "pause" : "play"
+                active: Media.playing
+                onClicked: Media.toggle()
+            }
+            CircleButton { size: 30; iconSize: 13; icon: "skip-forward"; onClicked: Media.next() }
+        }
+
         Row {
             id: viz
+            visible: !Media.showTransport
             anchors.right: parent.right
             anchors.rightMargin: 14
             anchors.verticalCenter: parent.verticalCenter
@@ -192,12 +231,36 @@ Item {
                     required property int index
                     width: 3
                     height: 3
-                    radius: 1.5
+                    radius: Theme.r(1.5)
                     color: Theme.accent
                     opacity: Media.playing
                         ? 0.3 + 0.7 * (0.5 + 0.5 * Math.sin(root.phase + index * 0.7))
                         : 0.3
                 }
+            }
+        }
+
+        // scroll over the card to change track (one step per flick)
+        MouseArea {
+            id: wheelArea
+            anchors.fill: parent
+            acceptedButtons: Qt.NoButton
+            enabled: Media.scrollSkip
+
+            property bool locked: false
+
+            Timer {
+                id: wheelLock
+                interval: 450
+                onTriggered: wheelArea.locked = false
+            }
+
+            onWheel: wheel => {
+                if (locked) return;
+                locked = true;
+                wheelLock.restart();
+                if (wheel.angleDelta.y < 0) Media.next();
+                else if (wheel.angleDelta.y > 0) Media.previous();
             }
         }
     }

@@ -12,6 +12,10 @@ Singleton {
     property real value: 0          // 0..1
     property real pending: -1
 
+    function refresh() {
+        if (!readProc.running) readProc.running = true;
+    }
+
     function set(v) {
         value = Math.max(0.01, Math.min(1, v));
         pending = value;

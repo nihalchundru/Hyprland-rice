@@ -19,16 +19,25 @@ SELECTION=$(echo -e "$OPTIONS" | rofi -dmenu -i -p "Select Desktop Layout" -them
 # Function to kill any active quickshell windows cleanly before swapping
 
 # 2. Extract and force-kill any running Quickshell processes
-NOTCH_PID=$(hyprctl layers | grep -B 2 "namespace: qs-notch" | grep "pid:" | awk '{print $NF}')
-BAR_PID=$(hyprctl layers | grep -B 2 "namespace: qs-pill-bar" | grep "pid:" | awk '{print $NF}')
-ISLAND_PID=$(hyprctl layers | grep -B 2 "namespace: qs-island" | grep "pid:" | awk '{print $NF}')
+#NOTCH_PID=$(hyprctl layers | grep -B 2 "namespace: qs-notch" | grep "pid:" | awk '{print $NF}')
+#BAR_PID=$(hyprctl layers | grep -B 2 "namespace: qs-pill-bar" | grep "pid:" | awk '{print $NF}')
+#ISLAND_PID=$(hyprctl layers | grep -B 2 "namespace: qs-island" | grep "pid:" | awk '{print $NF}')
 
-[ -n "$NOTCH_PID" ] && kill -9 "$NOTCH_PID" 2>/dev/null
-[ -n "$BAR_PID" ] && kill -9 "$BAR_PID" 2>/dev/null
-[ -n "$ISLAND_PID" ] && kill -9 "$ISLAND_PID" 2>/dev/null
-
+#[ -n "$NOTCH_PID" ] && kill -9 "$NOTCH_PID" 2>/dev/null
+#[ -n "$BAR_PID" ] && kill -9 "$BAR_PID" 2>/dev/null
+#[ -n "$ISLAND_PID" ] && kill -9 "$ISLAND_PID" 2>/dev/null
+pkill -f '/home/nihal/.config/quickshell/pill'
+pkill -f '/home/nihal/.config/quickshell/notch'
+pkill -f '/home/nihal/.config/quickshell/material'
+pkill -f '/home/nihal/.config/quickshell/island'
 killall quickshell
 killall qs
+pkill -f '/home/nihal/.config/quickshell/pill'
+pkill -f '/home/nihal/.config/quickshell/notch'
+pkill -f '/home/nihal/.config/quickshell/material'
+pkill -f '/home/nihal/.config/quickshell/island'
+pkill -f '/home/nihal/.config/quickshell/cava-visualizer'
+
 qs -c ~/.config/quickshell/applets &
 qs -c ~/.config/quickshell/theme-switcher &
 qs -c ~/.config/quickshell/wallpaper-picker &
@@ -42,7 +51,9 @@ case "$SELECTION" in
         pkill -f chillpill
         cp "$DEFAULT_BINDS" "$CURRENT_BINDS"
         hyprctl reload
-	qs -p ~/.config/quickshell/topbar
+	qs -p ~/.config/quickshell/pill &
+	qs -p ~/.config/quickshell/widgets &
+	qs -p ~/.config/quickshell/cava-visualizer &
         if ! pgrep -x "waybar" > /dev/null; then
             waybar &
         fi

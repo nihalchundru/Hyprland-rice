@@ -42,7 +42,7 @@ Item {
                 text: "Output"
                 color: Theme.dim
                 font.family: Theme.fontFamily
-                font.pixelSize: 12
+                font.pixelSize: Theme.px(12)
             }
             Repeater {
                 model: Audio.sinks
@@ -69,7 +69,7 @@ Item {
                 text: "Input"
                 color: Theme.dim
                 font.family: Theme.fontFamily
-                font.pixelSize: 12
+                font.pixelSize: Theme.px(12)
                 topPadding: 6
             }
             Repeater {
@@ -98,7 +98,7 @@ Item {
                 text: "Apps"
                 color: Theme.dim
                 font.family: Theme.fontFamily
-                font.pixelSize: 12
+                font.pixelSize: Theme.px(12)
                 topPadding: 6
             }
             Repeater {
@@ -107,7 +107,7 @@ Item {
                     required property var modelData
                     width: col.width
                     height: 76
-                    radius: 18
+                    radius: Theme.r(18)
                     color: Theme.tile
 
                     Text {
@@ -116,7 +116,7 @@ Item {
                         text: Audio.appName(modelData)
                         color: Theme.text
                         font.family: Theme.fontFamily
-                        font.pixelSize: 14
+                        font.pixelSize: Theme.px(14)
                         font.weight: Font.DemiBold
                     }
                     SliderRow {

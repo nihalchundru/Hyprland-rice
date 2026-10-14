@@ -71,7 +71,7 @@ Item {
         highlightRangeMode: ListView.StrictlyEnforceRange
         preferredHighlightBegin: width / 2 - root.cardW / 2
         preferredHighlightEnd: width / 2 + root.cardW / 2
-        highlightMoveDuration: 260
+        highlightMoveDuration: Theme.ms(260)
         model: root.filtered
 
         delegate: Item {
@@ -87,13 +87,13 @@ Item {
                 anchors.centerIn: parent
                 width: parent.width
                 height: 108
-                radius: 20
+                radius: Theme.r(20)
                 color: card.modelData.bg
                 border.width: card.sel ? 2 : 1
                 border.color: card.sel ? Theme.accent
                     : Theme.mix(Qt.color(card.modelData.bg), Qt.color(card.modelData.text), 0.15)
                 scale: card.sel ? 1.0 : 0.9
-                Behavior on scale { NumberAnimation { duration: 160; easing.type: Easing.OutCubic } }
+                Behavior on scale { NumberAnimation { duration: Theme.ms(160); easing.type: Easing.OutCubic } }
 
                 Row {
                     anchors.horizontalCenter: parent.horizontalCenter
@@ -107,7 +107,7 @@ Item {
                             required property string modelData
                             width: 14
                             height: 14
-                            radius: 7
+                            radius: Theme.r(7)
                             color: modelData
                         }
                     }
@@ -120,7 +120,7 @@ Item {
                     text: card.modelData.name
                     color: card.modelData.text
                     font.family: Theme.fontFamily
-                    font.pixelSize: 13
+                    font.pixelSize: Theme.px(13)
                     font.weight: card.sel ? Font.DemiBold : Font.Normal
                 }
             }
@@ -147,7 +147,7 @@ Item {
         text: Themes.list.length === 0 ? "Couldn't read ~/.config/hypr/themes/themes.sh" : "No matching themes"
         color: Theme.dim
         font.family: Theme.fontFamily
-        font.pixelSize: 14
+        font.pixelSize: Theme.px(14)
     }
 
     Text {
@@ -157,6 +157,6 @@ Item {
         text: "Enter to apply"
         color: Theme.dim
         font.family: Theme.fontFamily
-        font.pixelSize: 12
+        font.pixelSize: Theme.px(12)
     }
 }

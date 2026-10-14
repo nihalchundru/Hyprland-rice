@@ -31,7 +31,7 @@ Item {
             text: "Brightness"
             color: Theme.dim
             font.family: Theme.fontFamily
-            font.pixelSize: 12
+            font.pixelSize: Theme.px(12)
         }
 
         SliderRow {
@@ -49,14 +49,14 @@ Item {
             wrapMode: Text.WordWrap
             color: Theme.dim
             font.family: Theme.fontFamily
-            font.pixelSize: 12
+            font.pixelSize: Theme.px(12)
         }
 
         Text {
             text: "Monitors"
             color: Theme.dim
             font.family: Theme.fontFamily
-            font.pixelSize: 12
+            font.pixelSize: Theme.px(12)
             topPadding: 6
         }
 

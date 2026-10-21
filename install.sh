@@ -65,7 +65,13 @@ sudo pacman -S --noconfirm --needed \
     upower \
     acpi \
     wmctrl \
-    python-pillow
+    python-pillow \
+    qt6-5compat \
+    starship zoxide eza bat fastfetch \
+    wireless_tools psmisc xsettingsd \
+    python-cairo python-gobject \
+    neovim ripgrep fd nodejs npm \
+    adwaita-fonts
 
 echo "[✓] Base packages installed"
 
@@ -108,6 +114,9 @@ paru -S --noconfirm --needed \
     adw-gtk3 \
     ttf-inter \
     ttf-material-design-icons-extended \
+    ttf-material-symbols-variable-git \
+    bibata-cursor-theme-bin \
+    fluent-icon-theme-git \
     wlogout
 
 echo "[✓] AUR packages installed"

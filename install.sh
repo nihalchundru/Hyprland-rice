@@ -66,7 +66,8 @@ sudo pacman -S --noconfirm --needed \
     acpi \
     wmctrl \
     python-pillow \
-    qt6-5compat \
+    qt6-5compat qt6-svg qt6-wayland \
+    qt6-multimedia qt6-multimedia-ffmpeg qt6-websockets qt6ct \
     starship zoxide eza bat fastfetch \
     wireless_tools psmisc xsettingsd \
     python-cairo python-gobject \

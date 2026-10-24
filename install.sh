@@ -32,14 +32,18 @@ sudo pacman -S --noconfirm --needed \
     kitty fish \
     pipewire pipewire-pulse pipewire-alsa pipewire-jack \
     wireplumber pavucontrol \
-    awww mpvpaper \
+    awww mpvpaper swaybg \
     swaync \
     cliphist \
     playerctl \
     brightnessctl \
     networkmanager network-manager-applet nm-connection-editor \
     bluez bluez-utils \
-    grim slurp \
+    grim slurp wf-recorder zbar \
+    sddm \
+    chromium \
+    cava waybar \
+    fastfetch starship zoxide eza bat neovim \
     ttf-jetbrains-mono-nerd \
     ttf-fira-code \
     ttf-fira-sans \
@@ -47,25 +51,25 @@ sudo pacman -S --noconfirm --needed \
     ttf-hack-nerd \
     ttf-nerd-fonts-symbols \
     ttf-nerd-fonts-symbols-mono \
+    ttf-font-awesome \
     noto-fonts noto-fonts-emoji noto-fonts-cjk \
     ttf-liberation \
     ttf-roboto \
     ttf-opensans \
     adobe-source-code-pro-fonts \
-    python python-pip \
+    python python-pip python-pillow python-cairo python-numpy \
     polkit-kde-agent \
     thunar \
     imagemagick \
     btop \
-    qt6-base qt6-declarative \
+    qt6-base qt6-declarative qt6-5compat qt6-wayland qt6-multimedia \
     rofi-wayland \
     jq bc \
     xdg-utils \
     libnotify \
     upower \
     acpi \
-    wmctrl \
-    python-pillow
+    wmctrl
 
 echo "[✓] Base packages installed"
 
@@ -99,7 +103,7 @@ fi
 # STEP 5 — AUR packages
 # =============================================================================
 echo "[5/9] Installing AUR packages..."
-paru -S --noconfirm --needed \
+paru -S --noconfirm --needed --mflags "-A" \
     quickshell-git \
     hyprshot \
     zen-browser-bin \
@@ -108,6 +112,11 @@ paru -S --noconfirm --needed \
     adw-gtk3 \
     ttf-inter \
     ttf-material-design-icons-extended \
+    ttf-geist-mono-nerd \
+    ttf-iosevka-nerd \
+    bibata-cursor-theme \
+    satty \
+    chillpill-shell \
     wlogout
 
 echo "[✓] AUR packages installed"
@@ -179,6 +188,7 @@ echo "[✓] Fish set as default shell"
 # Enable services
 sudo systemctl enable --now NetworkManager
 sudo systemctl enable --now bluetooth
+sudo systemctl enable sddm
 systemctl --user enable --now pipewire
 systemctl --user enable --now pipewire-pulse
 systemctl --user enable --now wireplumber

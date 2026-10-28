@@ -28,7 +28,4 @@ output_path = "~/.config/hypr/themes/matugen-override.sh"
 input_path = '~/.config/matugen/templates/hamr-colors.json'
 output_path = '~/.config/hamr/colors.json'
 
-[templates.gtk4-colors]
-input_path  = "~/.config/matugen/templates/gtk-colors.css"
-output_path = "~/.config/gtk-4.0/gtk.css"
 

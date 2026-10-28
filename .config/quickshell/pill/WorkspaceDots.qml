@@ -22,7 +22,7 @@ Row {
             radius: height / 2
             color: on ? Theme.accent : Theme.faint
 
-            Behavior on width { NumberAnimation { duration: 220; easing.type: Easing.OutCubic } }
+            Behavior on width { NumberAnimation { duration: Theme.ms(220); easing.type: Easing.OutCubic } }
             Behavior on color { ColorAnimation { duration: Theme.fadeMs } }
         }
     }

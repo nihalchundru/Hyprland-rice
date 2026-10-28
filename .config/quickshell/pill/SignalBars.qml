@@ -22,7 +22,7 @@ Row {
                 anchors.bottom: parent.bottom
                 width: 3
                 height: 5 + parent.index * 3
-                radius: 1.5
+                radius: Theme.r(1.5)
                 color: parent.index < root.level ? Theme.accent : Theme.faint
                 Behavior on color { ColorAnimation { duration: Theme.fadeMs } }
             }

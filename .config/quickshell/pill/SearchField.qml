@@ -42,7 +42,7 @@ Item {
         selectionColor: Theme.accent
         selectedTextColor: Theme.onAccent
         font.family: Theme.fontFamily
-        font.pixelSize: 17
+        font.pixelSize: Theme.px(17)
 
         onAccepted: root.accepted()
 
@@ -71,6 +71,6 @@ Item {
         text: root.trailing
         color: Theme.dim
         font.family: Theme.fontFamily
-        font.pixelSize: 12
+        font.pixelSize: Theme.px(12)
     }
 }

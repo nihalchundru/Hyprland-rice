@@ -17,7 +17,7 @@ Item {
 
     Rectangle {
         anchors.fill: parent
-        radius: 18
+        radius: Theme.r(18)
         color: (ma.containsMouse && root.clickable) ? Theme.tileHi : Theme.tile
         Behavior on color { ColorAnimation { duration: Theme.fadeMs } }
     }
@@ -37,7 +37,7 @@ Item {
         anchors.verticalCenter: parent.verticalCenter
         width: 32
         height: 32
-        radius: 16
+        radius: Theme.r(16)
         color: root.selected ? Theme.accent : Theme.tileHi
 
         Icon {
@@ -62,7 +62,7 @@ Item {
             elide: Text.ElideRight
             color: Theme.text
             font.family: Theme.fontFamily
-            font.pixelSize: 14
+            font.pixelSize: Theme.px(14)
             font.weight: root.selected ? Font.DemiBold : Font.Normal
         }
         Text {
@@ -72,7 +72,7 @@ Item {
             elide: Text.ElideRight
             color: Theme.dim
             font.family: Theme.fontFamily
-            font.pixelSize: 12
+            font.pixelSize: Theme.px(12)
         }
     }
 

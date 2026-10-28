@@ -1,16 +1,96 @@
 {
   "bounce": 35,
-  "motionMove": 460,
+  "motionMove": 330,
   "reduceMotion": false,
   "launcherWidth": 740,
   "launcherRows": 7,
   "notifTimeout": 8750,
-  "notchMode": false,
+  "notchMode": true,
   "barHeight": 37,
   "stageLift": 0,
-  "hoverResponse": 30,
-  "notifShowBody": false,
+  "hoverResponse": 20,
+  "notifShowBody": true,
   "motionFade": 40,
   "cornerRadius": 17,
-  "gap": 9
+  "gap": 9,
+  "controlCols": 7,
+  "controlLayout": [
+    {
+      "id": "wifi",
+      "x": 0,
+      "y": 0,
+      "w": 3,
+      "h": 1
+    },
+    {
+      "id": "lock",
+      "x": 6,
+      "y": 0,
+      "w": 1,
+      "h": 1
+    },
+    {
+      "id": "bluetooth",
+      "x": 0,
+      "y": 1,
+      "w": 3,
+      "h": 1
+    },
+    {
+      "id": "night",
+      "x": 6,
+      "y": 1,
+      "w": 1,
+      "h": 1
+    },
+    {
+      "id": "sound",
+      "x": 0,
+      "y": 2,
+      "w": 7,
+      "h": 1
+    },
+    {
+      "id": "display",
+      "x": 0,
+      "y": 3,
+      "w": 7,
+      "h": 1
+    },
+    {
+      "id": "notifs",
+      "x": 0,
+      "y": 4,
+      "w": 7,
+      "h": 3
+    },
+    {
+      "id": "playing",
+      "x": 3,
+      "y": 0,
+      "w": 3,
+      "h": 2
+    }
+  ],
+  "showSeconds": false,
+  "dateFormat": "short",
+  "showDate": true,
+  "accentChoice": "default",
+  "fontBody": "SF Pro Display",
+  "fontDisplay": "SF Pro Display",
+  "colorBurst": false,
+  "surfaceDepth": 50,
+  "mediaLyrics": false,
+  "mediaAlbum": true,
+  "mediaScroll": true,
+  "mediaSongW": 78,
+  "mediaTransport": true,
+  "dockEnabled": true,
+  "dockPosition": "bottom",
+  "dockGap": 3,
+  "dockNotch": true,
+  "dockHide": "auto",
+  "dockReserve": false,
+  "dockMonitor": "",
+  "dockIconSize": 36
 }

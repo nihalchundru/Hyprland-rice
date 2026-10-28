@@ -38,7 +38,7 @@ Singleton {
         if (toast !== null || queue.length === 0) return;
 
         // another page is open: don't interrupt it, the notification stays in the list
-        const free = Pill.mode === "idle" || Pill.mode === "hover" || Pill.mode === "notify";
+        const free = Pill.mode === "idle" || Pill.mode === "hover" || Pill.mode === "notify" || Pill.mode === "osd";
         if (!free) { queue = []; return; }
 
         toast = queue.shift();

@@ -26,7 +26,7 @@ Item {
         text: root.label
         color: root.primary ? Theme.accent : Theme.text
         font.family: Theme.fontFamily
-        font.pixelSize: 13
+        font.pixelSize: Theme.px(13)
         font.weight: Font.Medium
     }
 

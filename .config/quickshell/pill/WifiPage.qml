@@ -49,7 +49,7 @@ Item {
                 text: "No Wi-Fi adapter found"
                 color: Theme.dim
                 font.family: Theme.fontFamily
-                font.pixelSize: 14
+                font.pixelSize: Theme.px(14)
                 topPadding: 8
                 bottomPadding: 8
             }
@@ -59,7 +59,7 @@ Item {
                 visible: Net.hasWifi && Net.connected
                 width: col.width
                 height: visible ? 76 : 0
-                radius: 22
+                radius: Theme.r(22)
                 color: Theme.tile
 
                 Rectangle {
@@ -68,7 +68,7 @@ Item {
                     anchors.verticalCenter: parent.verticalCenter
                     width: 48
                     height: 48
-                    radius: 24
+                    radius: Theme.r(24)
                     color: Theme.accent
                     Icon {
                         anchors.centerIn: parent
@@ -92,7 +92,7 @@ Item {
                         elide: Text.ElideRight
                         color: Theme.text
                         font.family: Theme.fontFamily
-                        font.pixelSize: 16
+                        font.pixelSize: Theme.px(16)
                         font.weight: Font.DemiBold
                     }
                     Text {
@@ -101,7 +101,7 @@ Item {
                         elide: Text.ElideRight
                         color: Theme.dim
                         font.family: Theme.fontFamily
-                        font.pixelSize: 12
+                        font.pixelSize: Theme.px(12)
                     }
                 }
 
@@ -120,7 +120,7 @@ Item {
                 text: "Networks"
                 color: Theme.dim
                 font.family: Theme.fontFamily
-                font.pixelSize: 12
+                font.pixelSize: Theme.px(12)
                 topPadding: 4
             }
 
@@ -147,7 +147,7 @@ Item {
                             text: netRow.modelData.signal + "%"
                             color: Theme.dim
                             font.family: Theme.fontFamily
-                            font.pixelSize: 12
+                            font.pixelSize: Theme.px(12)
                         }
                     ]
                 }
@@ -158,7 +158,7 @@ Item {
                 text: !Net.radioOn ? "Wi-Fi is off" : "Scanning for networks…"
                 color: Theme.dim
                 font.family: Theme.fontFamily
-                font.pixelSize: 13
+                font.pixelSize: Theme.px(13)
                 topPadding: 4
             }
 
@@ -169,7 +169,7 @@ Item {
                 wrapMode: Text.WordWrap
                 color: Theme.red
                 font.family: Theme.fontFamily
-                font.pixelSize: 12
+                font.pixelSize: Theme.px(12)
             }
         }
     }

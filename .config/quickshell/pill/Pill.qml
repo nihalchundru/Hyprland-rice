@@ -14,7 +14,7 @@ Singleton {
 
     SystemClock {
         id: clk
-        precision: SystemClock.Minutes
+        precision: Settings.get("showSeconds") ? SystemClock.Seconds : SystemClock.Minutes
     }
     readonly property date now: clk.date
 
@@ -26,18 +26,18 @@ Singleton {
 
     // states that have real content; everything else shows a placeholder
     readonly property var built: ["idle", "hover", "calendar", "control", "sound", "display", "wifi", "bluetooth",
-                                       "launcher", "themes", "wallpaper", "power", "auth", "notify"]
+                                       "launcher", "themes", "wallpaper", "power", "auth", "notify", "osd"]
     readonly property var subpages: ["sound", "display", "wifi", "bluetooth"]
 
     // anything beyond idle/hover grabs input (click outside + Esc close it)
     // (a toast never grabs input: it must not steal focus or swallow outside clicks)
-    readonly property bool active: ["idle", "hover", "notify"].indexOf(mode) < 0
+    readonly property bool active: ["idle", "hover", "notify", "osd"].indexOf(mode) < 0
 
     // Default size of every state. Pages with variable content report their real
     // height through setHeight(), which overrides the default below.
     readonly property var geo: ({
         idle:      { w: Theme.idleW, h: Theme.idleH },
-        hover:     { w: 560, h: Media.hasPlayer ? Settings.get("expandedHeight") : Math.max(64, Settings.get("expandedHeight") - 48) },
+        hover:     { w: 560, h: Media.hasPlayer ? Math.max(Settings.get("expandedHeight"), Media.hoverH) : Math.max(64, Settings.get("expandedHeight") - 48) },
         calendar:  { w: 430, h: 340 },
         control:   { w: 560, h: 580 },
         sound:     { w: 560, h: 560 },
@@ -49,6 +49,7 @@ Singleton {
         wallpaper: { w: 1000, h: 262 },
         power:     { w: 576, h: 136 },
         auth:      { w: 460, h: 290 },
+        osd:       { w: Theme.idleW, h: Math.max(Theme.idleH, 52) },
         notify:    { w: Settings.get("notifWidth"), h: 80 }
     })
 
@@ -61,7 +62,16 @@ Singleton {
         heights = o;
     }
 
-    readonly property real targetW: (geo[mode] || geo.idle).w
+    property var widths: ({})
+
+    function setWidth(m, w) {
+        if (widths[m] === w) return;
+        const o = Object.assign({}, widths);
+        o[m] = w;
+        widths = o;
+    }
+
+    readonly property real targetW: widths[mode] !== undefined ? widths[mode] : (geo[mode] || geo.idle).w
     readonly property real targetH: heights[mode] !== undefined ? heights[mode] : (geo[mode] || geo.idle).h
     readonly property real targetR: Math.min(targetH / 2,
         mode === "idle" ? Settings.get("cornerRadius") : Settings.get("cornerRadiusExp"))

@@ -2,6 +2,7 @@ pragma Singleton
 import QtQuick
 import Quickshell
 import Quickshell.Io
+import "wallcolor.js" as WC
 
 // Wallpaper list for the active theme + the one currently set.
 Singleton {
@@ -9,6 +10,31 @@ Singleton {
 
     property var list: []          // absolute paths
     property string current: ""
+
+    // colour names per wallpaper, filled in by wall-colors.sh after the list loads
+    property var colors: ({})
+    property int colorsRev: 0              // bumps when colors changed (colors itself is edited in place)
+    property bool analysing: false
+
+    function addColors(line) {
+        const t = line.indexOf("\t");
+        if (t < 0) return;
+        colors[line.slice(0, t)] = WC.classify(line.slice(t + 1).trim().split(" "));
+        revTimer.restart();                 // many lines arrive quickly: update the UI in one go
+    }
+
+    function startColors() {
+        if (!colorProc.running) colorProc.running = true;
+    }
+
+    Timer { id: revTimer; interval: 120; onTriggered: root.colorsRev++ }
+
+    Process {
+        id: colorProc
+        command: ["bash", Theme.scriptsDir + "wall-colors.sh"]
+        stdout: SplitParser { onRead: line => root.addColors(line) }
+        onRunningChanged: root.analysing = running
+    }
 
     function nameOf(p) {
         const s = (p || "").split("/");
@@ -42,7 +68,10 @@ Singleton {
         id: listProc
         command: ["bash", Theme.scriptsDir + "wall-list.sh"]
         stdout: StdioCollector {
-            onStreamFinished: root.list = text.trim().split("\n").filter(l => l)
+            onStreamFinished: {
+                root.list = text.trim().split("\n").filter(l => l);
+                root.startColors();
+            }
         }
     }
 }

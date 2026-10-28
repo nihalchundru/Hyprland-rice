@@ -20,10 +20,10 @@ Item {
         y: 4
         width: 22
         height: 22
-        radius: 11
+        radius: Theme.r(11)
         x: root.checked ? parent.width - width - 4 : 4
         color: root.checked ? Theme.onAccent : Theme.dim
-        Behavior on x { NumberAnimation { duration: 160; easing.type: Easing.OutCubic } }
+        Behavior on x { NumberAnimation { duration: Theme.ms(160); easing.type: Easing.OutCubic } }
         Behavior on color { ColorAnimation { duration: Theme.fadeMs } }
     }
 

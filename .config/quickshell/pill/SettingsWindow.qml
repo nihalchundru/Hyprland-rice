@@ -63,6 +63,7 @@ PanelWindow {
     Connections {
         target: Settings
         function onRequestedPageChanged() { win.takeRequestedPage(); }
+        function onCloseTickChanged() { Qt.callLater(function () { win.closeRequested(); }); }
     }
 
     onPageChanged: {
@@ -74,7 +75,7 @@ PanelWindow {
     Rectangle {
         id: frame
         anchors.fill: parent
-        radius: 30
+        radius: Theme.r(30)
         color: Theme.body
         border.width: 1
         border.color: Theme.tileHi
@@ -101,7 +102,7 @@ PanelWindow {
             y: 16
             width: 230
             height: 40
-            radius: 14
+            radius: Theme.r(14)
             color: Theme.inset
 
             Icon {
@@ -125,7 +126,7 @@ PanelWindow {
                 selectionColor: Theme.accent
                 selectedTextColor: Theme.onAccent
                 font.family: Theme.fontFamily
-                font.pixelSize: 14
+                font.pixelSize: Theme.px(14)
                 onTextChanged: win.query = text
                 Keys.onEscapePressed: win.dismiss()
 
@@ -182,7 +183,7 @@ PanelWindow {
                         readonly property bool enabledNav: modelData.go < 0 ? win.pos > 0 : win.pos < win.history.length - 1
                         width: 40
                         height: 32
-                        radius: 12
+                        radius: Theme.r(12)
                         color: navMa.containsMouse && enabledNav ? Theme.tileHi : Theme.tile
                         opacity: enabledNav ? 1 : 0.35
                         Behavior on color { ColorAnimation { duration: Theme.fadeMs } }
@@ -209,7 +210,7 @@ PanelWindow {
                 y: 16
                 width: 32
                 height: 32
-                radius: 16
+                radius: Theme.r(16)
                 color: closeMa.containsMouse ? Theme.tileHi : Theme.tile
                 Behavior on color { ColorAnimation { duration: Theme.fadeMs } }
 
@@ -241,6 +242,7 @@ PanelWindow {
                     id: pageView
                     width: flick.width - 14
                     page: win.page
+                    onDismissRequested: win.dismiss()
 
                     NumberAnimation {
                         id: fadeIn
@@ -260,7 +262,7 @@ PanelWindow {
                 y: flick.y + flick.visibleArea.yPosition * flick.height
                 width: 3
                 height: Math.max(24, flick.visibleArea.heightRatio * flick.height)
-                radius: 1.5
+                radius: Theme.r(1.5)
                 color: Theme.tileHi
             }
         }

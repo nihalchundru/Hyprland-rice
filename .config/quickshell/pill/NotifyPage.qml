@@ -67,7 +67,7 @@ Item {
         anchors.verticalCenterOffset: -3
         width: 44
         height: 44
-        radius: 22
+        radius: Theme.r(22)
         color: Theme.tile
         border.width: 1
         border.color: Theme.tileHi
@@ -85,7 +85,7 @@ Item {
             text: (root.app || root.summary || "?").charAt(0).toUpperCase()
             color: Theme.accent
             font.family: Theme.fontFamily
-            font.pixelSize: 18
+            font.pixelSize: Theme.px(18)
             font.weight: Font.DemiBold
         }
     }
@@ -105,7 +105,7 @@ Item {
             elide: Text.ElideRight
             color: Theme.dim
             font.family: Theme.fontFamily
-            font.pixelSize: 12
+            font.pixelSize: Theme.px(12)
         }
         Text {
             width: parent.width
@@ -113,7 +113,7 @@ Item {
             elide: Text.ElideRight
             color: Theme.text
             font.family: Theme.fontFamily
-            font.pixelSize: 15
+            font.pixelSize: Theme.px(15)
             font.weight: Font.DemiBold
         }
         Text {
@@ -124,7 +124,7 @@ Item {
             maximumLineCount: 1
             color: Theme.dim
             font.family: Theme.fontFamily
-            font.pixelSize: 13
+            font.pixelSize: Theme.px(13)
         }
     }
 
@@ -135,10 +135,10 @@ Item {
         anchors.bottomMargin: 8
         width: (root.width - 48) * root.progress
         height: 3
-        radius: 1.5
+        radius: Theme.r(1.5)
         color: Theme.accent
         opacity: Pill.hovering ? 0 : 0.85
-        Behavior on opacity { NumberAnimation { duration: 120 } }
+        Behavior on opacity { NumberAnimation { duration: Theme.ms(120) } }
     }
 
     MouseArea {

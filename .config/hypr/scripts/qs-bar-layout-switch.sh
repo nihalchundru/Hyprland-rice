@@ -10,14 +10,22 @@ BAR="$1"
 #mkdir -p "$HOME/.config/hypr/bar"
 echo "$BAR" > "$HOME/.config/hypr/bar/active-bar"
 
-# 2. Extract and force-kill any running Quickshell processes
-NOTCH_PID=$(hyprctl layers | grep -B 2 "namespace: qs-notch" | grep "pid:" | awk '{print $NF}')
-BAR_PID=$(hyprctl layers | grep -B 2 "namespace: qs-bar" | grep "pid:" | awk '{print $NF}')
-ISLAND_PID=$(hyprctl layers | grep -B 2 "namespace: qs-island" | grep "pid:" | awk '{print $NF}')
+## 2. Extract and force-kill any running Quickshell processes
+#NOTCH_PID=$(hyprctl layers | grep -B 2 "namespace: qs-notch" | grep "pid:" | awk '{print $NF}')
+#BAR_PID=$(hyprctl layers | grep -B 2 "namespace: pill" | grep "pid:" | awk '{print $NF}')
+#ISLAND_PID=$(hyprctl layers | grep -B 2 "namespace: qs-island" | grep "pid:" | awk '{print $NF}')
+#MATERIAL_PID=$(hyprctl layers | grep -B 2 "namespace: qs-material" | grep "pid:" | awk '{print $NF}')
 
-[ -n "$NOTCH_PID" ] && kill -9 "$NOTCH_PID" 2>/dev/null
-[ -n "$BAR_PID" ] && kill -9 "$BAR_PID" 2>/dev/null
-[ -n "$ISLAND_PID" ] && kill -9 "$ISLAND_PID" 2>/dev/null
+
+#[ -n "$NOTCH_PID" ] && kill -9 "$NOTCH_PID" 2>/dev/null
+#[ -n "$BAR_PID" ] && kill -9 "$BAR_PID" 2>/dev/null
+#[ -n "$ISLAND_PID" ] && kill -9 "$ISLAND_PID" 2>/dev/null
+#[ -n "$MATERIAL_PID" ] && kill -9 "$MATERAL_PID" 2>/dev/null
+#notify-send "$MATERIAL_PID"
+pkill -f '/home/nihal/.config/quickshell/pill'
+pkill -f '/home/nihal/.config/quickshell/notch'
+pkill -f '/home/nihal/.config/quickshell/material'
+pkill -f '/home/nihal/.config/quickshell/island'
 
 # Clean up any remaining zombie qs processes
 #pkill -9 -x qs 2>/dev/null
@@ -28,15 +36,21 @@ sleep 0.2
 
 # 4. Target the correct configuration directory
 # 4. Target the correct configuration directory
+
+
+
 if [ "$BAR" = "notch" ]; then
     export QUICKSHELL_DIR="$HOME/.config/quickshell/notch"
 elif [ "$BAR" = "island" ]; then
     export QUICKSHELL_DIR="$HOME/.config/quickshell/island"
 else
-    export QUICKSHELL_DIR="$HOME/.config/quickshell/topbar"
+    export QUICKSHELL_DIR="$HOME/.config/quickshell/pill"
 fi
 
 
+if [ "$BAR" = "material" ]; then
+    export QUICKSHELL_DIR="$HOME/.config/quickshell/material"
+fi
 # 5. Launch Quickshell without any trailing path arguments
 if [ -d "$QUICKSHELL_DIR" ]; then
     # Launching qs by passing the directory via the dedicated -p parameter 

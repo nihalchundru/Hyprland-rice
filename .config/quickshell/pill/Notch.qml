@@ -145,6 +145,13 @@ Item {
             Behavior on opacity { NumberAnimation { duration: Theme.fadeMs } }
         }
 
+        OsdPage {
+            anchors.horizontalCenter: parent.horizontalCenter
+            opacity: Pill.mode === "osd" ? 1 : 0
+            visible: opacity > 0.01
+            Behavior on opacity { NumberAnimation { duration: Theme.fadeMs } }
+        }
+
         // placeholder for any state without content
         Text {
             anchors.centerIn: parent
@@ -154,7 +161,7 @@ Item {
             text: Pill.mode + "  \u00b7  coming in a later stage"
             color: Theme.dim
             font.family: Theme.fontFamily
-            font.pixelSize: 14
+            font.pixelSize: Theme.px(14)
         }
 
         // ── hover logic ──────────────────────────────────────────────

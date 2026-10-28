@@ -14,12 +14,16 @@ Item {
     }
 
     // 6 weeks, Sunday first
-    function buildCells(v, now) {
+    readonly property int weekStart: Settings.get("weekStart")
+    readonly property var weekdays: ["S", "M", "T", "W", "T", "F", "S"].map((_, i, a) => a[(i + weekStart) % 7])
+
+    function buildCells(v, now, ws) {
         const y = v.getFullYear(), m = v.getMonth();
         const first = new Date(y, m, 1);
+        const off = (first.getDay() - ws + 7) % 7;
         const out = [];
         for (let i = 0; i < 42; i++) {
-            const d = new Date(y, m, 1 - first.getDay() + i);
+            const d = new Date(y, m, 1 - off + i);
             out.push({ day: d.getDate(), inMonth: d.getMonth() === m, today: sameDay(d, now) });
         }
         return out;
@@ -29,7 +33,7 @@ Item {
         view = new Date(view.getFullYear(), view.getMonth() + delta, 1);
     }
 
-    readonly property var cells: buildCells(view, Pill.now)
+    readonly property var cells: buildCells(view, Pill.now, weekStart)
 
     // always open on the current month
     Connections {
@@ -60,7 +64,7 @@ Item {
             text: Qt.formatDate(root.view, "MMMM yyyy")
             color: Theme.text
             font.family: Theme.fontFamily
-            font.pixelSize: 16
+            font.pixelSize: Theme.px(16)
             font.weight: Font.DemiBold
         }
 
@@ -79,7 +83,7 @@ Item {
         x: 20
         y: head.y + head.height + 10
         Repeater {
-            model: ["S", "M", "T", "W", "T", "F", "S"]
+            model: root.weekdays
             Text {
                 required property string modelData
                 width: (root.width - 40) / 7
@@ -88,7 +92,7 @@ Item {
                 text: modelData
                 color: Theme.dim
                 font.family: Theme.fontFamily
-                font.pixelSize: 12
+                font.pixelSize: Theme.px(12)
             }
         }
     }
@@ -111,7 +115,7 @@ Item {
                     anchors.centerIn: parent
                     width: 32
                     height: 32
-                    radius: 16
+                    radius: Theme.r(16)
                     color: Theme.accent
                     visible: parent.modelData.today
                 }
@@ -122,7 +126,7 @@ Item {
                     color: parent.modelData.today ? Theme.onAccent
                          : parent.modelData.inMonth ? Theme.text : Theme.faint
                     font.family: Theme.fontFamily
-                    font.pixelSize: 14
+                    font.pixelSize: Theme.px(14)
                     font.weight: parent.modelData.today ? Font.DemiBold : Font.Normal
                 }
             }

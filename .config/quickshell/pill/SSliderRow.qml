@@ -33,7 +33,7 @@ Item {
         text: root.def.label || ""
         color: Theme.text
         font.family: Theme.fontFamily
-        font.pixelSize: 15
+        font.pixelSize: Theme.px(15)
     }
 
     Text {
@@ -43,7 +43,7 @@ Item {
         text: Math.round(root.value) + (root.def.unit ? " " + root.def.unit : "")
         color: Theme.dim
         font.family: Theme.fontFamily
-        font.pixelSize: 14
+        font.pixelSize: Theme.px(14)
     }
 
     Item {
@@ -59,7 +59,7 @@ Item {
             anchors.verticalCenter: parent.verticalCenter
             width: parent.width
             height: 4
-            radius: 2
+            radius: Theme.r(2)
             color: Theme.mix(Theme.body, Theme.text, 0.10)
         }
 
@@ -67,7 +67,7 @@ Item {
             anchors.verticalCenter: parent.verticalCenter
             width: knobRect.x + track.knob / 2
             height: 4
-            radius: 2
+            radius: Theme.r(2)
             color: Theme.accent
         }
 

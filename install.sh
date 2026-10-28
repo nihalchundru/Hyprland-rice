@@ -72,7 +72,8 @@ sudo pacman -S --noconfirm --needed \
     wireless_tools psmisc xsettingsd \
     python-cairo python-gobject \
     neovim ripgrep fd nodejs npm \
-    adwaita-fonts
+    adwaita-fonts \
+    swaybg cava
 
 echo "[✓] Base packages installed"
 

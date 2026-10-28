@@ -1099,6 +1099,66 @@ if [ -n "$WALL" ] && [ -f "$WALL" ]; then
     cp "$WALL" ~/.config/hypr/assets/current_wallpaper.png 2>/dev/null || true
 fi
 
+# ── GTK 3 + GTK 4 colors (libadwaita named colors, same palette as the rest) ─
+# Works for every theme (static, iris, matugen) because it only uses the
+# variables above. Symlinks are removed first so we never write into /usr/share.
+gtk_css() {
+    cat << GTKEOF
+/* HyDE ARM GTK colors — theme: ${THEME} */
+
+/* accent */
+@define-color accent_color ${ACCENT};
+@define-color accent_bg_color ${ACCENT};
+@define-color accent_fg_color ${BG};
+
+/* status */
+@define-color success_color ${GREEN};
+@define-color warning_color ${YELLOW};
+@define-color error_color ${RED};
+@define-color destructive_color ${RED};
+@define-color destructive_bg_color ${RED};
+@define-color destructive_fg_color ${BG};
+
+/* windows and views */
+@define-color window_bg_color ${BG};
+@define-color window_fg_color ${TEXT};
+@define-color view_bg_color ${BG};
+@define-color view_fg_color ${TEXT};
+
+/* header bar */
+@define-color headerbar_bg_color ${SURFACE};
+@define-color headerbar_fg_color ${TEXT};
+@define-color headerbar_border_color ${SURFACE2};
+@define-color headerbar_backdrop_color ${BG};
+
+/* popovers, cards, dialogs */
+@define-color card_bg_color ${SURFACE};
+@define-color card_fg_color ${TEXT};
+@define-color popover_bg_color ${SURFACE};
+@define-color popover_fg_color ${TEXT};
+@define-color dialog_bg_color ${SURFACE};
+@define-color dialog_fg_color ${TEXT};
+
+/* sidebar */
+@define-color sidebar_bg_color ${BG2:-$BG};
+@define-color sidebar_fg_color ${TEXT};
+@define-color sidebar_border_color ${SURFACE2};
+@define-color sidebar_backdrop_color ${BG2:-$BG};
+
+/* misc */
+@define-color scrollbar_outline_color ${SUB};
+GTKEOF
+}
+
+for gtk_dir in ~/.config/gtk-3.0 ~/.config/gtk-4.0; do
+    mkdir -p "$gtk_dir"
+    gtk_file="$gtk_dir/gtk.css"
+    [ -L "$gtk_file" ] && rm -f "$gtk_file"
+    gtk_css > "$gtk_file"
+done
+unset gtk_dir gtk_file
+
+
 # ── swaync style.css (theme-following) ───────────────────────────────────────
 cat > ~/.config/swaync/style.css << EOF
 /* HyDE ARM Swaync — theme: ${THEME} */

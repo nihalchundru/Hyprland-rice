@@ -69,6 +69,16 @@ sudo pacman -S --noconfirm --needed \
     libnotify \
     upower \
     acpi \
+    wmctrl \
+    python-pillow \
+    qt6-5compat qt6-svg qt6-wayland \
+    qt6-multimedia qt6-multimedia-ffmpeg qt6-websockets qt6ct \
+    starship zoxide eza bat fastfetch \
+    wireless_tools psmisc xsettingsd \
+    python-cairo python-gobject \
+    neovim ripgrep fd nodejs npm \
+    adwaita-fonts \
+    swaybg cava
     wmctrl
 
 echo "[✓] Base packages installed"
@@ -112,6 +122,9 @@ paru -S --noconfirm --needed --mflags "-A" \
     adw-gtk3 \
     ttf-inter \
     ttf-material-design-icons-extended \
+    ttf-material-symbols-variable-git \
+    bibata-cursor-theme-bin \
+    fluent-icon-theme-git \
     ttf-geist-mono-nerd \
     ttf-iosevka-nerd \
     bibata-cursor-theme \

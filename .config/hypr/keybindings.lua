@@ -21,21 +21,21 @@ hl.bind(mainMod .. " + F", hl.dsp.window.fullscreen())
 hl.bind(mainMod .. " + Return", hl.dsp.exec_cmd(TERMINAL))
 hl.bind(mainMod .. " + E", hl.dsp.exec_cmd(EXPLORER))
 hl.bind(mainMod .. " + B", hl.dsp.exec_cmd(BROWSER))
-hl.bind(mainMod .. " + D", hl.dsp.exec_cmd("bash ~/.config/hypr/scripts/launcher.sh"))
+hl.bind(mainMod .. " + D", hl.dsp.exec_cmd("qs -p ~/.config/quickshell/pill ipc call pill toggle launcher"))
 
 -- bind = $mainMod SHIFT, N, exec, flatpak run com.logseq.Logseq
 -- bind = $mainMod SHIFT, M, exec, missioncenter
 -- bind = $mainMod SHIFT, M, exec, btop
 
-hl.bind(mainMod .. " + Tab", hl.dsp.exec_cmd("snappy-switcher toggle"))
+--hl.bind(mainMod .. " + Tab", hl.dsp.exec_cmd("snappy-switcher toggle"))
 
 hl.bind(mainMod .. " + A", hl.dsp.exec_cmd("qs -p ~/.config/quickshell/pill ipc call settings toggle"))
 hl.bind(mainMod .. " + C", hl.dsp.exec_cmd("qs -p ~/.config/quickshell/pill ipc call pill toggle clipboard"))
 hl.bind(mainMod .. " + P", hl.dsp.exec_cmd("qs -p ~/.config/quickshell/pill ipc call pill toggle pomodoro"))
 -- ── HyDE controls ─────────────────────────────────────────────────────────
 
-hl.bind(mainMod .. " + T", hl.dsp.exec_cmd("bash ~/.config/hypr/scripts/theme-switch.sh"))
-hl.bind(mainMod .. " + W", hl.dsp.exec_cmd("bash ~/.config/hypr/scripts/wallpaper-switcher.sh"))
+hl.bind(mainMod .. " + T", hl.dsp.exec_cmd("qs -p ~/.config/quickshell/pill ipc call pill toggle themes"))
+hl.bind(mainMod .. " + W", hl.dsp.exec_cmd("qs -p ~/.config/quickshell/pill ipc call pill toggle wallpaper"))
 
 hl.bind(mainMod .. " + SHIFT + W", hl.dsp.exec_cmd(
     "bash -c 'THEME=$(cat ~/.config/hypr/themes/current-name); WALL=$(find ~/.config/hypr/wallpapers/$THEME -type f \\( -iname \"*.png\" -o -iname \"*.jpg\" \\) | shuf -n 1); bash ~/.config/hypr/scripts/swww.sh \"$WALL\"'"
@@ -43,11 +43,11 @@ hl.bind(mainMod .. " + SHIFT + W", hl.dsp.exec_cmd(
 
 hl.bind(mainMod .. " + L", hl.dsp.exec_cmd("quickshell -p ~/.config/quickshell/current_lockscreen"))
 
-hl.bind(mainMod .. " + K", hl.dsp.exec_cmd("quickshell -p ~/.config/quickshell/lockscreen-switcher"))
+--hl.bind(mainMod .. " + K", hl.dsp.exec_cmd("quickshell -p ~/.config/quickshell/lockscreen-switcher"))
 hl.bind("CTRL + ALT + Delete", hl.dsp.exec_cmd("bash ~/.config/hypr/scripts/powermenu.sh"))
-hl.bind(mainMod .. " + N", hl.dsp.exec_cmd("swaync-client -t"))
-hl.bind(mainMod .. " + bracketleft", hl.dsp.exec_cmd("qs"))
-hl.bind(mainMod .. " + I", hl.dsp.exec_cmd("bash ~/.config/hypr/scripts/hypridle-timeout-switcher.sh"))
+--hl.bind(mainMod .. " + N", hl.dsp.exec_cmd("swaync-client -t"))
+--hl.bind(mainMod .. " + bracketleft", hl.dsp.exec_cmd("qs"))
+--hl.bind(mainMod .. " + I", hl.dsp.exec_cmd("bash ~/.config/hypr/scripts/hypridle-timeout-switcher.sh"))
 
 -- ── Focus ─────────────────────────────────────────────────────────────────
 

@@ -4,7 +4,7 @@ BAR=$(cat ~/.config/hypr/bar/active-bar 2>/dev/null || echo waybar)
 if [ "$BAR" = "notch" ]; then
     qs ipc -c ~/.config/quickshell/notch call notch toggleControl
 else 
-    qs ipc -c ~/.config/quickshell/topbar call topbar toggleControl
+    qs -c ~/.config/quickshell/pill ipc call pill toggle control
 fi
 
 

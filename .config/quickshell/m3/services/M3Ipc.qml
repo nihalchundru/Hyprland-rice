@@ -1,0 +1,47 @@
+import Quickshell
+import Quickshell.Io
+
+// qs -c m3 ipc call m3 setScheme expressive
+// qs -c m3 ipc call audio up      (bind to XF86AudioRaiseVolume etc.)
+Scope {
+    IpcHandler {
+        target: "m3"
+        function reload(): void { Matugen.run() }
+        function setMode(mode: string): void { M3Config.mode = mode }
+        function toggleMode(): void { M3Config.mode = M3Config.mode === "dark" ? "light" : "dark" }
+        function setScheme(scheme: string): void { M3Config.scheme = scheme }
+        function toggleSettings(): void { UiState.settingsOpen = !UiState.settingsOpen }
+        function toggleSidebar(): void { UiState.sidebarOpen = !UiState.sidebarOpen }
+        function openWidgetEditor(): void { UiState.sidebarTab = 1; UiState.sidebarOpen = true }
+        function toggleWidgets(): void { M3Config.widgetsEnabled = !M3Config.widgetsEnabled }
+        function reloadShell(): void { Quickshell.reload(true) }
+        function toggleBarFloating(): void { M3Config.barFloating = !M3Config.barFloating }
+    }
+    IpcHandler {
+        target: "audio"
+        function up(): void { Audio.setVolume(Audio.volume + 0.05) }
+        function down(): void { Audio.setVolume(Audio.volume - 0.05) }
+        function mute(): void { Audio.toggleMute() }
+    }
+    IpcHandler {
+        target: "brightness"
+        function up(): void { Brightness.set(Brightness.value + 0.05) }
+        function down(): void { Brightness.set(Brightness.value - 0.05) }
+    }
+    IpcHandler {
+        target: "ui"
+        function toggleQuickSettings(): void { UiState.quickSettingsOpen = !UiState.quickSettingsOpen }
+        function toggleNotifications(): void { UiState.notifCenterOpen = !UiState.notifCenterOpen }
+        function toggleLauncher(): void { UiState.launcherOpen = !UiState.launcherOpen }
+        function toggleOverview(): void { UiState.overviewOpen = !UiState.overviewOpen }
+        function toggleSession(): void { UiState.sessionOpen = !UiState.sessionOpen }
+        function toggleCalendar(): void { UiState.calendarOpen = !UiState.calendarOpen }
+        function openPage(page: int): void { UiState.mainPage = page; UiState.calendarOpen = true }
+        function toggleMedia(): void { UiState.mainPage = 1; UiState.calendarOpen = !UiState.calendarOpen }
+        function toggleKeybinds(): void { UiState.mainPage = 3; UiState.calendarOpen = !UiState.calendarOpen }
+        function toggleWallpaper(): void { UiState.wallpaperOpen = !UiState.wallpaperOpen }
+        function closeAll(): void { UiState.closeAll() }
+        function lock(): void { UiState.locked = true }
+        function unlock(): void { UiState.locked = false }
+    }
+}

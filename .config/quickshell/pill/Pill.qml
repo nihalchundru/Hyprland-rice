@@ -26,18 +26,22 @@ Singleton {
 
     // states that have real content; everything else shows a placeholder
     readonly property var built: ["idle", "hover", "calendar", "control", "sound", "display", "wifi", "bluetooth",
-                                       "launcher", "themes", "wallpaper", "power", "auth", "notify", "osd"]
+                                       "launcher", "themes", "wallpaper", "power", "auth", "notify", "osd", "pomodoro", "clipboard"]
     readonly property var subpages: ["sound", "display", "wifi", "bluetooth"]
 
     // anything beyond idle/hover grabs input (click outside + Esc close it)
     // (a toast never grabs input: it must not steal focus or swallow outside clicks)
     readonly property bool active: ["idle", "hover", "notify", "osd"].indexOf(mode) < 0
 
+    // extra idle width while a Pomodoro is running (room for the ring + mm:ss chip)
+    readonly property real pomoW: 78
+    readonly property real idleExtra: PomodoroService.active ? pomoW : 0
+
     // Default size of every state. Pages with variable content report their real
     // height through setHeight(), which overrides the default below.
     readonly property var geo: ({
-        idle:      { w: Theme.idleW, h: Theme.idleH },
-        hover:     { w: 560, h: Media.hasPlayer ? Math.max(Settings.get("expandedHeight"), Media.hoverH) : Math.max(64, Settings.get("expandedHeight") - 48) },
+        idle:      { w: Theme.idleW + idleExtra, h: Theme.idleH },
+        hover:     { w: Math.max(Media.cardW, 300) + 400 + 2 * (Theme.pad + 6), h: Media.hasPlayer ? Math.max(Settings.get("expandedHeight"), Media.hoverH) : Math.max(64, Settings.get("expandedHeight") - 48) },
         calendar:  { w: 430, h: 340 },
         control:   { w: 560, h: 580 },
         sound:     { w: 560, h: 560 },
@@ -50,7 +54,9 @@ Singleton {
         power:     { w: 576, h: 136 },
         auth:      { w: 460, h: 290 },
         osd:       { w: Theme.idleW, h: Math.max(Theme.idleH, 52) },
-        notify:    { w: Settings.get("notifWidth"), h: 80 }
+        notify:    { w: Settings.get("notifWidth"), h: 80 },
+        pomodoro:  { w: 360, h: 400 },
+        clipboard: { w: 600, h: 500 }
     })
 
     property var heights: ({})

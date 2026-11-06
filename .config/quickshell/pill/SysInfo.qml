@@ -32,6 +32,7 @@ Singleton {
         case "colorsFile": return pretty(colorsFile);
         case "screens": return screensText();
         case "polkit": return AuthState.registered ? "Registered" : "Not registered";
+        case "cava": return Visualizer.statusText;
         }
         return "";
     }

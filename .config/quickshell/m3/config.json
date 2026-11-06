@@ -1,0 +1,168 @@
+{
+    "barDate": true,
+    "barFloating": true,
+    "barMedia": true,
+    "barTitle": true,
+    "barTray": true,
+    "cavaMethod": "pulse",
+    "clock24": false,
+    "dockAutoHide": true,
+    "dockMagnify": true,
+    "fontFamily": "Google Sans Flex",
+    "fontScale": 1,
+    "lockNotifPreview": true,
+    "mode": "dark",
+    "motionScale": 1,
+    "pinned": [
+        "kitty",
+        "org.gnome.Nautilus",
+        "Chromium"
+    ],
+    "scheme": "tonal-spot",
+    "tempUnit": "F",
+    "terminal": "kitty",
+    "todos": [
+    ],
+    "weatherLocation": "",
+    "widgetGrid": 24,
+    "widgetList": [
+        {
+            "color": "primary",
+            "id": "weather0",
+            "opacity": 1,
+            "radius": 28,
+            "scale": 1,
+            "shape": "clover4Leaf",
+            "size": "1x1",
+            "type": "weather",
+            "widthUnits": 1,
+            "x": 990,
+            "y": 96
+        },
+        {
+            "color": "secondary",
+            "from1": "EUR",
+            "from2": "GBP",
+            "id": "currency0",
+            "opacity": 1,
+            "radius": 28,
+            "scale": 1,
+            "shape": "pill",
+            "size": "1x1",
+            "target": "USD",
+            "type": "currency",
+            "x": 1152,
+            "y": 96
+        },
+        {
+            "border": 0,
+            "color": "secondary",
+            "id": "cpu0",
+            "opacity": 1,
+            "padding": 0,
+            "radius": 28,
+            "shape": "gem",
+            "size": "1x1",
+            "type": "cpu",
+            "x": 1314,
+            "y": 96
+        },
+        {
+            "color": "surface",
+            "id": "media0",
+            "opacity": 1,
+            "radius": 28,
+            "shape": "softBurst",
+            "showProgress": true,
+            "size": "2x2",
+            "type": "media",
+            "x": 984,
+            "y": 240
+        },
+        {
+            "color": "surface",
+            "id": "ram0",
+            "opacity": 1,
+            "radius": 28,
+            "shape": "clover4Leaf",
+            "size": "1x1",
+            "type": "ram",
+            "x": 1320,
+            "y": 240
+        },
+        {
+            "color": "tertiary",
+            "id": "disk0",
+            "opacity": 1,
+            "radius": 28,
+            "shape": "cookie12Sided",
+            "size": "1x1",
+            "type": "disk",
+            "x": 1314,
+            "y": 368
+        },
+        {
+            "color": "inverse",
+            "id": "clockmvuesk8l",
+            "morph": false,
+            "opacity": 1,
+            "radius": 28,
+            "scale": 1.05,
+            "shape": "cookie12Sided",
+            "showBg": false,
+            "showSeconds": true,
+            "size": "2x2",
+            "style": "morph",
+            "type": "clock",
+            "x": 0,
+            "y": 96
+        },
+        {
+            "bars": 20,
+            "border": 0,
+            "color": "primary",
+            "colorMode": "gradient",
+            "fullWidth": true,
+            "gap": 4,
+            "id": "visualizermvy0xumj",
+            "opacity": 1,
+            "padding": 0,
+            "radius": 28,
+            "scale": 1,
+            "sensitivity": 1,
+            "shape": "pill",
+            "showBg": false,
+            "size": "4x1",
+            "smoothing": 0.4,
+            "style": "wave",
+            "thickness": 10,
+            "type": "visualizer",
+            "widthUnits": 8,
+            "x": 144,
+            "y": 816
+        }
+    ],
+    "widgetPos": {
+        "clock": {
+            "x": 30,
+            "y": 118
+        },
+        "media": {
+            "x": 57,
+            "y": 563
+        },
+        "system": {
+            "x": 1210,
+            "y": 291
+        },
+        "weather": {
+            "x": 1221,
+            "y": 542
+        }
+    },
+    "widgetShowGrid": true,
+    "widgetSnap": true,
+    "widgetsEnabled": true,
+    "widgetsLocked": false,
+    "workspaceCount": 5
+}

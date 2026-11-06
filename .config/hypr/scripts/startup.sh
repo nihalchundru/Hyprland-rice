@@ -15,7 +15,8 @@ cat > ~/.config/waybar/theme.css << WAYBAR
 @define-color wb-hvr-bg ${WB_HVR_BG};
 @define-color wb-hvr-fg ${WB_HVR_FG};
 WAYBAR
-qs -c ~/.config/hypr/topbar
+#qs -c ~/.config/hypr/topbar
+
 sleep 0.5
 WALL=$(find ~/.config/hypr/wallpapers/$WALL_DIR \
     -type f \( -iname "*.png" -o -iname "*.jpg" \) 2>/dev/null | shuf -n 1)
@@ -26,7 +27,7 @@ qs -c ~/.config/quickshell/sidebar &
 
 # Keybinds popup
 qs -c ~/.config/quickshell/keybinds &
-
+bash ~/.config/hypr/scripts/qs-bar-layout-switch.sh pill
 # Clipboard watchers
 wl-paste --type text  --watch cliphist store &
 wl-paste --type image --watch cliphist store &
@@ -35,7 +36,8 @@ wl-paste --type image --watch cliphist store &
 qs -c ~/.config/quickshell/osd &
 qs -c ~/.config/quickshell/overview &
 qs -c ~/.config/quickshell/settings &
-
+qs -c ~/.config/quickshell/widgets &
+qs -c ~/.config/quickshell/cava-visualizer &
 # QS standalone pickers
 qs -c ~/.config/quickshell/theme-switcher &
 qs -c ~/.config/quickshell/wallpaper-picker &

@@ -17,6 +17,7 @@ singleton ClockFmt 1.0 ClockFmt.qml
 singleton SysInfo 1.0 SysInfo.qml
 singleton Lyrics 1.0 Lyrics.qml
 singleton Dock 1.0 Dock.qml
+singleton Visualizer 1.0 Visualizer.qml
 Notch 1.0 Notch.qml
 IdleContent 1.0 IdleContent.qml
 HoverContent 1.0 HoverContent.qml
@@ -66,3 +67,8 @@ SInfoRow 1.0 SInfoRow.qml
 SActionRow 1.0 SActionRow.qml
 DockItem 1.0 DockItem.qml
 DockWindow 1.0 DockWindow.qml
+VisualizerBars 1.0 VisualizerBars.qml
+singleton PomodoroService PomodoroService.qml
+PomodoroPage 1.0 PomodoroPage.qml
+singleton ClipboardService ClipboardService.qml
+ClipboardPage ClipboardPage.qml

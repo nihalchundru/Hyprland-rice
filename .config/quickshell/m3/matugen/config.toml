@@ -1,0 +1,5 @@
+[config]
+
+[templates.m3]
+input_path = '~/.config/quickshell/m3/matugen/colors.json.tpl'
+output_path = '~/.config/quickshell/m3/colors.json'

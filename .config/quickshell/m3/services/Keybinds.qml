@@ -1,0 +1,88 @@
+pragma Singleton
+
+import QtQuick
+import Quickshell
+import Quickshell.Io
+
+Singleton {
+    id: root
+
+    property var list: []
+    property string error: ""
+    property string lastRunError: ""
+    property bool closeAfterRun: false
+
+    function refresh() {
+        if (!proc.running)
+            proc.running = true
+    }
+
+    function run(entry) {
+        if (!entry || !entry.run || runner.running)
+            return
+
+        lastRunError = ""
+
+        const args = entry.run
+        const callIndex = args.indexOf("call")
+        const action = callIndex >= 0
+            ? args.slice(callIndex + 1).join(" ")
+            : ""
+
+        closeAfterRun = [
+            "ui toggleLauncher",
+            "ui toggleCalendar",
+            "ui toggleWallpaper",
+            "ui toggleQuickSettings",
+
+            "ui toggleOverview",
+            "ui toggleSession",
+            "ui toggleNotifications"
+        ].includes(action)
+
+        runner.command = args
+        runner.running = true
+    }
+
+    Process {
+        id: proc
+        command: ["python3", Quickshell.env("HOME") + "/.config/quickshell/m3/services/keybinds_parser.py"]
+
+        stdout: StdioCollector {
+            onStreamFinished: {
+                try {
+                    const result = JSON.parse(text)
+                    if (result.error !== undefined) {
+                        root.error = result.error
+                        root.list = []
+                    } else {
+                        root.error = ""
+                        root.list = result
+                    }
+                } catch (e) {
+                    root.error = String(e)
+                    root.list = []
+                }
+            }
+        }
+
+        onExited: (code, status) => {
+            if (code !== 0 && root.list.length === 0)
+                root.error = "Could not read m3.lua (exit " + code + ")"
+        }
+    }
+
+    Process {
+        id: runner
+        command: []
+        onExited: (code, status) => {
+            if (code !== 0)
+                root.lastRunError = "Command failed (exit " + code + ")"
+
+            if (root.closeAfterRun && code === 0)
+                UiState.calendarOpen = false
+
+            root.closeAfterRun = false
+        }
+    }
+}

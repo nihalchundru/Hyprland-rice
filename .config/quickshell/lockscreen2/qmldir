@@ -1,0 +1,16 @@
+module lockscreen2
+singleton Colors 1.0 Colors.qml
+Background 1.0 Background.qml
+BentoContainer 1.0 BentoContainer.qml
+CenterClock 1.0 CenterClock.qml
+CircularGauge 1.0 CircularGauge.qml
+FastfetchCard 1.0 FastfetchCard.qml
+GaugesCard 1.0 GaugesCard.qml
+LockContext 1.0 LockContext.qml
+LockSurface 1.0 LockSurface.qml
+MediaCard 1.0 MediaCard.qml
+NotifCard 1.0 NotifCard.qml
+PasswordPill 1.0 PasswordPill.qml
+Preview 1.0 Preview.qml
+UserAvatar 1.0 UserAvatar.qml
+WeatherCard 1.0 WeatherCard.qml

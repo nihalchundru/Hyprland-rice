@@ -1,0 +1,34 @@
+pragma Singleton
+import QtQuick
+import Quickshell
+import Quickshell.Io
+
+// Live binds from the compositor: hyprctl binds -j
+Singleton {
+    id: root
+    property var list: []
+    function refresh() { if (!proc.running) proc.running = true }
+    function mods(m) {
+        const n = []
+        if (m & 64) n.push("Super")
+        if (m & 4) n.push("Ctrl")
+        if (m & 8) n.push("Alt")
+        if (m & 1) n.push("Shift")
+        return n
+    }
+    Process {
+        id: proc
+        command: ["hyprctl", "binds", "-j"]
+        stdout: StdioCollector {
+            onStreamFinished: {
+                try {
+                    root.list = JSON.parse(text).map(b => ({
+                        mods: root.mods(b.modmask),
+                        key: b.key || ("code:" + b.keycode),
+                        desc: b.description || (b.dispatcher + (b.arg ? "  " + b.arg : ""))
+                    }))
+                } catch (e) { root.list = [] }
+            }
+        }
+    }
+}

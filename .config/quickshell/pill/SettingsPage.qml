@@ -134,7 +134,7 @@ Item {
                                     return sliderC;
                                 }
                                 readonly property bool shown: (!modelData.hideWhen || !Settings.get(modelData.hideWhen))
-                                                              && (!modelData.showIf || Settings.get(modelData.showIf[0]) === modelData.showIf[1])
+                                                              && (!modelData.showIf || (Array.isArray(modelData.showIf[0]) ? modelData.showIf : [modelData.showIf]).every(c => Settings.get(c[0]) === c[1]))
                                 visible: shown
                                 width: rows.width
                                 height: shown && loader.item ? loader.item.height : 0

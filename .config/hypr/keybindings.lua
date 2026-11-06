@@ -5,7 +5,7 @@
 local mainMod = "ALT"
 
 local TERMINAL = "kitty"
-local EXPLORER = "thunar"
+local EXPLORER = "nautilus"
 local BROWSER = "chromium"
 
 -- ── Window management ─────────────────────────────────────────────────────
@@ -29,6 +29,9 @@ hl.bind(mainMod .. " + D", hl.dsp.exec_cmd("bash ~/.config/hypr/scripts/launcher
 
 hl.bind(mainMod .. " + Tab", hl.dsp.exec_cmd("snappy-switcher toggle"))
 
+hl.bind(mainMod .. " + A", hl.dsp.exec_cmd("qs -p ~/.config/quickshell/pill ipc call settings toggle"))
+hl.bind(mainMod .. " + C", hl.dsp.exec_cmd("qs -p ~/.config/quickshell/pill ipc call pill toggle clipboard"))
+hl.bind(mainMod .. " + P", hl.dsp.exec_cmd("qs -p ~/.config/quickshell/pill ipc call pill toggle pomodoro"))
 -- ── HyDE controls ─────────────────────────────────────────────────────────
 
 hl.bind(mainMod .. " + T", hl.dsp.exec_cmd("bash ~/.config/hypr/scripts/theme-switch.sh"))
@@ -38,7 +41,9 @@ hl.bind(mainMod .. " + SHIFT + W", hl.dsp.exec_cmd(
     "bash -c 'THEME=$(cat ~/.config/hypr/themes/current-name); WALL=$(find ~/.config/hypr/wallpapers/$THEME -type f \\( -iname \"*.png\" -o -iname \"*.jpg\" \\) | shuf -n 1); bash ~/.config/hypr/scripts/swww.sh \"$WALL\"'"
 ))
 
-hl.bind(mainMod .. " + L", hl.dsp.exec_cmd("bash ~/.config/hypr/scripts/lock.sh"))
+hl.bind(mainMod .. " + L", hl.dsp.exec_cmd("quickshell -p ~/.config/quickshell/current_lockscreen"))
+
+hl.bind(mainMod .. " + K", hl.dsp.exec_cmd("quickshell -p ~/.config/quickshell/lockscreen-switcher"))
 hl.bind("CTRL + ALT + Delete", hl.dsp.exec_cmd("bash ~/.config/hypr/scripts/powermenu.sh"))
 hl.bind(mainMod .. " + N", hl.dsp.exec_cmd("swaync-client -t"))
 hl.bind(mainMod .. " + bracketleft", hl.dsp.exec_cmd("qs"))
@@ -132,8 +137,8 @@ hl.bind(mainMod .. " + mouse:272", hl.dsp.window.drag(), { mouse = true })
 hl.bind(mainMod .. " + mouse:273", hl.dsp.window.resize(), { mouse = true })
 
 -- Layout switcher
-hl.bind(mainMod .. " + P",
-    hl.dsp.exec_cmd("bash ~/.config/hypr/scripts/layout-switcher.sh"))
+--hl.bind(mainMod .. " + P",
+  --  hl.dsp.exec_cmd("bash ~/.config/hypr/scripts/layout-switcher.sh"))
 
 --hl.bind(mainMod .. " + SHIFT + B",
    -- hl.dsp.exec_cmd("bash ~/.config/hypr/scripts/bar-switch.sh"))
@@ -142,8 +147,8 @@ hl.bind(mainMod .. " + SHIFT + C",
     hl.dsp.exec_cmd("bash ~/.config/hypr/scripts/corner-switcher.sh"))
 
 -- Quickshell sidebar
-hl.bind(mainMod .. " + A",
-    hl.dsp.exec_cmd("qs ipc call sidebar toggle"))
+--hl.bind(mainMod .. " + A",
+  --  hl.dsp.exec_cmd("qs ipc call sidebar toggle"))
 
 hl.bind(mainMod .. " + X",
     hl.dsp.exec_cmd("bash ~/.config/hypr/scripts/control-panel.sh"))

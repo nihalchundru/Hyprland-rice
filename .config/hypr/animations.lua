@@ -4,9 +4,53 @@
 
 ---@module 'hl'
 
-local ANIMATION = "theme"
+--local ANIMATION = "theme"
 
-local ANIMATION_PATH = "~/.config/hypr/animations/theme.lua"
+--local ANIMATION_PATH = "~/.config/hypr/animations/theme.lua"
+-- 1. Define a smooth bezier curve for the exit transition
+--hl.curve("exitCurve", {
+  --  type = "bezier",
+    --points = { {0.3, 0}, {0.1, 1} }
+--})
+
+-- 2. Configure the window closing fade animation
+-- speed is measured in ds (1ds = 100ms), so 5 = 500ms
+--hl.animation({
+  --  leaf = "fadeOut",
+    --enabled = true,
+    --speed = 5,
+    --bezier = "exitCurve"
+--})
+hl.config({
+    animations = {
+        enabled = true
+    }
+})
+-- 1. Define a clean, linear-leaning curve for a natural dissolve
+-- 1. Your clean linear curve (uniform speed from start to finish)
+hl.curve("straightLine", {
+    type = "bezier",
+    points = { {0.0, 0.0}, {1.0, 1.0} }
+})
+
+-- 2. Force the exit animation to NOT shrink/zoom, and set the duration
+hl.animation({
+    leaf = "windowsOut",
+    enabled = true,
+    speed = 1,              -- Measured in ds (5 = 500ms). Increase for a slower fade!
+    bezier = "straightLine",
+    style = ""              -- CRITICAL: This empty string completely stops the zooming/shrinking
+})
+
+-- 3. Match the fade out timeline to the window exit timeline
+hl.animation({
+    leaf = "fadeOut",
+    enabled = true,
+    speed = 1,              -- Must match the speed above for a perfect dissolve
+    bezier = "straightLine"
+})
+
+
 
 -- source = $ANIMATION_PATH -> requires manual conversion
 -- local _ANIMATION_PATH = require("_ANIMATION_PATH")

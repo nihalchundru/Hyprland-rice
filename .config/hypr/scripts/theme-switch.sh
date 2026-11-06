@@ -13,7 +13,7 @@ else
     STYLE=$(cat ~/.config/rofi/picker-style 2>/dev/null || echo compact)
 
     if [ "$BAR" = "pill" ]; then
-        qs ipc -c ~/.config/quickshell/topbar call topbar toggleTheme
+        qs -c ~/.config/quickshell/pill ipc call pill toggle themes
         exit 0
     fi
 

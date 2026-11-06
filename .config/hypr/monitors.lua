@@ -5,10 +5,10 @@
 ---@module 'hl'
 
 hl.monitor({
-    output   = "Virtual-1",
-    mode     = "preferred",
+    output = "Virtual-1",
+    mode = "preferred",
     position = "auto",
-    scale    = 2,
+    scale = 1.6,
 })
 
 --  FIX: Use hl.workspace_rule instead of hl.workspace

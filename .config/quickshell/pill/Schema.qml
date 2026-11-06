@@ -39,6 +39,13 @@ Singleton {
                     { type: "toggle", key: "mediaTransport", label: "Transport buttons" },
                     { type: "toggle", key: "mediaLyrics", label: "Lyrics", note: "Synced lyrics, fetched from lrclib.net. That sends the song's title, artist, album and length there." },
                     { type: "toggle", key: "mediaScroll", label: "Scroll to change track" }
+                ] },
+                { title: "Visualizer", rows: [
+                    { type: "toggle", key: "mediaVisualizer", label: "Music visualizer" },
+                    { type: "choice", key: "mediaVisMode", label: "Style", options: [
+                        { value: "loop", label: "Static loop" }, { value: "sync", label: "Music synced" }
+                    ], showIf: ["mediaVisualizer", true] },
+                    { type: "info", label: "Audio source", valueSource: "cava", showIf: [["mediaVisualizer", true], ["mediaVisMode", "sync"]] }
                 ] }
             ]
         },
@@ -124,6 +131,10 @@ Singleton {
                     ] },
                     { type: "toggle", key: "dockReserve", label: "Reserve screen space", note: "Windows won't overlap the dock. A dock that hides can't hold space, so this is only offered when Hide is Never.", showIf: ["dockHide", "never"] },
                     { type: "text", key: "dockMonitor", label: "Only on monitor (blank = all)", kind: "text", placeholder: "DP-1" }
+                ] },
+                { title: "Icons", rows: [
+                    { type: "toggle", key: "dockMagnify", label: "Magnify on hover" },
+                    { type: "toggle", key: "dockBounce", label: "Bounce on launch and for attention" }
                 ] }
             ]
         },

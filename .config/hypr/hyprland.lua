@@ -103,7 +103,7 @@ local windowrules = require("windowrules")
 -- source = ~/.config/hypr/monitors.conf -> requires manual conversion
 local monitors = require("monitors")
 -- TODO: convert ~/.config/hypr/monitors.conf to .lua and use require()
-
+local decorations = require("decorations")
 -- source = ~/.config/hypr/userprefs.conf -> requires manual conversion
 local userprefs = require("userprefs")
 -- TODO: convert ~/.config/hypr/userprefs.conf to .lua and use require()

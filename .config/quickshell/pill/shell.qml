@@ -54,7 +54,7 @@ ShellRoot {
         Connections {
             target: Pill
             function onModeChanged() {
-                if (["launcher", "themes", "wallpaper", "power", "auth"].indexOf(Pill.mode) < 0)
+                if (["launcher", "themes", "wallpaper", "power", "auth", "clipboard"].indexOf(Pill.mode) < 0)
                     escItem.forceActiveFocus();
             }
         }
@@ -115,7 +115,21 @@ ShellRoot {
         }
     }
 
+    // qs -c pill ipc call pomodoro toggle | skip | reset | status
+    IpcHandler {
+        target: "pomodoro"
+
+        function toggle(): void { PomodoroService.toggle(); }
+        function skip(): void { PomodoroService.skip(); }
+        function reset(): void { PomodoroService.reset(); }
+        function status(): string {
+            return PomodoroService.phase + " " + PomodoroService.timeText
+                 + (PomodoroService.running ? "" : " (paused)");
+        }
+    }
+
     // qs -c pill ipc call pill open calendar
+    // qs -c pill ipc call pill toggle clipboard
     IpcHandler {
         target: "pill"
 

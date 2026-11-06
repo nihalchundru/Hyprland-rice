@@ -94,7 +94,7 @@ IpcHandler {
         if (root.activeBar === "waybar") {
             layoutSwitcher.current = root.activeLayout
             layoutSwitcher.open()
-        } else if (root.activeBar === "quickshell" || root.activeBar === "notch" || root.activeBar === "pill" || root.activeBar === "island" ) {
+        } else if (root.activeBar === "quickshell" || root.activeBar === "notch" || root.activeBar === "pill" || root.activeBar === "island" || root.activeBar === "material" ) {
             qsLayoutSwitcher.current = root.activeBar
             qsLayoutSwitcher.open()
         } else {
@@ -141,9 +141,10 @@ IpcHandler {
         id: qsLayoutSwitcher
         title: "Quickshell Layout"; icon: "󰘔"
         options: [
-            { value: "pill", label: "Pill Bar",  icon: "󰊓", desc: "Floating pill at top" },
-            { value: "notch",      label: "Notch Bar", icon: "󰄛", desc: "Apple notch style" },
-            { value: "island", label: "Island Bar", icon: "󰄛", desc: "Island Bar" },
+            { value: "pill", label: "Pill Bar",  icon: "pill", desc: "Floating pill at top" },
+            { value: "notch",      label: "Notch Bar", icon: "rectangle", desc: "Apple notch style" },
+            { value: "island", label: "Island Bar", icon: "dropdown_menu", desc: "Island Bar" },
+	    { value: "material", label: "Material Bar", icon: "pill", desc: "material pill bar" },
         ]
         onOptionSelected: value => {
             root.activeBar = value

@@ -1,0 +1,15 @@
+# PAM configuration for the Quickshell lock screen.
+#
+# Quickshell's PamContext only uses the `auth` type (the other types need root
+# to verify), so this file only needs auth rules.
+#
+# Password only:
+auth required pam_unix.so
+
+# To allow a fingerprint instead of a password, or as well as:
+#   auth sufficient pam_fprintd.so
+#   auth required   pam_unix.so
+#
+# `sufficient` means "if this succeeds, stop here" -- so a fingerprint unlocks
+# immediately without asking for a password. Swap the two lines above for those
+# two to enable it.

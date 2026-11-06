@@ -1,45 +1,88 @@
 import QtQuick
 import QtQuick.Effects
+import Quickshell
+import Quickshell.Wayland
+import Quickshell.Widgets
+import "dock.js" as DockJs
 
 Item {
     id: root
     width: Pill.geo.hover.w
     height: Media.hasPlayer ? Media.hoverH : 76     // natural content height; the Notch centres it
 
-    property real phase: 0
+    // the focused window, shown at the top left
+    readonly property var activeWin: ToplevelManager.activeToplevel
+    readonly property var activeEntry: activeWin ? DockJs.findEntry(DesktopEntries.applications.values, activeWin.appId) : null
+    readonly property string appName: activeWin ? (activeEntry ? activeEntry.name : (activeWin.appId || "")) : ""
 
-    // click the hover state -> calendar (cluster below overrides this on the right)
+    function appIconPath() {
+        const names = [activeEntry ? activeEntry.icon : "", activeWin ? activeWin.appId : ""];
+        for (let i = 0; i < names.length; i++) {
+            if (!names[i]) continue;
+            const p = Quickshell.iconPath(names[i], true);
+            if (p) return p;
+        }
+        return "";
+    }
+    readonly property string iconPath: appIconPath()
+
+    // click the hover state -> calendar (the right-hand column below overrides this on the right)
     MouseArea {
         anchors.fill: parent
         cursorShape: Qt.PointingHandCursor
         onClicked: Pill.open("calendar", false)
     }
-    NumberAnimation on phase {
-        from: 0
-        to: Math.PI * 2
-        duration: 1600
-        loops: Animation.Infinite
-        running: root.visible && Media.playing && !Theme.reduce
-    }
 
-    // ── left: workspace name + dots ──────────────────────────────────
+    // ── left: the focused app, and the workspace dots ────────────────
     Column {
         id: leftCol
-        x: Theme.pad + 6
+        x: Theme.pad + 14
         y: Math.max(14, (root.height - height) / 2)
-        spacing: 9
+        spacing: 10
 
         Row {
             spacing: 8
+
+            // the app's icon (a letter badge if it has none), or a dot when no window is focused
+            Item {
+                visible: root.activeWin !== null
+                width: 18
+                height: 18
+                anchors.verticalCenter: parent.verticalCenter
+
+                IconImage {
+                    visible: root.iconPath !== ""
+                    anchors.fill: parent
+                    source: root.iconPath
+                }
+                Rectangle {
+                    visible: root.iconPath === ""
+                    anchors.fill: parent
+                    radius: Theme.r(5)
+                    color: Theme.accent
+                    Text {
+                        anchors.centerIn: parent
+                        text: (root.appName || "?").charAt(0).toUpperCase()
+                        color: Theme.onAccent
+                        font.family: Theme.fontFamily
+                        font.pixelSize: Theme.px(11)
+                        font.weight: Font.Bold
+                    }
+                }
+            }
             Rectangle {
+                visible: root.activeWin === null
                 anchors.verticalCenter: parent.verticalCenter
                 width: 6
                 height: 6
-                radius: Theme.r(3)
+                radius: 3
                 color: Theme.accent
             }
             Text {
-                text: Pill.workspaceLabel
+                anchors.verticalCenter: parent.verticalCenter
+                width: Math.min(implicitWidth, 130)
+                elide: Text.ElideRight
+                text: root.activeWin ? root.appName : Pill.workspaceLabel
                 color: Theme.text
                 font.family: Theme.fontFamily
                 font.pixelSize: Theme.px(14)
@@ -47,56 +90,99 @@ Item {
             }
         }
 
-        WorkspaceDots { size: 14 }
+        WorkspaceDots { size: 18 }
     }
 
-    // ── top row: time + date centered, status cluster on the right ───
+    // ── centre: time and date in a tile ──────────────────────────────
     Item {
         id: topRow
         y: 14
         width: parent.width
-        height: 32
+        height: 36
+
+        Rectangle {
+            id: timeTile
+            anchors.centerIn: parent
+            height: parent.height
+            width: timeRow.implicitWidth + 36
+            radius: Theme.r(18)
+            color: tileHover.hovered ? Theme.tileHi : Theme.tile
+            Behavior on color { ColorAnimation { duration: Theme.fadeMs } }
+
+            HoverHandler { id: tileHover }
+
+            Row {
+                id: timeRow
+                anchors.centerIn: parent
+                spacing: 12
+
+                Text {
+                    anchors.verticalCenter: parent.verticalCenter
+                    text: ClockFmt.time(Pill.now)
+                    color: Theme.text
+                    font.family: Theme.fontDisplay
+                    font.pixelSize: Theme.px(24)
+                    font.weight: Font.Medium
+                }
+                Text {
+                    anchors.verticalCenter: parent.verticalCenter
+                    visible: !!Settings.get("showDate")
+                    text: ClockFmt.date(Pill.now)
+                    color: Theme.dim
+                    font.family: Theme.fontFamily
+                    font.pixelSize: Theme.px(14)
+                }
+            }
+        }
+    }
+
+    // ── right: notification status, and the signal / battery icons ───
+    Column {
+        id: rightCol
+        anchors.right: parent.right
+        anchors.rightMargin: Theme.pad + 14
+        y: Math.max(14, (root.height - height) / 2)
+        spacing: 10
 
         Row {
-            anchors.centerIn: parent
-            spacing: 10
+            anchors.right: parent.right
+            spacing: 8
 
             Text {
                 anchors.verticalCenter: parent.verticalCenter
-                text: ClockFmt.time(Pill.now)
-                color: Theme.text
-                font.family: Theme.fontDisplay
-                font.pixelSize: Theme.px(24)
+                width: Math.min(implicitWidth, 150)
+                elide: Text.ElideLeft
+                text: Notifs.count === 0 ? "All caught up"
+                    : Notifs.count + (Notifs.count === 1 ? " notification" : " notifications")
+                color: Notifs.count === 0 ? Theme.text : Theme.accent
+                font.family: Theme.fontFamily
+                font.pixelSize: Theme.px(14)
                 font.weight: Font.Medium
             }
-            Text {
+            Icon {
                 anchors.verticalCenter: parent.verticalCenter
-                visible: !!Settings.get("showDate")
-                text: ClockFmt.date(Pill.now)
-                color: Theme.dim
-                font.family: Theme.fontFamily
-                font.pixelSize: Theme.px(15)
+                name: "bell"
+                size: 15
+                color: Notifs.count === 0 ? Theme.dim : Theme.accent
             }
         }
 
         Row {
             id: cluster
             anchors.right: parent.right
-            anchors.rightMargin: Theme.pad + 6
-            anchors.verticalCenter: parent.verticalCenter
             spacing: 10
 
             SignalBars {}
             BatteryIcon {}
         }
+    }
 
-        // status cluster -> control center
-        MouseArea {
-            anchors.fill: cluster
-            anchors.margins: -10
-            cursorShape: Qt.PointingHandCursor
-            onClicked: Pill.open("control", true)
-        }
+    // the whole right-hand column opens the control center (where the notifications are)
+    MouseArea {
+        anchors.fill: rightCol
+        anchors.margins: -10
+        cursorShape: Qt.PointingHandCursor
+        onClicked: Pill.open("control", true)
     }
 
     // ── media card ───────────────────────────────────────────────────
@@ -217,27 +303,13 @@ Item {
             CircleButton { size: 30; iconSize: 13; icon: "skip-forward"; onClicked: Media.next() }
         }
 
-        Row {
+        // the music visualizer, left of the transport buttons (or at the right edge without them)
+        VisualizerBars {
             id: viz
-            visible: !Media.showTransport
-            anchors.right: parent.right
-            anchors.rightMargin: 14
+            visible: Media.showVisualizer
+            anchors.right: transport.visible ? transport.left : parent.right
+            anchors.rightMargin: transport.visible ? 12 : 14
             anchors.verticalCenter: parent.verticalCenter
-            spacing: 4
-
-            Repeater {
-                model: 10
-                Rectangle {
-                    required property int index
-                    width: 3
-                    height: 3
-                    radius: Theme.r(1.5)
-                    color: Theme.accent
-                    opacity: Media.playing
-                        ? 0.3 + 0.7 * (0.5 + 0.5 * Math.sin(root.phase + index * 0.7))
-                        : 0.3
-                }
-            }
         }
 
         // scroll over the card to change track (one step per flick)

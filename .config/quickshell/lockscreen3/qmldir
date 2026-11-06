@@ -1,0 +1,9 @@
+module lockscreen3
+singleton Colors 1.0 Colors.qml
+Background 1.0 Background.qml
+LockContext 1.0 LockContext.qml
+LockSurface 1.0 LockSurface.qml
+MediaDeck 1.0 MediaDeck.qml
+PasswordSection 1.0 PasswordSection.qml
+Preview 1.0 Preview.qml
+StatusPill 1.0 StatusPill.qml

@@ -1,0 +1,32 @@
+import QtQuick
+import qs.tokens
+import qs.services
+import qs.components
+
+// Common tile chrome. cfg = widget instance: color/shape/opacity/radius/size/padding/scale/border/bgHex/accentHex.
+Rectangle {
+    id: base
+    property var cfg: ({})
+    default property alias content: inner.data
+    readonly property var dim: Widgets.dims(cfg.size || "1x1")
+    readonly property bool customBg: Widgets.hexOk(cfg.bgHex)
+    readonly property bool customAccent: Widgets.hexOk(cfg.accentHex)
+    readonly property color fg: customBg ? (Qt.color(cfg.bgHex).hslLightness > 0.55 ? "#1b1b1f" : "#f2f0f4") : Widgets.fg(cfg.color)
+    readonly property color accent: customAccent ? cfg.accentHex : Widgets.accent(cfg.color)
+    readonly property color onAccent: customAccent ? (Qt.color(cfg.accentHex).hslLightness > 0.55 ? "#1b1b1f" : "#f2f0f4") : Widgets.onAccent(cfg.color)
+    readonly property real pad: cfg.padding || 0
+    width: dim[0]; height: dim[1]
+    radius: cfg.radius !== undefined ? cfg.radius : 28
+    color: customBg ? cfg.bgHex : Widgets.bg(cfg.color)
+    opacity: cfg.opacity !== undefined ? cfg.opacity : 1
+    border.width: cfg.border || 0
+    border.color: accent
+    clip: true
+    ColorBehavior on color {}
+    Item {
+        id: inner
+        anchors.fill: parent
+        transformOrigin: Item.Center
+        scale: Math.max(0.2, Math.min((base.width - 2 * base.pad) / base.width, (base.height - 2 * base.pad) / base.height)) * (base.cfg.scale || 1)
+    }
+}

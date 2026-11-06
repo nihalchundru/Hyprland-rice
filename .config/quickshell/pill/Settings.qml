@@ -75,7 +75,12 @@ Singleton {
         dockMonitor: "",
         dockPinned: [],
         dockHide: "never",
-        dockReserve: true
+        dockReserve: true,
+        dockMagnify: false,
+        dockBounce: true,
+        // media visualizer
+        mediaVisualizer: false,
+        mediaVisMode: "loop"
     })
 
     property var store: ({})

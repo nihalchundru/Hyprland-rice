@@ -86,6 +86,7 @@ Singleton {
     readonly property color inset: mix(body, text, 0.035 * depth)
     readonly property color dim: mix(body, text, 0.62)     // secondary text
     readonly property color faint: mix(body, text, 0.30)   // inactive dots, dimmest text
+    readonly property color occupied: mix(faint, accent, 0.55)   // workspace dots that have windows
     readonly property color onAccent: mix(body, accent, 0.12)
     readonly property color knob: mix(accent, Qt.color("#ffffff"), 0.65)   // slider handles
 

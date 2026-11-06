@@ -1,0 +1,351 @@
+#!/usr/bin/env python3
+import re
+import json
+from pathlib import Path
+
+LUA = Path.home() / ".config/hypr/m3.lua"
+
+DESCRIPTIONS = {
+    "ui toggleLauncher": "Toggle application launcher",
+    "ui toggleCalendar": "Toggle calendar",
+    "ui toggleWallpaper": "Open wallpaper picker",
+    "ui toggleQuickSettings": "Toggle quick settings",
+    "ui toggleMedia": "Toggle media controls",
+    "ui toggleOverview": "Toggle workspace overview",
+    "ui toggleSession": "Open session menu",
+    "ui lock": "Lock screen",
+    "ui toggleNotifications": "Toggle notifications",
+    "m3 reloadShell": "Reload shell",
+    "m3 reload": "Reload shell configuration",
+    "m3 toggleBarFloating": "Toggle floating bar",
+    "m3 toggleMode": "Toggle light/dark mode",
+    "audio up": "Increase volume",
+    "audio down": "Decrease volume",
+    "audio mute": "Toggle mute",
+    "brightness up": "Increase brightness",
+    "brightness down": "Decrease brightness",
+}
+
+def split_concat(expr):
+    parts = []
+    current = ""
+    quote = None
+    escaped = False
+    i = 0
+
+    while i < len(expr):
+        c = expr[i]
+        if quote:
+            current += c
+            if escaped:
+                escaped = False
+            elif c == "\\":
+                escaped = True
+            elif c == quote:
+                quote = None
+            i += 1
+            continue
+
+        if c in ("'", '"'):
+            quote = c
+            current += c
+            i += 1
+            continue
+
+        if expr[i:i+2] == "..":
+            parts.append(current.strip())
+            current = ""
+            i += 2
+            continue
+
+        current += c
+        i += 1
+
+    if current.strip():
+        parts.append(current.strip())
+    return parts
+
+def resolve_key(expr, index=None):
+    result = []
+    for part in split_concat(expr):
+        part = part.strip()
+        if part == "mainMod":
+            result.append("ALT")
+        elif part == "i" and index is not None:
+            result.append(str(index))
+        elif part in ("TERMINAL", "EXPLORER", "BROWSER"):
+            result.append({"TERMINAL": "kitty", "EXPLORER": "nautilus",
+                           "BROWSER": "zen-browser"}[part])
+        elif len(part) >= 2 and part[0] in ("'", '"') and part[-1] == part[0]:
+            result.append(part[1:-1])
+        else:
+            result.append(part)
+    return "".join(result).replace(" + ", " + ").strip()
+
+def clean_key(key):
+    key = key.replace("Return", "Enter")
+    key = key.replace("left", "←").replace("right", "→")
+    key = key.replace("up", "↑").replace("down", "↓")
+    key = key.replace("mouse_down", "Mouse wheel down")
+    key = key.replace("mouse_up", "Mouse wheel up")
+    key = key.replace("mouse:272", "Mouse left")
+    key = key.replace("mouse:273", "Mouse right")
+    key = key.replace("XF86AudioRaiseVolume", "Volume up")
+    key = key.replace("XF86AudioLowerVolume", "Volume down")
+    key = key.replace("XF86AudioMute", "Mute")
+    key = key.replace("XF86MonBrightnessUp", "Brightness up")
+    key = key.replace("XF86MonBrightnessDown", "Brightness down")
+    key = key.replace("XF86AudioPlay", "Play / pause")
+    key = key.replace("XF86AudioNext", "Next track")
+    key = key.replace("XF86AudioPrev", "Previous track")
+    return key
+
+def extract_calls(source):
+    # Remove comments while preserving quoted strings and line structure.
+    cleaned = []
+    quote = None
+    escaped = False
+    i = 0
+    while i < len(source):
+        c = source[i]
+        if quote:
+            cleaned.append(c)
+            if escaped:
+                escaped = False
+            elif c == "\\":
+                escaped = True
+            elif c == quote:
+                quote = None
+            i += 1
+        elif c in ("'", '"'):
+            quote = c
+            cleaned.append(c)
+            i += 1
+        elif source[i:i+2] == "--":
+            while i < len(source) and source[i] != "\n":
+                i += 1
+            cleaned.append("\n")
+        else:
+            cleaned.append(c)
+            i += 1
+
+    text = "".join(cleaned)
+    calls = []
+    pos = 0
+
+    while True:
+        start = text.find("hl.bind(", pos)
+        if start < 0:
+            break
+
+        begin = start + len("hl.bind(")
+        depth = 1
+        quote = None
+        escaped = False
+        i = begin
+
+        while i < len(text) and depth:
+            c = text[i]
+            if quote:
+                if escaped:
+                    escaped = False
+                elif c == "\\":
+                    escaped = True
+                elif c == quote:
+                    quote = None
+            elif c in ("'", '"'):
+                quote = c
+            elif c == "(":
+                depth += 1
+            elif c == ")":
+                depth -= 1
+            i += 1
+
+        if depth == 0:
+            calls.append(text[begin:i-1])
+            pos = i
+        else:
+            break
+
+    return calls
+
+def top_level_args(text):
+    args = []
+    start = 0
+    depth = 0
+    quote = None
+    escaped = False
+
+    for i, c in enumerate(text):
+        if quote:
+            if escaped:
+                escaped = False
+            elif c == "\\":
+                escaped = True
+            elif c == quote:
+                quote = None
+        elif c in ("'", '"'):
+            quote = c
+        elif c in "({[":
+            depth += 1
+        elif c in ")}]":
+            depth -= 1
+        elif c == "," and depth == 0:
+            args.append(text[start:i].strip())
+            start = i + 1
+
+    args.append(text[start:].strip())
+    return args
+
+def describe(action, key):
+    for raw, label in DESCRIPTIONS.items():
+        if raw in action:
+            return label
+
+    if "window.close" in action:
+        return "Close active window"
+    if "window.float" in action:
+        return "Toggle floating window"
+    if "window.fullscreen" in action:
+        return "Toggle fullscreen"
+    if "window.drag" in action:
+        return "Drag window"
+    if "window.resize" in action:
+        if "x = 30" in action:
+            return "Resize window right"
+        if "x = -30" in action:
+            return "Resize window left"
+        if "y = -30" in action:
+            return "Resize window up"
+        if "y = 30" in action:
+            return "Resize window down"
+        return "Resize window"
+    if "window.move" in action:
+        direction = re.search(r'direction\s*=\s*"([^"]+)"', action)
+        workspace = re.search(r'workspace\s*=\s*(\w+)', action)
+        if workspace:
+            return f"Move window to workspace {workspace.group(1)}"
+        if direction:
+            return f"Move window {direction.group(1)}"
+        return "Move window"
+    if "focus" in action:
+        direction = re.search(r'direction\s*=\s*"([^"]+)"', action)
+        workspace = re.search(r'workspace\s*=\s*(\w+)', action)
+        if workspace:
+            return f"Switch to workspace {workspace.group(1)}"
+        if direction:
+            return f"Focus {direction.group(1)}"
+        return "Change focus"
+    if "exec_cmd" in action:
+        if "TERMINAL" in action:
+            return "Open terminal"
+        if "EXPLORER" in action:
+            return "Open file manager"
+        if "BROWSER" in action:
+            return "Open browser"
+        if "rofi-shell-switch" in action:
+            return "Open shell switcher"
+        if "grim" in action and "slurp" in action:
+            return "Capture selected screen area"
+        if "grim" in action:
+            return "Take screenshot"
+        if "playerctl play-pause" in action:
+            return "Play / pause media"
+        if "playerctl next" in action:
+            return "Next media track"
+        if "playerctl previous" in action:
+            return "Previous media track"
+        return "Run application or command"
+    if "m3(" in action:
+        return "Shell action"
+    return "Custom action"
+
+def main():
+    source = LUA.read_text()
+    category = "Other"
+    lines = source.splitlines()
+    entries = []
+
+    # Read actual section headers, and map each bind call to its source line.
+    calls = extract_calls(source)
+    call_index = 0
+
+    # The workspace loop is expanded explicitly below.
+    for line in lines:
+        header = re.match(r'\s*--\s*[─-]+\s*(.*?)\s*[─-]+\s*$', line)
+        if header and header.group(1).strip():
+            category = header.group(1).strip()
+
+        if "for i = 1, 9 do" in line:
+            entries.append({
+                "category": "Workspaces",
+                "mods": ["Alt"],
+                "key": "1–9",
+                "desc": "Switch to workspace 1–9"
+            })
+            entries.append({
+                "category": "Workspaces",
+                "mods": ["Alt", "Shift"],
+                "key": "1–9",
+                "desc": "Move window to workspace 1–9"
+            })
+
+    # Match each call to its nearest preceding section header.
+    # The parser keeps the source position so categories remain correct.
+    for call in calls:
+        first = top_level_args(call)[0]
+        action = top_level_args(call)[1] if len(top_level_args(call)) > 1 else ""
+
+        # Find the category from the source preceding this call.
+        needle = "hl.bind(" + call
+        position = source.find(needle)
+        prefix = source[:position] if position >= 0 else ""
+        headers = re.findall(r'--\s*[─-]+\s*(.*?)\s*[─-]+\s*$', prefix, re.M)
+        cat = headers[-1].strip() if headers else "Other"
+
+        if "for i = 1, 9 do" in prefix[-250:]:
+            continue
+
+        key = resolve_key(first)
+        if not key or key == "mainMod":
+            continue
+
+        mods = []
+        key_parts = [p.strip() for p in key.split("+")]
+        normalized = []
+        for part in key_parts:
+            upper = part.upper()
+            if upper in ("ALT", "SUPER", "CTRL", "CONTROL", "SHIFT"):
+                name = {"ALT": "Alt", "SUPER": "Super",
+                        "CTRL": "Ctrl", "CONTROL": "Ctrl",
+                        "SHIFT": "Shift"}[upper]
+                if name not in mods:
+                    mods.append(name)
+            else:
+                normalized.append(part)
+
+        key_name = clean_key(" + ".join(normalized)) if normalized else "—"
+        desc = describe(action, key)
+        entries.append({
+            "category": cat,
+            "mods": mods,
+            "key": key_name,
+            "desc": desc
+        })
+
+    # Deduplicate entries while preserving their order.
+    seen = set()
+    result = []
+    for item in entries:
+        signature = (tuple(item["mods"]), item["key"], item["desc"])
+        if signature not in seen:
+            seen.add(signature)
+            result.append(item)
+
+    print(json.dumps(result))
+
+if __name__ == "__main__":
+    try:
+        main()
+    except Exception as error:
+        print(json.dumps({"error": str(error)}))

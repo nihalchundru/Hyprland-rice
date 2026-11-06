@@ -104,8 +104,7 @@ case "$TARGET" in
         # Restart HyDE ARM components
         BAR=$(cat ~/.config/hypr/bar/active-bar 2>/dev/null || echo waybar)
         LAYOUT=$(cat ~/.config/waybar/current-layout 2>/dev/null || echo hyde-default)
-        bash ~/.config/hypr/scripts/bar-launch.sh "$BAR" "$LAYOUT"
-
+        qs -c ~/.config/quickshell/pill & 2>/dev/null || true
         swaync &
 
         qs -c ~/.config/quickshell/sidebar  & 2>/dev/null || true

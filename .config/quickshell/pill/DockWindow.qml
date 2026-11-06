@@ -5,8 +5,8 @@ import Quickshell.Hyprland
 import "dock.js" as DockJs
 
 // The dock: one of these per monitor. The window spans the screen edge, but
-// only the dock itself (and an open menu, and the reveal strip) takes input;
-// the rest is click-through.
+// only the dock itself (and an open menu, the reveal strip, and the magnify
+// zone) takes input; the rest is click-through.
 PanelWindow {
     id: win
 
@@ -17,9 +17,10 @@ PanelWindow {
     readonly property bool vertical: Dock.vertical
     readonly property int pad: 10
     readonly property int sp: 8
-    readonly property int room: 300          // spare room on the screen side, for menus
+    readonly property int room: 300          // spare room on the screen side, for menus and magnified icons
     readonly property int n: Dock.items.length
-    readonly property real along: n > 0 ? n * Dock.iconSize + (n - 1) * sp + 2 * pad : 0
+    readonly property real unit: n > 0 ? n * Dock.iconSize + (n - 1) * sp : 0     // length of the icons, unmagnified
+    readonly property real along: n > 0 ? unit + 2 * pad : 0
     readonly property real across: Dock.iconSize + 8 + 2 * pad
     readonly property real corner: Math.min(Theme.r(22), Math.min(along, across) / 2)
 
@@ -32,7 +33,7 @@ PanelWindow {
 
     property bool stripHover: false          // pointer on the reveal strip at the screen edge
     property bool covered: false             // (under mode) a window overlaps the dock
-    readonly property bool hot: stripHover || bodyHover.hovered
+    readonly property bool hot: stripHover || bodyHover.hovered || magHover.hovered
     readonly property bool wantShown: hideMode === "never" || hot || menuOpen || (hideMode === "under" && !covered)
     property bool shown: true
     property real reveal: shown ? 1 : 0
@@ -99,6 +100,43 @@ PanelWindow {
         if (hideMode === "under") refreshTimer.restart();
     }
 
+    // ── icon order (drag to reorder) and magnify ────────────────────────
+    readonly property var keys: Dock.items.map(i => i.key)
+    property string dragKey: ""              // the icon being dragged ("" = none)
+    property int dragTo: 0                   // the slot it is over
+    property real dragPos: 0                 // where it starts along the dock, in window coordinates
+    readonly property var order: dragKey !== "" ? DockJs.reorder(keys, dragKey, dragTo) : keys
+
+    function dragMove(key, start) {
+        const pinned = Dock.items.filter(i => i.pinned).length;
+        dragKey = key;
+        dragPos = start;
+        dragTo = DockJs.slotFromAlong(start + Dock.iconSize / 2 - contentStart, Dock.iconSize, sp, Math.max(0, pinned - 1));
+    }
+
+    function dragFinish() {
+        if (dragKey === "") return;
+        const ids = DockJs.pinnedIdsFromOrder(order, Dock.items);     // read before the drag state is cleared
+        dragKey = "";
+        Dock.setPinned(ids);
+    }
+
+    property real pointerAlong: 0            // pointer position along the dock, in window coordinates
+    readonly property bool magOn: Dock.magnifyOn && dragKey === "" && !menuOpen
+    property real magFactor: (magOn && magHover.hovered && reveal > 0.95) ? 1 : 0
+    Behavior on magFactor { NumberAnimation { duration: Theme.ms(140); easing.type: Easing.OutCubic } }
+
+    readonly property real stageAlong: vertical ? stage.height : stage.width
+    readonly property real contentStart: (stageAlong - unit) / 2            // where the first icon starts, unmagnified
+    readonly property var mag: DockJs.magnify(n, Dock.iconSize, sp,
+                                              magFactor > 0 ? pointerAlong - contentStart : null,
+                                              1.6, 2.4, magFactor)
+
+    // the dock's resting position across the screen (icons sit on this line even when magnified)
+    readonly property real baseX: pos === "left" ? Dock.gap - slide
+                                : pos === "right" ? stage.width - across - Dock.gap + slide : 0
+    readonly property real baseY: vertical ? 0 : stage.height - across - Dock.gap + slide
+
     // ── right-click menu state (per window, so it only opens on this monitor) ──
     property var menuItem: null
     property var menuList: []
@@ -135,6 +173,7 @@ PanelWindow {
         item: bodyRect
         Region { item: menu }
         Region { item: hotRect }
+        Region { item: magZone }
     }
 
     // click outside the menu closes it
@@ -169,15 +208,35 @@ PanelWindow {
             }
         }
 
+        // Where magnify listens: the dock plus room for icons that grow out of it.
+        // Zero-sized unless magnify is on (and the dock is out), so it costs nothing otherwise.
+        Item {
+            id: magZone
+            readonly property bool active: Dock.magnifyOn && win.reveal > 0.95
+            readonly property real over: Dock.iconSize * 0.6 + 14
+            readonly property real reach: 80
+            readonly property real a0: win.contentStart - win.pad - reach
+            readonly property real aLen: win.unit + 2 * win.pad + 2 * reach
+
+            width: !active ? 0 : (win.vertical ? win.across + Dock.gap + over : aLen)
+            height: !active ? 0 : (win.vertical ? aLen : win.across + Dock.gap + over)
+            x: !active ? 0 : (win.vertical ? (win.pos === "left" ? 0 : stage.width - width) : a0)
+            y: !active ? 0 : (win.vertical ? a0 : stage.height - height)
+
+            HoverHandler {
+                id: magHover
+                onPointChanged: win.pointerAlong = win.vertical ? magZone.y + point.position.y
+                                                                : magZone.x + point.position.x
+            }
+        }
+
+        // the dock's background; it grows along the dock while icons are magnified
         Rectangle {
             id: bodyRect
-            width: win.vertical ? win.across : win.along
-            height: win.vertical ? win.along : win.across
-            x: (win.pos === "left" ? Dock.gap - win.slide
-              : win.pos === "right" ? stage.width - width - Dock.gap + win.slide
-              : (stage.width - width) / 2)
-            y: win.vertical ? (stage.height - height) / 2
-                            : stage.height - height - Dock.gap + win.slide
+            x: win.vertical ? win.baseX : win.contentStart + win.mag.shift - win.pad
+            y: win.vertical ? win.contentStart + win.mag.shift - win.pad : win.baseY
+            width: win.vertical ? win.across : win.mag.total + 2 * win.pad
+            height: win.vertical ? win.mag.total + 2 * win.pad : win.across
             radius: win.corner
             color: Theme.body
 
@@ -192,22 +251,32 @@ PanelWindow {
                 width: win.vertical ? win.corner + 1 : parent.width
                 height: win.vertical ? parent.height : win.corner + 1
             }
+        }
 
-            Grid {
-                x: win.pad
-                y: win.pad
-                columns: win.vertical ? 1 : Math.max(1, win.n)
-                spacing: win.sp
+        // the icons: positioned one by one, so they can be magnified, reordered and bounced
+        Repeater {
+            model: Dock.items
 
-                Repeater {
-                    model: Dock.items
+            DockItem {
+                id: it
+                readonly property int di: Math.max(0, win.order.indexOf(modelData.key))
+                readonly property real startAlong: win.contentStart + win.mag.shift + (win.mag.starts[di] || 0)
 
-                    DockItem {
-                        size: Dock.iconSize
-                        edge: win.pos
-                        onMenuRequested: (it, cx, cy) => win.openMenu(it, cx, cy)
-                    }
-                }
+                size: Dock.iconSize
+                edge: win.pos
+                itemScale: win.mag.scales[di] || 1
+                dragging: win.dragKey === modelData.key
+
+                x: win.vertical ? win.baseX + win.pad : (dragging ? win.dragPos : startAlong)
+                y: win.vertical ? (dragging ? win.dragPos : startAlong) : win.baseY + win.pad
+
+                // other icons glide aside while one is dragged (and not otherwise, so magnify never lags)
+                Behavior on x { enabled: win.dragKey !== "" && !it.dragging; NumberAnimation { duration: Theme.ms(150); easing.type: Easing.OutCubic } }
+                Behavior on y { enabled: win.dragKey !== "" && !it.dragging; NumberAnimation { duration: Theme.ms(150); easing.type: Easing.OutCubic } }
+
+                onMenuRequested: (item, cx, cy) => win.openMenu(item, cx, cy)
+                onDragMoved: (key, start) => win.dragMove(key, start)
+                onDragFinished: win.dragFinish()
             }
         }
 

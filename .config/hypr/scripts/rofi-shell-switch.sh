@@ -6,14 +6,17 @@ NOTHING_CONF="$HOME/.config/quickshell/nothingshell/hypr/nothingshell.lua"
 TIDE_BINDS="$HOME/.config/hypr/chill.conf"
 SERPANTINUM_BINDS="$HOME/serpantinum/compositors/hyprland/config/keybinds.lua"
 CURRENT_BINDS="$HOME/.config/hypr/current_profile_binds.lua"
+M3_BINDS="$HOME/.config/hypr/m3.lua"
 
 # Menu options list
 OPTION_DEFAULT="  Default Shell (Waybar)"
 OPTION_NOTHING="  NothingShell (Quickshell)"
 OPTION_TIDE="  ChillPill-Shell (Dynamic Layout)"
 OPTION_SERPANTINUM="Serpantinum shell"
+OPTION_M3="Material 3 Shell"
 
-OPTIONS="$OPTION_DEFAULT\n$OPTION_NOTHING\n$OPTION_TIDE\n$OPTION_SERPANTINUM"
+
+OPTIONS="$OPTION_DEFAULT\n$OPTION_NOTHING\n$OPTION_TIDE\n$OPTION_SERPANTINUM\n$OPTION_M3"
 SELECTION=$(echo -e "$OPTIONS" | rofi -dmenu -i -p "Select Desktop Layout" -theme "$ROFI_THEME")
 
 # Function to kill any active quickshell windows cleanly before swapping
@@ -36,7 +39,7 @@ pkill -f '/home/nihal/.config/quickshell/pill'
 pkill -f '/home/nihal/.config/quickshell/notch'
 pkill -f '/home/nihal/.config/quickshell/material'
 pkill -f '/home/nihal/.config/quickshell/island'
-pkill -f '/home/nihal/.config/quickshell/cava-visualizer'
+pkill -f '/home/nihal/.config/quickshell/m3'
 
 qs -c ~/.config/quickshell/applets &
 qs -c ~/.config/quickshell/theme-switcher &
@@ -97,6 +100,14 @@ case "$SELECTION" in
 
 
 	;;
+   "$OPTION_M3")
+    echo "Activating Material 3 Shell"
+    cp "$M3_BINDS" "$CURRENT_BINDS"
+    hyprctl reload
+    quickshell --path "$HOME/.config/quickshell/m3" &
+#    quickshell --path "$HOME/.config/quickshell/cava-visualizer" &
+    ;;
+
    *)
         exit 0
         ;;

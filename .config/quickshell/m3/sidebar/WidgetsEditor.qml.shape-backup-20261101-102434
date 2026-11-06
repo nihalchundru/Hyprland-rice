@@ -1,0 +1,254 @@
+import QtQuick
+import QtQuick.Layouts
+import qs.tokens
+import qs.services
+import qs.components
+import qs.panel
+
+// List view: add / pick / delete. Detail view: restyle everything about one widget.
+Page {
+    id: page
+    readonly property var sel: Widgets.selectedId !== "" ? Widgets.get(Widgets.selectedId) : null
+    readonly property var cat: sel ? Widgets.catalog[sel.type] : null
+    function up(patch) { if (sel) Widgets.update(sel.id, patch) }
+
+    component Label: M3Text { role: M3Type.labelLarge; color: M3Colors.primary }
+    component Slide: RowLayout {
+        property string label: ""
+        property real from: 0
+        property real to: 1
+        property real step: 0
+        property real value: 0
+        signal picked(real v)
+        Layout.fillWidth: true
+        spacing: 8
+        M3Text { Layout.preferredWidth: 96; text: parent.label; role: M3Type.bodyLarge }
+        M3Slider { id: s; Layout.fillWidth: true; from: parent.from; to: parent.to; stepSize: parent.step; onMoved: v => parent.picked(v) }
+        Binding { target: s; property: "value"; value: parent.value }
+    }
+    component Field: RowLayout {
+        property string label: ""
+        property string value: ""
+        signal edited(string v)
+        Layout.fillWidth: true
+        spacing: 8
+        M3Text { Layout.fillWidth: true; text: parent.label; role: M3Type.bodyLarge }
+        Rectangle {
+            Layout.preferredWidth: 110; Layout.preferredHeight: 40
+            radius: 20
+            color: M3Colors.surfaceContainerHighest
+            TextInput {
+                anchors.fill: parent
+                anchors.leftMargin: 16; anchors.rightMargin: 16
+                verticalAlignment: TextInput.AlignVCenter
+                text: parent.parent.value
+                color: M3Colors.fgSurface
+                font.family: M3Type.family
+                font.pixelSize: 14
+                clip: true
+                onEditingFinished: parent.parent.edited(text.trim())
+            }
+        }
+    }
+
+    // ------------------------------------------------ list
+    Flickable {
+        visible: !page.sel
+        anchors.fill: parent
+        contentWidth: width
+        contentHeight: lcol.implicitHeight + 8
+        clip: true
+        boundsBehavior: Flickable.StopAtBounds
+
+        ColumnLayout {
+            id: lcol
+            width: parent.width
+            spacing: 10
+            SettingSwitch { title: "Show widgets"; checked: M3Config.widgetsEnabled; onToggled: v => M3Config.widgetsEnabled = v }
+            SettingSwitch { title: "Lock layout"; sub: "Stop widgets from being dragged"; checked: M3Config.widgetsLocked; onToggled: v => M3Config.widgetsLocked = v }
+            SettingSwitch { title: "Snap to grid"; checked: M3Config.widgetSnap; onToggled: v => M3Config.widgetSnap = v }
+            SettingSwitch { title: "Show grid while dragging"; checked: M3Config.widgetShowGrid; onToggled: v => M3Config.widgetShowGrid = v }
+            Slide { label: "Grid size"; from: 8; to: 64; step: 4; value: M3Config.widgetGrid; onPicked: v => M3Config.widgetGrid = Math.round(v) }
+            M3Text { Layout.fillWidth: true; wrapMode: Text.Wrap; text: "Tip: click a widget on your desktop to edit it, drag it to move it."; role: M3Type.bodySmall; color: M3Colors.fgSurfaceVariant }
+
+            Label { Layout.topMargin: 6; text: "Add a widget" }
+            Flow {
+                Layout.fillWidth: true
+                spacing: 8
+                Repeater {
+                    model: Widgets.typeNames
+                    M3Chip { required property string modelData; text: Widgets.catalog[modelData].name; icon: Widgets.catalog[modelData].icon; onClicked: Widgets.add(modelData) }
+                }
+            }
+
+            Label { Layout.topMargin: 6; text: "On your desktop (" + Widgets.ids.length + ")" }
+            M3Text { visible: Widgets.ids.length === 0; text: "Nothing here. Add a widget above."; role: M3Type.bodyMedium; color: M3Colors.fgSurfaceVariant }
+            Repeater {
+                model: Widgets.ids
+                Rectangle {
+                    id: row
+                    required property string modelData
+                    readonly property var inst: Widgets.get(modelData)
+                    Layout.fillWidth: true
+                    implicitHeight: 60
+                    radius: 20
+                    color: M3Colors.surfaceContainerHigh
+                    visible: inst !== null
+                    StateLayer { anchors.fill: parent; radius: parent.radius; hovered: rma.containsMouse; pressed: rma.pressed }
+                    MouseArea { id: rma; anchors.fill: parent; hoverEnabled: true; cursorShape: Qt.PointingHandCursor; onClicked: Widgets.selectedId = row.modelData }
+                    RowLayout {
+                        anchors.fill: parent
+                        anchors.leftMargin: 16; anchors.rightMargin: 8
+                        spacing: 12
+                        Icon { name: row.inst ? Widgets.catalog[row.inst.type].icon : ""; size: 24; color: M3Colors.primary; fill: 1 }
+                        ColumnLayout {
+                            Layout.fillWidth: true
+                            spacing: 0
+                            M3Text { text: row.inst ? Widgets.catalog[row.inst.type].name : ""; role: M3Type.titleSmall }
+                            M3Text {
+                                text: row.inst
+                                    ? Widgets.widgetUnits(row.inst)[0] + " × "
+                                        + Widgets.widgetUnits(row.inst)[1] + " · " + row.inst.color
+                                    : ""
+                                role: M3Type.bodySmall
+                                color: M3Colors.fgSurfaceVariant
+                            }
+                        }
+                        M3Button { icon: "delete"; variant: "text"; size: "s"; onClicked: Widgets.remove(row.modelData) }
+                        Icon { name: "chevron_right"; size: 22; color: M3Colors.fgSurfaceVariant }
+                    }
+                }
+            }
+            M3Button { Layout.topMargin: 8; text: "Reset to default layout"; icon: "restart_alt"; variant: "tonal"; onClicked: Widgets.resetLayout() }
+        }
+    }
+
+    // ------------------------------------------------ detail
+    Flickable {
+        visible: !!page.sel
+        anchors.fill: parent
+        contentWidth: width
+        contentHeight: dcol.implicitHeight + 8
+        clip: true
+        boundsBehavior: Flickable.StopAtBounds
+
+        ColumnLayout {
+            id: dcol
+            width: parent.width
+            spacing: 10
+
+            RowLayout {
+                Layout.fillWidth: true
+                spacing: 8
+                M3Button { icon: "arrow_back"; variant: "tonal"; size: "s"; onClicked: Widgets.selectedId = "" }
+                M3Text { Layout.fillWidth: true; text: page.cat ? page.cat.name + " widget" : ""; role: M3Type.titleLarge }
+                M3Button { icon: "delete"; text: "Delete"; variant: "tonal"; size: "s"; onClicked: Widgets.remove(page.sel.id) }
+            }
+
+            Label { text: "Color" }
+            Flow {
+                Layout.fillWidth: true
+                spacing: 8
+                Repeater { model: Widgets.colors; M3Chip { required property string modelData; text: modelData; selected: page.sel && page.sel.color === modelData; onClicked: page.up({ color: modelData }) } }
+            }
+
+            Label { text: "Shape" }
+            Flow {
+                Layout.fillWidth: true
+                spacing: 8
+                Repeater { model: Widgets.shapes; M3Chip { required property string modelData; text: modelData; selected: page.sel && page.sel.shape === modelData; onClicked: page.up({ shape: modelData }) } }
+            }
+
+            Label { text: "Widget dimensions" }
+
+            Slide {
+                label: "Width"
+                from: 1
+                to: 8
+                step: 1
+                value: page.sel ? Widgets.widgetUnits(page.sel)[0] : 1
+                onPicked: v => page.up({ widthUnits: Math.round(v) })
+            }
+
+            Slide {
+                label: "Height"
+                from: 1
+                to: 6
+                step: 1
+                value: page.sel ? Widgets.widgetUnits(page.sel)[1] : 1
+                onPicked: v => page.up({ heightUnits: Math.round(v) })
+            }
+
+            M3Text {
+                text: page.sel
+                    ? "Dimensions: " + Widgets.widgetUnits(page.sel)[0]
+                        + " × " + Widgets.widgetUnits(page.sel)[1]
+                        + " units"
+                    : ""
+                role: M3Type.bodySmall
+                color: M3Colors.fgSurfaceVariant
+            }
+
+            RowLayout {
+                Layout.fillWidth: true
+                spacing: 8
+                M3Text { Layout.preferredWidth: 90; text: "Opacity"; role: M3Type.bodyLarge }
+                M3Slider { id: opS; Layout.fillWidth: true; from: 0.2; to: 1; value: page.sel ? page.sel.opacity : 1; onMoved: v => page.up({ opacity: v }) }
+                Binding { target: opS; property: "value"; value: page.sel ? page.sel.opacity : 1 }
+            }
+            RowLayout {
+                Layout.fillWidth: true
+                spacing: 8
+                M3Text { Layout.preferredWidth: 90; text: "Corners"; role: M3Type.bodyLarge }
+                M3Slider { id: raS; Layout.fillWidth: true; from: 8; to: 56; stepSize: 2; value: page.sel ? page.sel.radius : 28; onMoved: v => page.up({ radius: v }) }
+                Binding { target: raS; property: "value"; value: page.sel ? page.sel.radius : 28 }
+            }
+            Slide { label: "Content scale"; from: 0.6; to: 1.4; step: 0.05; value: page.sel && page.sel.scale ? page.sel.scale : 1; onPicked: v => page.up({ scale: v }) }
+            Slide { label: "Padding"; from: 0; to: 40; step: 2; value: page.sel && page.sel.padding ? page.sel.padding : 0; onPicked: v => page.up({ padding: Math.round(v) }) }
+            Slide { label: "Border"; from: 0; to: 6; step: 1; value: page.sel && page.sel.border ? page.sel.border : 0; onPicked: v => page.up({ border: Math.round(v) }) }
+
+            // ---- type specific
+            Label { visible: page.sel && page.sel.type === "currency"; text: "Currencies" }
+            Field { visible: page.sel && page.sel.type === "currency"; label: "Convert to"; value: page.sel ? (page.sel.target || "USD") : ""; onEdited: v => page.up({ target: v.toUpperCase() }) }
+            Field { visible: page.sel && page.sel.type === "currency"; label: "First rate"; value: page.sel ? (page.sel.from1 || "EUR") : ""; onEdited: v => page.up({ from1: v.toUpperCase() }) }
+            Field { visible: page.sel && page.sel.type === "currency"; label: "Second rate"; value: page.sel ? (page.sel.from2 || "GBP") : ""; onEdited: v => page.up({ from2: v.toUpperCase() }) }
+            SettingSwitch { visible: page.sel && page.sel.type === "media"; title: "Show progress bar"; checked: page.sel ? page.sel.showProgress !== false : true; onToggled: v => page.up({ showProgress: v }) }
+            Label { visible: page.sel && page.sel.type === "visualizer"; text: "Visualizer style" }
+            Flow {
+                Layout.fillWidth: true
+                visible: page.sel && page.sel.type === "visualizer"
+                spacing: 8
+                Repeater { model: ["bars", "mirror", "wave", "radial"]; M3Chip { required property string modelData; text: modelData; selected: page.sel && (page.sel.style || "bars") === modelData; onClicked: page.up({ style: modelData }) } }
+            }
+            Label { visible: page.sel && page.sel.type === "visualizer"; text: "Color mode" }
+            Flow {
+                Layout.fillWidth: true
+                visible: page.sel && page.sel.type === "visualizer"
+                spacing: 8
+                Repeater { model: ["accent", "gradient", "rainbow", "fg"]; M3Chip { required property string modelData; text: modelData; selected: page.sel && (page.sel.colorMode || "accent") === modelData; onClicked: page.up({ colorMode: modelData }) } }
+            }
+            Slide { visible: page.sel && page.sel.type === "visualizer"; label: "Bars"; from: 8; to: 64; step: 2; value: page.sel && page.sel.bars ? page.sel.bars : 32; onPicked: v => page.up({ bars: Math.round(v) }) }
+            Slide { visible: page.sel && page.sel.type === "visualizer"; label: "Gap"; from: 0; to: 16; step: 1; value: page.sel && page.sel.gap !== undefined ? page.sel.gap : 4; onPicked: v => page.up({ gap: Math.round(v) }) }
+            Slide { visible: page.sel && page.sel.type === "visualizer"; label: "Sensitivity"; from: 0.5; to: 3; step: 0.1; value: page.sel && page.sel.sensitivity ? page.sel.sensitivity : 1; onPicked: v => page.up({ sensitivity: v }) }
+            Slide { visible: page.sel && page.sel.type === "visualizer"; label: "Smoothing"; from: 0; to: 1; step: 0.05; value: page.sel && page.sel.smoothing !== undefined ? page.sel.smoothing : 0.6; onPicked: v => page.up({ smoothing: v }) }
+            Slide { visible: page.sel && page.sel.type === "visualizer"; label: "Line width"; from: 1; to: 10; step: 1; value: page.sel && page.sel.thickness ? page.sel.thickness : 3; onPicked: v => page.up({ thickness: Math.round(v) }) }
+            M3Button { visible: page.sel && page.sel.type === "visualizer"; text: "Restart cava"; icon: "restart_alt"; variant: "tonal"; onClicked: Cava.restart() }
+            Label { visible: page.sel && page.sel.type === "clock"; text: "Clock style" }
+            Flow {
+                Layout.fillWidth: true
+                visible: page.sel && page.sel.type === "clock"
+                spacing: 8
+                Repeater { model: Widgets.clockStyles; M3Chip { required property string modelData; text: modelData; selected: page.sel && (page.sel.style || "morph") === modelData; onClicked: page.up({ style: modelData }) } }
+            }
+            SettingSwitch { visible: page.sel && (page.sel.type === "clock" || page.sel.type === "visualizer"); title: "Tile background"; sub: "The rounded rectangle behind the widget"; checked: page.sel ? (page.sel.showBg !== undefined ? page.sel.showBg : (page.sel.type === "clock" && page.sel.style === "numerals")) : false; onToggled: v => page.up({ showBg: v }) }
+            SettingSwitch { visible: page.sel && page.sel.type === "clock" && (page.sel.style || "morph") !== "morph"; title: "Show seconds hand"; checked: page.sel ? page.sel.showSeconds !== false : true; onToggled: v => page.up({ showSeconds: v }) }
+            SettingSwitch { visible: page.sel && page.sel.type === "clock" && (page.sel.style || "morph") === "morph"; title: "Morph shape every minute"; checked: page.sel ? page.sel.morph !== false : true; onToggled: v => page.up({ morph: v }) }
+
+            Label { Layout.topMargin: 6; text: "Custom colors (hex, empty = theme)" }
+            Field { label: "Background"; value: page.sel ? (page.sel.bgHex || "") : ""; onEdited: v => page.up({ bgHex: v }) }
+            Field { label: "Accent"; value: page.sel ? (page.sel.accentHex || "") : ""; onEdited: v => page.up({ accentHex: v }) }
+            M3Button { Layout.topMargin: 6; text: "Apply this style to all widgets"; icon: "format_paint"; variant: "tonal"; onClicked: Widgets.applyStyleToAll(page.sel.id) }
+            M3Text { Layout.topMargin: 6; text: "Drag the widget on the desktop to move it."; role: M3Type.bodySmall; color: M3Colors.fgSurfaceVariant }
+        }
+    }
+}

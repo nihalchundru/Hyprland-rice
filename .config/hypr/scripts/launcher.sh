@@ -3,7 +3,7 @@ STYLE=$(cat ~/.config/rofi/picker-style 2>/dev/null || echo compact)
 
 # Quickshell bar always uses its own launcher
 if [[ "$BAR" == "pill" && ( "$STYLE" == "hyde" || "$STYLE" == "compact" || "$STYLE" = "quickshell" ) ]]; then
-    qs ipc -c ~/.config/quickshell/topbar call topbar toggleLauncher
+    qs -c ~/.config/quickshell/pill ipc call pill toggle launcher
     exit 0
 fi
 

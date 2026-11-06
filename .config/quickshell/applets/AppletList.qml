@@ -158,7 +158,7 @@ PanelWindow {
                             color: appletWindow.selectedIndex === del.index
                                 ? appletWindow.colors.accent : appletWindow.colors.sub
                             font.pixelSize: 16
-                            font.family: "JetBrainsMono Nerd Font"
+                            font.family: "Material Symbols Rounded"
                             visible: (del.modelData.icon || "") !== ""
                             Layout.alignment: Qt.AlignVCenter
                             Behavior on color { ColorAnimation { duration: 150 } }

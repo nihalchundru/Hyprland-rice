@@ -3,6 +3,13 @@
 -- Manual review may be needed for complex directives
 
 ---@module 'hl'
+--hl.window_rule({
+ --   name = "spotube_render_test",
+   -- match = {
+     --   class = "^(spotube)$",
+    --},
+    --opacity = "1.0 1.0 1.0",
+--})
 
 -- HyDE ARM window rules
 
@@ -28,6 +35,24 @@ hl.window_rule({
         class = "^(thunar)$",
     },
     opacity = "0.80 0.80 1",
+})
+
+-- Set Google Chrome opacity (e.g., 0.85 active, 0.80 inactive)
+hl.window_rule({
+    match = { class = "^(google-chrome)$" },
+    opacity = "0.85 0.80"
+})
+
+-- Force Google Chrome to be transparent (0.85 active, 0.80 inactive)
+hl.window_rule({
+    match = { class = ".*[Cc]hrome.*" },
+    opacity = "0.85 override 0.80 override"
+})
+
+-- Target Chromium using the override keyword to bypass global opacities
+hl.window_rule({
+    match = { class = "^(chromium)$" },
+    opacity = "0.85 override 0.80 override"
 })
 
 --windowrule = bordercolor rgba(00000000), match:class = kitty

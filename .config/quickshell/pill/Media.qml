@@ -29,15 +29,17 @@ Singleton {
     readonly property bool showTransport: !!Settings.get("mediaTransport")
     readonly property bool showLyrics: !!Settings.get("mediaLyrics")
     readonly property bool scrollSkip: !!Settings.get("mediaScroll")
+    readonly property bool showVisualizer: !!Settings.get("mediaVisualizer")
 
     readonly property int textH: (Theme.px(14) + 5)
                                + (showArtist ? Theme.px(12) + 5 : 0)
                                + (showAlbum ? Theme.px(12) + 5 : 0)
                                + (showLyrics ? Theme.px(12) + 5 : 0)
     readonly property int cardH: Math.max(54, artSize + 16, textH + 18)
-    readonly property int rightW: showTransport ? 102 : 66
+    // right-hand zone: transport buttons, the visualizer, or both side by side
+    readonly property int rightW: (showTransport ? 102 : 0) + (showVisualizer ? 66 : 0) + (showTransport && showVisualizer ? 12 : 0)
     readonly property int cardW: 9 + artSize + 11 + songW + 10 + rightW + 14
-    readonly property int hoverH: 70 + cardH       // clock row + card + padding
+    readonly property int hoverH: 74 + cardH       // clock tile + card + padding
 
     function toggle() { if (player) player.togglePlaying(); }
     function next() { if (player) player.next(); }

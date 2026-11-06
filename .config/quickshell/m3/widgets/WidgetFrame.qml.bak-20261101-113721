@@ -1,0 +1,87 @@
+import QtQuick
+import qs.tokens
+import qs.services
+import qs.components
+
+// Draggable wrapper. While the sidebar's Widgets tab is open, clicking selects it for editing.
+Item {
+    id: root
+    required property string wid
+    default property alias content: holder.data
+    readonly property var inst: Widgets.get(wid)
+    readonly property bool editing: UiState.sidebarOpen && UiState.sidebarTab === 1
+    readonly property bool selected: editing && Widgets.selectedId === wid
+    property bool appear: false
+    property bool settled: false
+    property bool committing: false
+    width: inst && inst.type === "visualizer" && inst.fullWidth ? (parent ? parent.width - 48 : holder.childrenRect.width) : holder.childrenRect.width
+    height: holder.childrenRect.height
+    opacity: appear ? 1 : 0
+    scale: (ma.drag.active ? 1.04 : 1) * (appear ? 1 : 0.8)
+    Component.onCompleted: { appear = true; settle.start() }
+    Timer { id: settle; interval: 500; onTriggered: root.settled = true }
+    FadeBehavior on opacity { time: M3Motion.medium1 }
+    SpatialBehavior on scale { eps: 0.002 }
+    SpatialBehavior on x { enabled: root.settled && !ma.drag.active }
+    SpatialBehavior on y { enabled: root.settled && !ma.drag.active }
+
+    Binding { target: root; property: "x"; value: root.inst ? root.inst.x : 0; when: !ma.drag.active && !root.committing }
+    Binding { target: root; property: "y"; value: root.inst ? root.inst.y : 0; when: !ma.drag.active && !root.committing }
+    onXChanged: if (ma.drag.active) Widgets.dragRect = Qt.rect(x, y, width, height)
+    onYChanged: if (ma.drag.active) Widgets.dragRect = Qt.rect(x, y, width, height)
+    Connections {
+        target: ma.drag
+        function onActiveChanged() { Widgets.dragId = ma.drag.active ? root.wid : (Widgets.dragId === root.wid ? "" : Widgets.dragId) }
+    }
+
+    MouseArea {
+        id: ma
+        anchors.fill: parent
+        hoverEnabled: true
+        cursorShape: M3Config.widgetsLocked ? Qt.ArrowCursor : (drag.active ? Qt.ClosedHandCursor : Qt.OpenHandCursor)
+        drag.target: M3Config.widgetsLocked ? null : root
+        drag.axis: Drag.XAndYAxis
+        drag.minimumX: 0; drag.maximumX: root.parent ? root.parent.width - root.width : 0
+        drag.minimumY: 0; drag.maximumY: root.parent ? root.parent.height - root.height : 0
+        onPressed: if (root.editing) Widgets.selectedId = root.wid
+        onReleased: {
+            if (M3Config.widgetsLocked) return
+
+            root.committing = true
+
+            let nx = root.x
+            let ny = root.y
+
+            if (M3Config.widgetSnap) {
+                const g = Math.max(4, M3Config.widgetGrid)
+                const strength = Math.max(0, Math.min(100, M3Config.widgetSnapStrength)) / 100
+                nx += (Math.round(nx / g) * g - nx) * strength
+                ny += (Math.round(ny / g) * g - ny) * strength
+            }
+
+            nx = Math.max(0, Math.min(nx, root.parent.width - root.width))
+            ny = Math.max(0, Math.min(ny, root.parent.height - root.height))
+
+            Widgets.update(root.wid, {
+                x: Math.round(nx),
+                y: Math.round(ny)
+            })
+
+            Qt.callLater(function() {
+                root.committing = false
+            })
+        }
+    }
+    Item { id: holder }
+
+    Rectangle {   // selection / hover outline while editing
+        anchors.fill: parent
+        anchors.margins: -5
+        radius: (root.inst && root.inst.radius !== undefined ? root.inst.radius : 28) + 5
+        color: "transparent"
+        border.width: root.selected ? 3 : (root.editing && ma.containsMouse ? 2 : 0)
+        border.color: root.selected ? M3Colors.primary : M3Colors.outline
+        opacity: root.editing ? 1 : 0
+        FadeBehavior on opacity {}
+    }
+}

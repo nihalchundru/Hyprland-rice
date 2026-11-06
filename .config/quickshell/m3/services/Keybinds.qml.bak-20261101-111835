@@ -1,0 +1,64 @@
+pragma Singleton
+
+import QtQuick
+import Quickshell
+import Quickshell.Io
+
+Singleton {
+    id: root
+
+    property var list: []
+    property string error: ""
+    property string lastRunError: ""
+
+    function refresh() {
+        if (!proc.running)
+            proc.running = true
+    }
+
+    function run(entry) {
+        if (!entry || !entry.run || runner.running)
+            return
+
+        lastRunError = ""
+        runner.command = entry.run
+        runner.running = true
+    }
+
+    Process {
+        id: proc
+        command: ["python3", Quickshell.env("HOME") + "/.config/quickshell/m3/services/keybinds_parser.py"]
+
+        stdout: StdioCollector {
+            onStreamFinished: {
+                try {
+                    const result = JSON.parse(text)
+                    if (result.error !== undefined) {
+                        root.error = result.error
+                        root.list = []
+                    } else {
+                        root.error = ""
+                        root.list = result
+                    }
+                } catch (e) {
+                    root.error = String(e)
+                    root.list = []
+                }
+            }
+        }
+
+        onExited: (code, status) => {
+            if (code !== 0 && root.list.length === 0)
+                root.error = "Could not read m3.lua (exit " + code + ")"
+        }
+    }
+
+    Process {
+        id: runner
+        command: []
+        onExited: (code, status) => {
+            if (code !== 0)
+                root.lastRunError = "Command failed (exit " + code + ")"
+        }
+    }
+}

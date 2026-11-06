@@ -436,6 +436,20 @@ case "$THEME" in
             source ~/.config/hypr/themes/matugen-override.sh
         fi
         ;;
+    enchanted-forest)
+        BG="#0A1718"; BG2="#060F11"; SURFACE="#15292B"; SURFACE2="#294447"
+        TEXT="#F0F8F2"; SUB="#A2C4BC"; ACCENT="#69E8D2"; ACCENT2="#FFB86B"
+        GREEN="#9FD6A0"; RED="#FF7777"; YELLOW="#FFD166"; TEAL="#48D9D0"
+        BAR_BG="rgba(10,23,24,0.97)"
+        MAIN_BG="#060F11"; MAIN_FG="#69E8D2"
+        WB_ACT_BG="#69E8D2"; WB_ACT_FG="#061314"
+        WB_HVR_BG="#FFB86B"; WB_HVR_FG="#211307"
+        ROFI_BG="#0A1718F5"; ROFI_FG="#F0F8F2FF"
+        ROFI_BR="#69E8D2FF"; ROFI_EX="#FFB86BFF"
+        ROFI_SEL="#294447FF"; ROFI_SEL_FG="#FFFFFF"
+        WALL_DIR="enchanted-forest"
+        GTK_THEME="Catppuccin-Mocha"
+        ;;
 esac
 
 export BG BG2 SURFACE SURFACE2 TEXT SUB ACCENT ACCENT2 GREEN RED YELLOW TEAL

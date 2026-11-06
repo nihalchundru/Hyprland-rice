@@ -1,0 +1,16 @@
+module lockscreen
+singleton Colors 1.0 Colors.qml
+Background 1.0 Background.qml
+Clock 1.0 Clock.qml
+DateBadge 1.0 DateBadge.qml
+LockContext 1.0 LockContext.qml
+LockSurface 1.0 LockSurface.qml
+MShape 1.0 MShape.qml
+MediaCard 1.0 MediaCard.qml
+NotificationPill 1.0 NotificationPill.qml
+PasswordChar 1.0 PasswordChar.qml
+PasswordPill 1.0 PasswordPill.qml
+PowerActions 1.0 PowerActions.qml
+Preview 1.0 Preview.qml
+StatusPill 1.0 StatusPill.qml
+UserBadge 1.0 UserBadge.qml

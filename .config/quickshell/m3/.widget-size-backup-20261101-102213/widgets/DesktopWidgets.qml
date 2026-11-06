@@ -1,0 +1,70 @@
+import QtQuick
+import Quickshell
+import Quickshell.Wayland
+import qs.tokens
+import qs.services
+import qs.components
+
+// Manage widgets in the sidebar (Widgets tab). Drag to move; a grid shows while dragging.
+PanelWindow {
+    id: win
+    screen: Quickshell.screens[0]
+    WlrLayershell.namespace: "m3-widgets"
+    WlrLayershell.layer: WlrLayer.Bottom
+    exclusionMode: ExclusionMode.Ignore
+    anchors { top: true; bottom: true; left: true; right: true }
+    color: "transparent"
+    visible: M3Config.widgetsEnabled
+
+    // click empty desktop while editing -> deselect
+    MouseArea { anchors.fill: parent; onClicked: if (UiState.sidebarOpen && UiState.sidebarTab === 1) Widgets.selectedId = "" }
+
+    Canvas {
+        id: grid
+        anchors.fill: parent
+        readonly property int g: Math.max(4, M3Config.widgetGrid)
+        opacity: Widgets.dragId !== "" && M3Config.widgetShowGrid ? 1 : 0
+        visible: opacity > 0.01
+        FadeBehavior on opacity { time: M3Motion.short4 }
+        onGChanged: requestPaint()
+        onWidthChanged: requestPaint()
+        onHeightChanged: requestPaint()
+        onVisibleChanged: if (visible) requestPaint()
+        onPaint: {
+            const ctx = getContext("2d")
+            ctx.reset()
+            ctx.strokeStyle = Qt.alpha(M3Colors.primary, 0.22)
+            ctx.lineWidth = 1
+            ctx.beginPath()
+            for (let x = 0; x <= width; x += g) { ctx.moveTo(x + 0.5, 0); ctx.lineTo(x + 0.5, height) }
+            for (let y = 0; y <= height; y += g) { ctx.moveTo(0, y + 0.5); ctx.lineTo(width, y + 0.5) }
+            ctx.stroke()
+        }
+        Rectangle {   // where the widget will land
+            visible: M3Config.widgetSnap && Widgets.dragId !== ""
+            x: Math.round(Widgets.dragRect.x / grid.g) * grid.g
+            y: Math.round(Widgets.dragRect.y / grid.g) * grid.g
+            width: Widgets.dragRect.width; height: Widgets.dragRect.height
+            radius: 28
+            color: Qt.alpha(M3Colors.primary, 0.12)
+            border.width: 2
+            border.color: M3Colors.primary
+        }
+    }
+
+    Repeater {
+        model: Widgets.ids
+        WidgetFrame {
+            id: fr
+            required property string modelData
+            wid: modelData
+            Loader {
+                id: ld
+                source: fr.inst ? Widgets.tileFile(fr.inst.type) + ".qml" : ""
+                width: fr.inst ? Widgets.dims(fr.inst.size)[0] : 0
+                height: fr.inst ? Widgets.dims(fr.inst.size)[1] : 0
+                Binding { target: ld.item; property: "cfg"; value: fr.inst; when: ld.item !== null }
+            }
+        }
+    }
+}

@@ -152,6 +152,19 @@ Item {
             Behavior on opacity { NumberAnimation { duration: Theme.fadeMs } }
         }
 
+        PomodoroPage {
+            anchors.horizontalCenter: parent.horizontalCenter
+            opacity: Pill.mode === "pomodoro" ? 1 : 0
+            visible: opacity > 0.01
+            Behavior on opacity { NumberAnimation { duration: Theme.fadeMs } }
+        }
+        ClipboardPage {
+            anchors.horizontalCenter: parent.horizontalCenter
+            opacity: Pill.mode === "clipboard" ? 1 : 0
+            visible: opacity > 0.01
+            Behavior on opacity { NumberAnimation { duration: Theme.fadeMs } }
+        }
+
         // placeholder for any state without content
         Text {
             anchors.centerIn: parent

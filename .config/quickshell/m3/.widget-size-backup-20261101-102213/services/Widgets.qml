@@ -1,0 +1,115 @@
+pragma Singleton
+import QtQuick
+import Quickshell
+import qs.tokens
+
+// Desktop widget instances live in config.json (widgetList). null = built-in default layout.
+Singleton {
+    id: root
+    readonly property var catalog: ({
+        weather:  { name: "Weather",  icon: "partly_cloudy_day", color: "primary",   shape: "clover4Leaf",   sizes: ["1x1", "2x1", "1x2", "2x2"] },
+        currency: { name: "Currency", icon: "currency_exchange", color: "secondary", shape: "pill",          sizes: ["1x1", "2x1", "1x2", "2x2"], opts: { target: "USD", from1: "EUR", from2: "GBP" } },
+        cpu:      { name: "CPU",      icon: "speed",             color: "secondary", shape: "gem",           sizes: ["1x1", "2x1", "1x2", "2x2"] },
+        ram:      { name: "RAM",      icon: "memory",            color: "surface",   shape: "cookie9Sided",  sizes: ["1x1", "2x1", "1x2", "2x2"] },
+        disk:     { name: "Disk",     icon: "storage",           color: "tertiary",  shape: "cookie12Sided", sizes: ["1x1", "2x1", "1x2", "2x2"] },
+        battery:  { name: "Battery",  icon: "battery_full",      color: "primary",   shape: "puffy",         sizes: ["1x1", "2x1", "1x2", "2x2"] },
+        media:    { name: "Media",    icon: "music_note",        color: "surface",   shape: "softBurst",     sizes: ["2x2", "2x1"], opts: { showProgress: true } },
+        visualizer: { name: "Visualizer", icon: "graphic_eq", color: "primary", shape: "pill", sizes: ["2x1", "3x1", "4x1", "2x2", "3x2", "1x1"], opts: { style: "bars", bars: 32, gap: 4, sensitivity: 1, smoothing: 0.6, colorMode: "accent", thickness: 3, showBg: false } },
+        clock:    { name: "Clock",    icon: "schedule",          color: "primary",   shape: "cookie12Sided", sizes: ["2x2", "2x1"], opts: { morph: true, style: "morph", showSeconds: true } }
+    })
+    readonly property var typeNames: ["weather", "currency", "cpu", "ram", "disk", "battery", "media", "clock", "visualizer"]
+    readonly property var shapes: ["circle", "pill", "square", "softBurst", "cookie9Sided", "cookie12Sided", "clover4Leaf", "flower", "pentagon", "gem", "puffy", "sunny", "heart", "pixelCircle"]
+    readonly property var clockStyles: ["morph", "numerals", "flower"]
+    readonly property var colors: ["primary", "secondary", "tertiary", "error", "surface", "inverse"]
+    readonly property real unitW: 150
+    readonly property real unitH: 124
+    readonly property real gap: 12
+
+    function dims(size) {
+        const p = (size || "1x1").split("x"), w = parseInt(p[0]), h = parseInt(p[1])
+        return [w * unitW + (w - 1) * gap, h * unitH + (h - 1) * gap]
+    }
+    function tileFile(type) {
+        return ({ cpu: "StatTile", ram: "StatTile", disk: "StatTile", battery: "StatTile", weather: "WeatherTile", currency: "CurrencyTile", media: "MediaTile", clock: "ClockTile", visualizer: "VisualizerTile" })[type] || "StatTile"
+    }
+
+    function defaultList() {
+        const W = Quickshell.screens.length > 0 ? Quickshell.screens[0].width : 1920
+        const ox = W - 474 - 48, oy = 96, sx = unitW + gap, sy = unitH + gap
+        const mk = (type, col, row, size) => Object.assign({ id: type + "0", type: type, x: ox + col * sx, y: oy + row * sy, color: catalog[type].color, shape: catalog[type].shape, opacity: 1, radius: 28, size: size || "1x1" }, catalog[type].opts || {})
+        return [mk("weather", 0, 0), mk("currency", 1, 0), mk("cpu", 2, 0), mk("media", 0, 1, "2x2"), mk("ram", 2, 1), mk("disk", 2, 2)]
+    }
+
+    function pick(w) { return (w && typeof w === "object" && w.length !== undefined) ? Array.from(w) : defaultList() }
+    readonly property var list: pick(M3Config.widgetList)
+    property string selectedId: ""
+    property string dragId: ""
+    property rect dragRect: Qt.rect(0, 0, 0, 0)
+    property var ids: []
+    property string idsKey: "\u0000"
+    function sync() {
+        const n = list.map(w => w.id), k = n.join(",")
+        if (k !== idsKey) { idsKey = k; ids = n }
+    }
+    onListChanged: sync()
+    Component.onCompleted: sync()
+
+    function get(id) { return list.find(w => w.id === id) || null }
+    function copy() { return list.map(w => Object.assign({}, w)) }
+    function commit(a) { M3Config.widgetList = a }
+    function update(id, patch) { commit(copy().map(w => w.id === id ? Object.assign({}, w, patch) : w)) }
+    function remove(id) { commit(copy().filter(w => w.id !== id)); if (selectedId === id) selectedId = "" }
+    function resetLayout() { M3Config.widgetList = "default"; selectedId = "" }
+    function add(type) {
+        const a = copy(), c = catalog[type], n = a.length
+        const id = type + Date.now().toString(36)
+        a.push(Object.assign({ id: id, type: type, x: 120 + (n % 6) * 36, y: 140 + (n % 6) * 36, color: c.color, shape: c.shape, opacity: 1, radius: 28, size: c.sizes[0] }, c.opts || {}))
+        commit(a)
+        selectedId = id
+    }
+
+    function bg(k) {
+        switch (k) {
+        case "primary": return M3Colors.primaryContainer
+        case "secondary": return M3Colors.secondaryContainer
+        case "tertiary": return M3Colors.tertiaryContainer
+        case "error": return M3Colors.errorContainer
+        case "inverse": return M3Colors.inverseSurface
+        default: return M3Colors.surfaceContainerHigh
+        }
+    }
+    function fg(k) {
+        switch (k) {
+        case "primary": return M3Colors.fgPrimaryContainer
+        case "secondary": return M3Colors.fgSecondaryContainer
+        case "tertiary": return M3Colors.fgTertiaryContainer
+        case "error": return M3Colors.fgErrorContainer
+        case "inverse": return M3Colors.inverseOnSurface
+        default: return M3Colors.fgSurface
+        }
+    }
+    function accent(k) {
+        switch (k) {
+        case "secondary": return M3Colors.secondary
+        case "tertiary": return M3Colors.tertiary
+        case "error": return M3Colors.error
+        case "inverse": return M3Colors.inversePrimary
+        default: return M3Colors.primary
+        }
+    }
+    function onAccent(k) {
+        switch (k) {
+        case "secondary": return M3Colors.fgSecondary
+        case "tertiary": return M3Colors.fgTertiary
+        case "error": return M3Colors.fgError
+        default: return M3Colors.fgPrimary
+        }
+    }
+
+    function hexOk(h) { return typeof h === "string" && /^#[0-9a-fA-F]{6}$/.test(h) }
+    function applyStyleToAll(id) {
+        const s = get(id)
+        if (!s) return
+        commit(copy().map(w => Object.assign({}, w, { color: s.color, radius: s.radius, opacity: s.opacity, padding: s.padding, scale: s.scale, border: s.border, bgHex: s.bgHex, accentHex: s.accentHex })))
+    }
+}

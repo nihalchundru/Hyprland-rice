@@ -14,7 +14,7 @@ if [ "$BAR" = "notch" ]; then
 fi
 
 if [ "$BAR" = "pill" ]; then
-    qs ipc -c ~/.config/quickshell/topbar call topbar toggleWallpaper
+    qs -c ~/.config/quickshell/pill ipc call pill toggle wallpaper
     exit 0
 fi
 

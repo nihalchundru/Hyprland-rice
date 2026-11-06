@@ -1,5 +1,0 @@
-module core
-singleton Theme 1.0 Theme.qml
-singleton Motion 1.0 Motion.qml
-singleton StateStore 1.0 StateStore.qml
-singleton Services 1.0 Services.qml

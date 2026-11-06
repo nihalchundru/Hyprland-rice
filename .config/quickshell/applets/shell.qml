@@ -61,29 +61,6 @@ ShellRoot {
         }
     }
 
-    // ── Bar Switcher ──────────────────────────────────────────────────────────
-    IpcHandler {
-        target: "bar-switcher"
-        function toggle(): void {
-            root.loadState()
-            barSwitcher.current = root.activeBar
-            barSwitcher.open()
-        }
-    }
-    AppletList {
-        id: barSwitcher
-        title: "Active Bar"; icon: ""
-        options: [
-            { value: "waybar",      label: "Waybar",      icon: "󰖟", desc: "Highly customizable GTK bar" },
-            { value: "hyprpanel",   label: "HyprPanel",   icon: "󰒓", desc: "Hyprland native panel" },
-            { value: "pill",  label: "Quickshell",  icon: "󰘔", desc: "QML-powered shell" },
-        ]
-        onOptionSelected: value => {
-            root.activeBar = value
-            root.run("echo '" + value + "' > ~/.config/hypr/bar/active-bar && bash ~/.config/hypr/scripts/bar-launch.sh '" + value + "'")
-        }
-    }
-
 // ── Layout Switcher (bar-aware) ───────────────────────────────────────────
 IpcHandler {
     target: "layout-switcher"

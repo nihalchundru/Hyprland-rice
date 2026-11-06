@@ -198,20 +198,9 @@ hl.bind(mainMod .. " + O",
 
 -- bind = $mainMod, O, exec, qs ipc -c ~/.config/quickshell/overview call overview toggle
 
-hl.bind(mainMod .. " + SHIFT + O",
-    hl.dsp.exec_cmd("qs ipc -c ~/.config/quickshell/settings call settings toggle"))
-
-hl.bind(mainMod .. " + SHIFT + M",
-    hl.dsp.exec_cmd("bash ~/.config/hypr/scripts/theme-mode-switcher.sh"))
-
-hl.bind(mainMod .. " + SHIFT + A",
-    hl.dsp.exec_cmd("bash ~/.config/hypr/scripts/applet.sh"))
-
-hl.bind(mainMod .. " + SHIFT + G",
-    hl.dsp.exec_cmd("bash ~/.config/hypr/scripts/matugen-mode-switcher.sh"))
 
 hl.bind(mainMod .. " + SHIFT + W",
     hl.dsp.exec_cmd("qs -c ~/.config/quickshell/widgets ipc call widgets toggleEdit"))
 
 hl.bind("SUPER + D",
-    hl.dsp.exec_cmd("bash ~/.config/hypr/scripts/rofi-shell-switch.sh"))
+    hl.dsp.exec_cmd("qs -p ~/.config/quickshell/shell-switcher"))

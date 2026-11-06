@@ -27,7 +27,7 @@ hl.bind("SHIFT + F11", hl.dsp.window.fullscreen())
 hl.bind(mainMod .. " + Return", hl.dsp.exec_cmd(TERMINAL))
 hl.bind(mainMod .. " + E", hl.dsp.exec_cmd(EXPLORER))
 hl.bind(mainMod .. " + B", hl.dsp.exec_cmd(BROWSER))
-hl.bind("SUPER + D", hl.dsp.exec_cmd("bash ~/.config/hypr/scripts/rofi-shell-switch.sh"))
+hl.bind("SUPER + D", hl.dsp.exec_cmd("qs -p ~/.config/quickshell/shell-switcher"))
 
 -- ── Shell IPC: ui ─────────────────────────────────────────────────────────
 

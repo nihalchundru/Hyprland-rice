@@ -32,6 +32,7 @@ Singleton {
     property alias widgetsLocked: adapter.widgetsLocked
     property alias widgetGrid: adapter.widgetGrid
     property alias widgetSnap: adapter.widgetSnap
+    property alias widgetSnapStrength: adapter.widgetSnapStrength
     property alias widgetShowGrid: adapter.widgetShowGrid
     property alias todos: adapter.todos
     readonly property string debugMode: Quickshell.env("M3_DEBUG") || ""
@@ -70,6 +71,7 @@ Singleton {
             property bool widgetsLocked: false
             property int widgetGrid: 24
             property bool widgetSnap: true
+            property int widgetSnapStrength: 100
             property bool widgetShowGrid: true
             property var todos: []
         }

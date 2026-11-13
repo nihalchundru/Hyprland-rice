@@ -106,12 +106,6 @@ PanelWindow {
             id: fr
             required property string modelData
             wid: modelData
-            width: fr.inst && fr.inst.type === "visualizer" && fr.inst.fullWidth
-                ? Math.max(0, win.width - 48)
-                : holder.childrenRect.width
-            x: fr.inst && fr.inst.type === "visualizer" && fr.inst.fullWidth
-                ? (win.width - fr.width) / 2
-                : undefined
             Loader {
                 id: ld
                 source: fr.inst ? Widgets.tileFile(fr.inst.type) + ".qml" : ""
